@@ -10,24 +10,24 @@ import java.time.LocalTime;
 public class Subject {
 
     @PrimaryKey(autoGenerate = true)
-    public Long id;
-    public String title;
-    public String images;
-    public String records;
-    public String files;
-    public String notes;
-    public LocalTime startTime;
-    public LocalTime endTime;
-    public LocalDateTime startDateTime;
-    public LocalDateTime endDateTime;
-    int grades;
-    int numberOfAbsents;
+    private Long id;
+    private String title;
+    private String images;
+    private String records;
+    private String files;
+    private String notes;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
+    private int grades;
+    private int numberOfAbsents;
 
     public Subject() {
     }
 
-    public Subject(Long id, String title, String images, String records, String files, String notes, LocalTime startTime, LocalTime endTime, LocalDateTime startDateTime, LocalDateTime endDateTime, int grades, int numberOfAbsents) {
-        this.id = id;
+    public Subject( String title, String images, String records, String files, String notes, LocalTime startTime, LocalTime endTime, LocalDateTime startDateTime, LocalDateTime endDateTime, int grades, int numberOfAbsents) {
+
         this.title = title;
         this.images = images;
         this.records = records;
