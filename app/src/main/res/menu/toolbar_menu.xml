@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/outline_search_24"
+        android:title="search"
+        android:id="@+id/searchIcon"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
+    <item
+        android:id="@+id/Agenda"
+        android:title="Agenda"/>
+    <item
+        android:id="@+id/Grades"
+        android:title="Grades"/>
+    <item
+        android:id="@+id/Recordings"
+        android:title="Recordings"/>
+    <item
+        android:id="@+id/Calendar"
+        android:title="Calendar"/>
+
+
+</menu>
