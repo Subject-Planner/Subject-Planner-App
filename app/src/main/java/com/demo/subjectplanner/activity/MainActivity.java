@@ -10,14 +10,19 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.demo.subjectplanner.R;
+import com.demo.subjectplanner.activity.database.DatabaseSingleton;
+import com.demo.subjectplanner.activity.database.SubjectDatabase;
 
 public class MainActivity extends AppCompatActivity {
-
+        public static final String DATABASE_TAG="subjectDatabase";
+    SubjectDatabase subjectDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*Room Database*/
+        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
