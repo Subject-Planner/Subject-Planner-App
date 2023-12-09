@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SubjectPlanner"
         tools:targetApi="31">
         <activity
+            android:name=".activity.AddNewSubjectActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
