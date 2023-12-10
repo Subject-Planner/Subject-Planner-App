@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id==R.id.Agenda){
-            Toast.makeText(this,"go to Agenda",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"go to Calendar",Toast.LENGTH_LONG).show();
         }
         if(id==R.id.Recordings){
             Toast.makeText(this,"go to Recordings",Toast.LENGTH_LONG).show();

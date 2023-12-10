@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="lightGray">#EEE</color>
+    <color name="gray">#888</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
 
+    <color name="hippieBlue">#4f91aa</color>
+
+    <color name="catskillWhite">#dde8ee</color>
+    <color name="blueMarguerite">#706bbc</color>
+
+    <color name="keppel">#37BB9A</color>
+
+
+    <color name="poloBlue">#8ea5ca</color>
+    <color name="sinbad">#93cfca</color>
+
+
+    <color name="moodyBlue">#7a74cc</color>
+    <color name="buttonColor">#28846c</color>
 </resources>

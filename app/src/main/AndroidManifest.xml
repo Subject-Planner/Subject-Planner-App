@@ -13,6 +13,18 @@
         android:theme="@style/Theme.SubjectPlanner"
         tools:targetApi="31">
         <activity
+            android:name=".activity.EventEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.DailyCalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.WeekViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Calendar"
+            android:exported="false" />
+        <activity
             android:name=".activity.AddNewSubjectActivity"
             android:exported="false" />
         <activity
