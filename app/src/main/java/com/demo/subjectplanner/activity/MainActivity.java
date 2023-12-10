@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupLogin();
+        //setupLogin();
         setupHomePageRecyclerView();
     }
 
@@ -109,16 +109,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    void setupLogin(){
-        TextView login = findViewById(R.id.loginTextView);
-        login.setOnClickListener((V -> {
-
-
-            Intent goTologinIntent = new Intent(MainActivity.this, LoginActivity.class);
-
-            startActivity(goTologinIntent);
-        }));
-}
+//    void setupLogin(){
+//        TextView login = findViewById(R.id.loginTextView);
+//        login.setOnClickListener((V -> {
+//
+//
+//            Intent goTologinIntent = new Intent(MainActivity.this, LoginActivity.class);
+//
+//            startActivity(goTologinIntent);
+//        }));
+//}
 
 
     public void setupHomePageRecyclerView() {
