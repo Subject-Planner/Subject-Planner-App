@@ -6,23 +6,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".activity.MainActivity">
-<androidx.appcompat.widget.Toolbar
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/toolbar"
-    android:background="@color/lavender"
-    app:logo="@drawable/logo"
-    app:title="Subject Planner"
-    app:titleMarginStart="30dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:layout_constraintTop_toTopOf="parent">
-</androidx.appcompat.widget.Toolbar>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
     tools:context=".activity.MainActivity"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
@@ -76,4 +59,3 @@
 
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>
-
