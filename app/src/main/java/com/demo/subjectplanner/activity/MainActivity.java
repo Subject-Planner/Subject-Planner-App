@@ -1,8 +1,11 @@
 package com.demo.subjectplanner.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +20,7 @@ import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.database.DatabaseSingleton;
 import com.demo.subjectplanner.activity.database.SubjectDatabase;
 import com.demo.subjectplanner.activity.model.Subject;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,12 +30,27 @@ public class MainActivity extends AppCompatActivity {
         public static final String DATABASE_TAG="subjectDatabase";
     SubjectDatabase subjectDatabase;
 
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+
     List<Subject> subjects = null;
     HomePageRecyclerViewAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this , drawerLayout , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
 
 
@@ -53,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
         subjects.clear();
         subjects.addAll(subjectDatabase.subjectDao().findAll());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -80,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupHomePageRecyclerView() {
-        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecylerView);
+        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecyclerView);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         homePageRecyclerView.setLayoutManager(layoutManager);
