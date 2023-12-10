@@ -8,13 +8,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.database.DatabaseSingleton;
@@ -59,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
+        setupLogin();
         setupHomePageRecyclerView();
     }
 
@@ -83,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             super.onBackPressed();
         }
+
     }
 
     @Override
@@ -108,6 +108,18 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    void setupLogin(){
+        TextView login = findViewById(R.id.loginTextView);
+        login.setOnClickListener((V -> {
+
+
+            Intent goTologinIntent = new Intent(MainActivity.this, LoginActivity.class);
+
+            startActivity(goTologinIntent);
+        }));
+}
+
 
     public void setupHomePageRecyclerView() {
         RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecyclerView);
