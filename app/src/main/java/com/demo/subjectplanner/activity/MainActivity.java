@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.demo.subjectplanner.R;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setupLogin();
     }
 
     @Override
@@ -49,5 +52,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"go to Grades",Toast.LENGTH_LONG).show();
         }
         return true;
+    }
+    void setupLogin(){
+        TextView login = findViewById(R.id.loginTextView);
+        login.setOnClickListener((V -> {
+
+
+            Intent goTologinIntent = new Intent(MainActivity.this, LoginActivity.class);
+
+            startActivity(goTologinIntent);
+        }));
     }
 }

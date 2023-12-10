@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Subject Planner</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="full_name">Full Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="verify_email">verify Email</string>
+    <string name="verification_code">verification code</string>
 </resources>
