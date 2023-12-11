@@ -1,6 +1,7 @@
 package com.demo.subjectplanner.activity.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demo.subjectplanner.R;
+import com.demo.subjectplanner.activity.SubjectDetailsActivity;
 import com.demo.subjectplanner.activity.model.Subject;
 
-import java.util.Date;
 import java.util.List;
 
 public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRecyclerViewAdapter.SubjectViewHolder> {
@@ -44,6 +45,8 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
 
         // For example, if you have a description field in your Subject class:
         // subjectDescTextView.setText(subject.getDescription());
+   
+
     }
 
     @Override

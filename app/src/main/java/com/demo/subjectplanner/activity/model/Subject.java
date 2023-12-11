@@ -2,10 +2,15 @@ package com.demo.subjectplanner.activity.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import com.demo.subjectplanner.activity.database.DayConverter;
+
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 
@@ -14,30 +19,57 @@ public class Subject {
     @PrimaryKey(autoGenerate = true)
     private Long id;
     private String title;
-    private String images;
+    private String image;
     private String records;
     private String files;
     private String notes;
     private Date startTime;
-    private Date endTime;
-    private Date startDate;
-    private Date endDate;
+//    private Date endTime;
+//    private Date startDate;
+//    private Date endDate;
+@TypeConverters(DayConverter.class)
+private List<DayOfWeek> daysOfWeek;
+
     private int grades;
     private int numberOfAbsents;
 
     public Subject() {
     }
+//
+//    public Subject(String title, String images, String records, String files, String notes, Date startTime, Date endTime, Date startDate, Date endDate, int grades, int numberOfAbsents) {
+//        this.title = title;
+//        this.images = images;
+//        this.records = records;
+//        this.files = files;
+//        this.notes = notes;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.grades = grades;
+//        this.numberOfAbsents = numberOfAbsents;
+//    }
 
-    public Subject(String title, String images, String records, String files, String notes, Date startTime, Date endTime, Date startDate, Date endDate, int grades, int numberOfAbsents) {
+//    public Subject(Long id, String title, String image, String records, String files, String notes, Date startTime, int grades, int numberOfAbsents) {
+//        this.id = id;
+//        this.title = title;
+//        this.image = image;
+//        this.records = records;
+//        this.files = files;
+//        this.notes = notes;
+//        this.startTime = startTime;
+//        this.grades = grades;
+//        this.numberOfAbsents = numberOfAbsents;
+//    }
+
+    public Subject(String title, String image, String records, String files, String notes, Date startTime, List<DayOfWeek> daysOfWeek, int grades, int numberOfAbsents) {
         this.title = title;
-        this.images = images;
+        this.image = image;
         this.records = records;
         this.files = files;
         this.notes = notes;
         this.startTime = startTime;
-        this.endTime = endTime;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.daysOfWeek = daysOfWeek;
         this.grades = grades;
         this.numberOfAbsents = numberOfAbsents;
     }
@@ -46,8 +78,8 @@ public class Subject {
         this.title = title;
     }
 
-    public void setImages(String images) {
-        this.images = images;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setRecords(String records) {
@@ -66,41 +98,41 @@ public class Subject {
         this.startTime = startTime;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setStartDateTime(Date startDateTime) {
-        this.startDate = startDateTime;
-    }
+//    public void setEndTime(Date endTime) {
+//        this.endTime = endTime;
+//    }
+//
+//    public void setStartDateTime(Date startDateTime) {
+//        this.startDate = startDateTime;
+//    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+//    public void setStartDate(Date startDate) {
+//        this.startDate = startDate;
+//    }
+//
+//    public void setEndDate(Date endDate) {
+//        this.endDate = endDate;
+//    }
 
     public Long getId() {
         return id;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDateTime(Date endDateTime) {
-        this.endDate = endDateTime;
-    }
+//    public Date getStartDate() {
+//        return startDate;
+//    }
+//
+//    public Date getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDateTime(Date endDateTime) {
+//        this.endDate = endDateTime;
+//    }
 
     public void setGrades(int grades) {
         this.grades = grades;
@@ -114,8 +146,8 @@ public class Subject {
         return title;
     }
 
-    public String getImages() {
-        return images;
+    public String getImage() {
+        return image;
     }
 
     public String getRecords() {
@@ -134,17 +166,24 @@ public class Subject {
         return startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public List<DayOfWeek> getDaysOfWeek() {
+        return daysOfWeek;
     }
 
-    public Date getStartDateTime() {
-        return startDate;
+    public void setDaysOfWeek(List<DayOfWeek> daysOfWeek) {
+        this.daysOfWeek = daysOfWeek;
     }
-
-    public Date getEndDateTime() {
-        return endDate;
-    }
+//    public Date getEndTime() {
+//        return endTime;
+//    }
+//
+//    public Date getStartDateTime() {
+//        return startDate;
+//    }
+//
+//    public Date getEndDateTime() {
+//        return endDate;
+//    }
 
     public int getGrades() {
         return grades;

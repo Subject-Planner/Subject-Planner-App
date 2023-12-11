@@ -18,4 +18,6 @@ public interface SubjectDao {
 
     @Query("select * from Subject where title = :title")
     Subject findByTitle(String title);
+    @Query("update Subject set grades=:grade where title=:subTitle ")
+    void updateGradeByTitle(int grade, String subTitle);
 }
