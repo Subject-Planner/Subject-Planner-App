@@ -11,12 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
@@ -32,17 +30,19 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
         public static final String DATABASE_TAG="subjectDatabase";
     SubjectDatabase subjectDatabase;
-
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
 
+
     List<Subject> subjects = null;
     HomePageRecyclerViewAdapter adapter;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         init();
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -57,11 +57,10 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
 
-
         /*Room Database*/
         subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         //setupLogin();
         setupHomePageRecyclerView();
@@ -128,14 +127,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void setupHomePageRecyclerView() {
-        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecylerView);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecyclerView);
 
-
-    //    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         homePageRecyclerView.setLayoutManager(layoutManager);
 
         subjects = new ArrayList<>();
+//        subjects = new ArrayList<>();
 //        Subject subject = new Subject();
 //        subject.setTitle("English");
 //        subjects = new ArrayList<>();
@@ -153,9 +151,8 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         /*Room Database*/
         subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //add new subject
+
+//        add new subject
         ImageButton addNewSubject= findViewById(R.id.add_subject_button);
         addNewSubject.setOnClickListener(view -> {
             Intent goToAddNewSubject=new Intent( MainActivity.this,AddNewSubjectActivity.class);
