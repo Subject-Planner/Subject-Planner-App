@@ -29,7 +29,7 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_calendar);
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
@@ -43,7 +43,7 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
     private void setMonthView()
     {
-        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate)==null?"":monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray();
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if(id==R.id.Calendar){
             Toast.makeText(this,"go to Calendar",Toast.LENGTH_LONG).show();
+            Intent goToCalender= new Intent(MainActivity.this,Calendar.class);
+            startActivity(goToCalender);
         }
         if(id==R.id.Grades){
             Toast.makeText(this,"go to Grades",Toast.LENGTH_LONG).show();

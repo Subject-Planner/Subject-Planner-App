@@ -52,6 +52,15 @@
         android:textColor="@color/black"
         tools:ignore="HardcodedText" />
 
+    <Spinner
+        android:id="@+id/subjectSpinner_calender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:minHeight="48dp"
+        android:textSize="20sp" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
