@@ -4,4 +4,30 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
 
+    <color name="hippieBlue">#4f91aa</color>
+
+    <color name="catskillWhite">#dde8ee</color>
+    <color name="blueMarguerite">#706bbc</color>
+
+    <color name="keppel">#37BB9A</color>
+
+
+    <color name="poloBlue">#8ea5ca</color>
+    <color name="sinbad">#93cfca</color>
+
+
+    <color name="moodyBlue">#7a74cc</color>
+    <color name="buttonColor">#28846c</color>
+
+
 </resources>
+
+<!--    &#45;&#45;hippie-blue: #4f91aa;-->
+<!--    &#45;&#45;catskill-white: #dde8ee;-->
+<!--    &#45;&#45;blue-marguerite: #706bbc;-->
+<!--    &#45;&#45;keppel: #36b595;-->
+<!--    &#45;&#45;ship-cove: #36b595;-->
+<!--    &#45;&#45;polo-blue: #8ea5ca;-->
+<!--    &#45;&#45;sinbad: #93cfca;-->
+<!--    &#45;&#45;moody-blue: #7a74cc;-->
+<!--    &#45;&#45;keppel: #32a48c;-->

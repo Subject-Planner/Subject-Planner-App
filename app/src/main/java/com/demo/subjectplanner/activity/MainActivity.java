@@ -1,25 +1,29 @@
 package com.demo.subjectplanner.activity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.database.DatabaseSingleton;
 import com.demo.subjectplanner.activity.database.SubjectDatabase;
 import com.demo.subjectplanner.activity.model.Subject;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         public static final String DATABASE_TAG="subjectDatabase";
     SubjectDatabase subjectDatabase;
 
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+
     List<Subject> subjects = null;
     HomePageRecyclerViewAdapter adapter;
     @Override
@@ -37,6 +45,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this , drawerLayout , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+
+        /*Room Database*/
+        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //setupLogin();
         setupHomePageRecyclerView();
     }
 
@@ -48,6 +75,18 @@ public class MainActivity extends AppCompatActivity {
         subjects.clear();
         subjects.addAll(subjectDatabase.subjectDao().findAll());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 
     @Override
@@ -76,9 +115,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+//    void setupLogin(){
+//        TextView login = findViewById(R.id.loginTextView);
+//        login.setOnClickListener((V -> {
+//
+//
+//            Intent goTologinIntent = new Intent(MainActivity.this, LoginActivity.class);
+//
+//            startActivity(goTologinIntent);
+//        }));
+//}
+
+
     public void setupHomePageRecyclerView() {
         RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecylerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
 
     //    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         homePageRecyclerView.setLayoutManager(layoutManager);

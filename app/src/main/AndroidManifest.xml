@@ -15,8 +15,17 @@
         <activity
             android:name=".activity.AddGradeActivity"
             android:exported="false" />
-        <activity
+      <activity
             android:name=".activity.SubjectDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.VerifyEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".activity.AddNewSubjectActivity"
