@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_agenda"
+            android:title="Agenda"
+            android:icon="@drawable/agenda_icon" />
+        <item android:id="@+id/nav_grades"
+            android:title="Grades"
+            android:icon="@drawable/grades_icon" />
+        <item android:id="@+id/nav_recordings"
+            android:title="Recordings"
+            android:icon="@drawable/recordings_icon" />
+        <item android:id="@+id/nav_calender"
+            android:title="Calender"
+            android:icon="@drawable/calender_icon" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Profile">
+            <menu>
+                <item android:id="@+id/nav_login"
+                    android:title="Login"
+                    android:icon="@drawable/login_icon" />
+                <item android:id="@+id/nav_profile"
+                    android:title="Profile"
+                    android:icon="@drawable/profile_icon" />
+                <item android:id="@+id/nav_logout"
+                    android:title="Logout"
+                    android:icon="@drawable/logout_icon" />
+            </menu>
+
+        </item>
+    </group>
+</menu>
