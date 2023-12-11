@@ -50,10 +50,30 @@
                     android:layout_height="wrap_content"
                     android:text="Hello World!"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/homeActivityRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                  <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeActivityRecylerView"
+        android:layout_width="355dp"
+        android:layout_height="277dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.334" />
+              
+                <ImageButton
+        android:id="@+id/add_subject_button"
+        android:layout_width="73dp"
+        android:layout_height="56dp"
+        android:background="@color/lavender"
+        android:scrollbarSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeActivityRecylerView"
+        app:layout_constraintVertical_bias="0.476"
+        app:srcCompat="@android:drawable/ic_input_add" />
+              
             </LinearLayout>
         </ScrollView>
 

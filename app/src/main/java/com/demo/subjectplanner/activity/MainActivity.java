@@ -4,15 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.demo.subjectplanner.R;
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
@@ -105,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if(id==R.id.Grades){
             Toast.makeText(this,"go to Grades",Toast.LENGTH_LONG).show();
+            Intent goToGrades= new Intent(MainActivity.this, AddGradeActivity.class);
+            startActivity(goToGrades);
         }
         return true;
     }
@@ -122,15 +128,38 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void setupHomePageRecyclerView() {
-        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecyclerView);
+        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecylerView);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+    //    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         homePageRecyclerView.setLayoutManager(layoutManager);
 
         subjects = new ArrayList<>();
-        Subject subject = new Subject();
-        subjectDatabase.subjectDao().insertSubject(subject);
+//        Subject subject = new Subject();
+//        subject.setTitle("English");
+//        subjects = new ArrayList<>();
+//        Subject subject2 = new Subject();
+//        subject2.setTitle("Life Skills");
+//        subjects = new ArrayList<>();
+//        Subject subject3 = new Subject();
+//        subject3.setTitle("Java");
+//        subjectDatabase.subjectDao().insertSubject(subject);
+//        subjectDatabase.subjectDao().insertSubject(subject2);
+//        subjectDatabase.subjectDao().insertSubject(subject3);
         adapter = new HomePageRecyclerViewAdapter(subjects ,this);
         homePageRecyclerView.setAdapter(adapter);
+    }
+    private void init() {
+        /*Room Database*/
+        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //add new subject
+        ImageButton addNewSubject= findViewById(R.id.add_subject_button);
+        addNewSubject.setOnClickListener(view -> {
+            Intent goToAddNewSubject=new Intent( MainActivity.this,AddNewSubjectActivity.class);
+            startActivity(goToAddNewSubject);
+        });
     }
 }
