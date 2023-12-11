@@ -40,4 +40,36 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.334" />
 
+<!--    <Button-->
+<!--        android:id="@+id/add_subject_button"-->
+<!--        android:text="Add Subject"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.716"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textSize="20sp"-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="30dp"-->
+<!--        android:background="@drawable/custom_button"-->
+<!--        android:paddingLeft="4px"-->
+<!--        android:paddingRight="4px"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/homeActivityRecylerView" />-->
+
+    <ImageButton
+        android:id="@+id/add_subject_button"
+        android:layout_width="73dp"
+        android:layout_height="56dp"
+        android:background="@color/lavender"
+        android:scrollbarSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeActivityRecylerView"
+        app:layout_constraintVertical_bias="0.476"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
