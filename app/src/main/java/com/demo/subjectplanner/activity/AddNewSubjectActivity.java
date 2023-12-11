@@ -26,11 +26,13 @@ import com.demo.subjectplanner.activity.database.SubjectDatabase;
 import com.demo.subjectplanner.activity.model.Subject;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddNewSubjectActivity extends AppCompatActivity {
 SubjectDatabase subjectDatabase;
@@ -84,6 +86,11 @@ startTimePicker();
     }
     private void startTimePicker(){
         startTimeView = findViewById(R.id.start_time_textview);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        // default time
+        startTimeView.setText("Time: "+sdf.format(Calendar.getInstance().getTime()));
+        // default time if the time is not opened
+        subjectStartDate=Calendar.getInstance().getTime();
         pickStartTimeButton= findViewById(R.id.startTimeButton);
         pickStartTimeButton.setOnClickListener(view -> {
 startTimeDialog();
@@ -108,13 +115,13 @@ startTimeDialog();
 
         Button saveSubjectToDb= findViewById(R.id.save_subject_todb_button);
         saveSubjectToDb.setOnClickListener(view -> {
-            subjectTitle=title.getText().toString();
+            subjectTitle=title.getText().toString().trim().isEmpty()?"Temp":title.getText().toString().trim();
             subjectAbsents=!Absents.getText().toString().isEmpty()?Absents.getText().toString():"0";
             String selectedDays = daysMultiAutoCompleteTextView.getText().toString();
             List<String> selectedDayNames = Arrays.asList(selectedDays.split(","));
 
             // Convert selected day names to DayOfWeek enum values
-            List<DayOfWeek> selectedDaysList = DayConverter.convertToDayOfWeekList(selectedDayNames);
+            List<DayOfWeek> selectedDaysList = DayConverter.convertToDayOfWeekList(selectedDayNames).isEmpty()?DayConverter.convertToDayOfWeekList(List.of("friday")):DayConverter.convertToDayOfWeekList(selectedDayNames);
             Log.i("AddNewSubjectTag", "subject: "+subjectTitle+" subject absents: "+subjectAbsents+" subject date: " +subjectStartDate.toString()+" selected days : "+selectedDays+" selected days List: "+selectedDaysList);
 
 //            Subject newSubject = new Subject(subjectTitle,"","","","noNotes",subjectStartDate,new Date(),new Date(),new Date(),0,Integer.valueOf(subjectAbsents));
