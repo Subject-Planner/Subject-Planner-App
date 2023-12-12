@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-        public static final String DATABASE_TAG="subjectDatabase";
     SubjectDatabase subjectDatabase;
 
     List<Subject> subjects = null;
