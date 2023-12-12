@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
         public static final String DATABASE_TAG="subjectDatabase";
@@ -134,6 +136,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if(id==R.id.Calendar){
             Toast.makeText(this,"go to Calendar",Toast.LENGTH_LONG).show();
+            Intent goToCalender= new Intent(MainActivity.this,Calendar.class);
+            startActivity(goToCalender);
         }
         if(id==R.id.Grades){
             Toast.makeText(this,"go to Grades",Toast.LENGTH_LONG).show();
