@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
         public static final String DATABASE_TAG="subjectDatabase";
     SubjectDatabase subjectDatabase;
     DrawerLayout drawerLayout;
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        navigationView.setNavigationItemSelectedListener(this);
 
         /*Room Database*/
         subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
@@ -91,6 +92,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
+        return true;
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_grades) {
+            // Handle the Grades item click
+            Toast.makeText(this, "Go to Grades", Toast.LENGTH_LONG).show();
+            Intent goToGrades = new Intent(MainActivity.this, AddGradeActivity.class);
+            startActivity(goToGrades);
+        }
+
+        // Add more cases for other items if needed...
+
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
