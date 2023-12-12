@@ -104,6 +104,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent goToGrades = new Intent(MainActivity.this, AddGradeActivity.class);
             startActivity(goToGrades);
         }
+        if (id == R.id.nav_login) {
+            // Handle the Grades item click
+            Toast.makeText(this, "Go to Login", Toast.LENGTH_LONG).show();
+            Intent goToLogin = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(goToLogin);
+        }
+        if (id == R.id.nav_calender) {
+            // Handle the Grades item click
+            Toast.makeText(this, "Go to Calendar", Toast.LENGTH_LONG).show();
+            Intent goToCalendar = new Intent(MainActivity.this, Calendar.class);
+            startActivity(goToCalendar);
+        }
 
         // Add more cases for other items if needed...
 
