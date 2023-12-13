@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="lightGray">#EEE</color>
+    <color name="gray">#888</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
+    <color name="colorPrimary">#2BCC6F</color>
+    <color name="colorPrimaryDark">#2BCC6F</color>
+    <color name="colorAccent">#333333</color>
+    <color name="colorPrimaryLight">#E9F8F1</color>
+    <color name="colorBackground">#EBEBEB</color>
+    <color name="colorTrendingStart">#00B09B</color>
+    <color name="colorTrendingEnd">#96C93D</color>
+    <color name="colorDivider">#D6D6D6</color>
+    <color name="primary">#6A7CFF</color>
+    <color name="background">#F7F7FA</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="primary_text">#565B65</color>
+    <color name="secondry_text">#9B9A9D</color>
+    <color name="dashboard_item_1">#2CC2EA</color>
 
     <color name="hippieBlue">#4f91aa</color>
 
@@ -19,15 +35,4 @@
     <color name="moodyBlue">#7a74cc</color>
     <color name="buttonColor">#28846c</color>
 
-
 </resources>
-
-<!--    &#45;&#45;hippie-blue: #4f91aa;-->
-<!--    &#45;&#45;catskill-white: #dde8ee;-->
-<!--    &#45;&#45;blue-marguerite: #706bbc;-->
-<!--    &#45;&#45;keppel: #36b595;-->
-<!--    &#45;&#45;ship-cove: #36b595;-->
-<!--    &#45;&#45;polo-blue: #8ea5ca;-->
-<!--    &#45;&#45;sinbad: #93cfca;-->
-<!--    &#45;&#45;moody-blue: #7a74cc;-->
-<!--    &#45;&#45;keppel: #32a48c;-->

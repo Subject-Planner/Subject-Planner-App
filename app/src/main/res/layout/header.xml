@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="vertical"
-    android:background="@color/lavender">
-    
+    android:background="@color/buttonColor">
+
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src = "@drawable/logo"
+        android:src = "@drawable/transparent_logo"
         android:layout_marginTop="80dp"
         android:layout_marginLeft="20dp"/>
-    
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
