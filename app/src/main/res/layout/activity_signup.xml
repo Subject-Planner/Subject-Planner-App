@@ -67,89 +67,89 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <LinearLayout
+                <LinearLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:padding="20sp">
-                
-                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70sp"
-                    android:layout_marginTop="15sp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:padding="20sp">
 
-                    <ImageView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/education_learning_19_svgrepo_com">
+                        android:layout_height="70sp"
+                        android:layout_marginTop="15sp">
 
-                    </ImageView>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/education_learning_19_svgrepo_com">
 
-                </RelativeLayout>
+                        </ImageView>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16sp"
-                    android:paddingTop="20sp"
-                    android:inputType="text"
-                    android:minHeight="48dp"
-                    android:text="@string/full_name"
-                    android:textColor="@color/buttonColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:ignore="TextViewEdits" />
+                    </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/signUpFullNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16sp"
-                    android:inputType="text"
-                    android:minHeight="48dp"
-                    android:textSize="16sp"
-                    tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email"
-                    android:textColor="@color/buttonColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:paddingTop="20sp"
+                        android:inputType="text"
+                        android:minHeight="48dp"
+                        android:text="@string/full_name"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:ignore="TextViewEdits" />
 
-                <EditText
-                    android:id="@+id/signUpEmailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=""
-                    android:inputType="textEmailAddress"
-                    android:minHeight="48dp"
-                    android:textSize="16sp"
-                    tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+                    <EditText
+                        android:id="@+id/signUpFullNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16sp"
+                        android:inputType="text"
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
 
-                   <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16sp"
-                    android:text="@string/password"
-                    android:textColor="@color/buttonColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    <EditText
+                        android:id="@+id/signUpEmailEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:inputType="textEmailAddress"
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
 
-                <EditText
-                    android:id="@+id/signUpPasswordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="textPassword"
-                    android:minHeight="48dp"
-                    android:textSize="16sp"
-                    tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:text="@string/password"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
 
-            </LinearLayout>
-          </ScrollView>
+                    <EditText
+                        android:id="@+id/signUpPasswordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:importantForAutofill="no"
+                        android:inputType="textPassword"
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+
+                </LinearLayout>
+            </ScrollView>
 
         </androidx.cardview.widget.CardView>
 
@@ -176,5 +176,3 @@
 
 
 </RelativeLayout>
-
-
