@@ -118,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent goToCalendar = new Intent(MainActivity.this, Calendar.class);
             startActivity(goToCalendar);
         }
+        if (id == R.id.nav_profile) {
+            // Handle the Grades item click
+            Toast.makeText(this, "Go to Profile", Toast.LENGTH_LONG).show();
+            Intent goToProfile = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(goToProfile);
+        }
 
         // Add more cases for other items if needed...
 
