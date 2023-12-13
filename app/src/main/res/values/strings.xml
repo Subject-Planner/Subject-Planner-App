@@ -17,5 +17,9 @@
     <string name="cardItem_text1">Here is subject Title</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="subject_title">Subject Title</string>
+    <string name="subject_details">Subject Details</string>
+    <string name="lectuer_time">Lectuer Time</string>
+
 
 </resources>
