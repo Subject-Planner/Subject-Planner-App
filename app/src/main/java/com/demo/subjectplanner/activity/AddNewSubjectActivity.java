@@ -19,11 +19,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
-import com.demo.subjectplanner.activity.database.DatabaseSingleton;
-import com.demo.subjectplanner.activity.database.DayConverter;
-import com.demo.subjectplanner.activity.database.SubjectDatabase;
-import com.demo.subjectplanner.activity.model.Subject;
+//import com.demo.subjectplanner.activity.database.DatabaseSingleton;
+//import com.demo.subjectplanner.activity.database.DayConverter;
+//import com.demo.subjectplanner.activity.database.SubjectDatabase;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddNewSubjectActivity extends AppCompatActivity {
-SubjectDatabase subjectDatabase;
+//SubjectDatabase subjectDatabase;
 Button pickStartTimeButton;
 TextView startTimeView;
     MultiAutoCompleteTextView daysMultiAutoCompleteTextView;
@@ -79,7 +79,7 @@ TextView startTimeView;
     }
     private void init() {
         /*Room Database*/
-        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+        //subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 startTimePicker();
@@ -121,17 +121,17 @@ startTimeDialog();
             List<String> selectedDayNames = Arrays.asList(selectedDays.split(","));
 
             // Convert selected day names to DayOfWeek enum values
-            List<DayOfWeek> selectedDaysList = DayConverter.convertToDayOfWeekList(selectedDayNames).isEmpty()?DayConverter.convertToDayOfWeekList(List.of("friday")):DayConverter.convertToDayOfWeekList(selectedDayNames);
-            Log.i("AddNewSubjectTag", "subject: "+subjectTitle+" subject absents: "+subjectAbsents+" subject date: " +subjectStartDate.toString()+" selected days : "+selectedDays+" selected days List: "+selectedDaysList);
+//            List<DayOfWeek> selectedDaysList = DayConverter.convertToDayOfWeekList(selectedDayNames).isEmpty()?DayConverter.convertToDayOfWeekList(List.of("friday")):DayConverter.convertToDayOfWeekList(selectedDayNames);
+            Log.i("AddNewSubjectTag", "subject: "+subjectTitle+" subject absents: "+subjectAbsents+" subject date: " +subjectStartDate.toString()+" selected days : "+selectedDays);
 
 //            Subject newSubject = new Subject(subjectTitle,"","","","noNotes",subjectStartDate,new Date(),new Date(),new Date(),0,Integer.valueOf(subjectAbsents));
-            Subject newSubject = new Subject();
-            newSubject.setTitle(subjectTitle);
-            newSubject.setStartTime(subjectStartDate);
-            newSubject.setGrades(0);
-            newSubject.setNumberOfAbsents(Integer.valueOf(subjectAbsents));
-            newSubject.setDaysOfWeek(selectedDaysList);
-            subjectDatabase.subjectDao().insertSubject(newSubject);
+//            Subject newSubject = new Subject();
+//            newSubject.setTitle(subjectTitle);
+//            newSubject.setStartTime(subjectStartDate);
+//            newSubject.setGrades(0);
+//            newSubject.setNumberOfAbsents(Integer.valueOf(subjectAbsents));
+//            newSubject.setDaysOfWeek(selectedDaysList);
+           // subjectDatabase.subjectDao().insertSubject(newSubject);
             Snackbar.make(findViewById(R.id.AddNewSubjectLayout), "Subject Added", Snackbar.LENGTH_SHORT).show();
 
         });

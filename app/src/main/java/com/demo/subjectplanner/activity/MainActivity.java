@@ -13,16 +13,23 @@ import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.Grade;
+import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
-import com.demo.subjectplanner.activity.database.DatabaseSingleton;
-import com.demo.subjectplanner.activity.database.SubjectDatabase;
-import com.demo.subjectplanner.activity.model.Subject;
+
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,13 +38,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
         public static final String DATABASE_TAG="subjectDatabase";
-    SubjectDatabase subjectDatabase;
+  //  SubjectDatabase subjectDatabase;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
 
 
-    List<Subject> subjects = null;
+    List<Subject> subjects;
     HomePageRecyclerViewAdapter adapter;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -61,21 +68,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         /*Room Database*/
-        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+       // subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
         //setupLogin();
         setupHomePageRecyclerView();
+        
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
+//        subjects.clear();
+        //subjects.addAll(subjectDatabase.subjectDao().findAll());
 
-        subjects.clear();
-        subjects.addAll(subjectDatabase.subjectDao().findAll());
         adapter.notifyDataSetChanged();
     }
 
@@ -172,24 +180,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homePageRecyclerView.setLayoutManager(layoutManager);
 
         subjects = new ArrayList<>();
-//        subjects = new ArrayList<>();
-//        Subject subject = new Subject();
-//        subject.setTitle("English");
-//        subjects = new ArrayList<>();
+//        Subject subject = new Subject("Arabic","","","","",new Date(),new ArrayList<>(),0,5);
+//        subject.setTitle("English english english ");
 //        Subject subject2 = new Subject();
 //        subject2.setTitle("Life Skills");
-//        subjects = new ArrayList<>();
 //        Subject subject3 = new Subject();
 //        subject3.setTitle("Java");
-//        subjectDatabase.subjectDao().insertSubject(subject);
-//        subjectDatabase.subjectDao().insertSubject(subject2);
-//        subjectDatabase.subjectDao().insertSubject(subject3);
+//        subjects.add(subject);
+//        subjects.add(subject2);
+//        subjects.add(subject);
+       // Log.i("MainActivity", "subjects: "+ subjects.toString()+"subject"+subjects.get(0).toString());
+
         adapter = new HomePageRecyclerViewAdapter(subjects ,this);
         homePageRecyclerView.setAdapter(adapter);
     }
     private void init() {
         /*Room Database*/
-        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+        //subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
 
 //        add new subject
         ImageButton addNewSubject= findViewById(R.id.add_subject_button);
@@ -198,4 +205,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(goToAddNewSubject);
         });
     }
-}
+
+//    private void addSubject(){
+//        Subject newSubj = Subject.builder()
+//                .title("test")
+//                .build();
+//        Grade grade = Grade.builder()
+//                        .weight(10).build();
+//        Event event = Event.builder().name("new").build();
+//        Amplify.API.mutate(
+//                ModelMutation.create(newSubj),
+//                successResponse -> Log.i("MainActivity", "AddSubject.onCreate(): Subject added successfully"),//success response
+//                failureResponse -> Log.e("MainActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
+//        );
+//       // Snackbar.make(findViewById(R.id.M), "Task Saved", Snackbar.LENGTH_SHORT).show();
+//       // analytics(title,team); // record adding new task
+//    }
+    }

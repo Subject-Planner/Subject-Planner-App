@@ -1,0 +1,22 @@
+{
+  "api": {
+    "subjectplanner": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2024-02-11T12:11:34.916Z",
+              "apiKeyExpirationDays": 60,
+              "description": "subject planer api key"
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  }
+}

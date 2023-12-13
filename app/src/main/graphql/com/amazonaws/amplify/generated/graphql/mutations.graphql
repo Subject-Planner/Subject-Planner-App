@@ -1,0 +1,409 @@
+# this is an auto generated file. This will be overwritten
+
+mutation CreateTodo(
+  $input: CreateTodoInput!
+  $condition: ModelTodoConditionInput
+) {
+  createTodo(input: $input, condition: $condition) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateTodo(
+  $input: UpdateTodoInput!
+  $condition: ModelTodoConditionInput
+) {
+  updateTodo(input: $input, condition: $condition) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteTodo(
+  $input: DeleteTodoInput!
+  $condition: ModelTodoConditionInput
+) {
+  deleteTodo(input: $input, condition: $condition) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation CreateSubject(
+  $input: CreateSubjectInput!
+  $condition: ModelSubjectConditionInput
+) {
+  createSubject(input: $input, condition: $condition) {
+    id
+    title
+    startDate
+    endDate
+    images
+    recordings
+    notes
+    files
+    grades {
+      nextToken
+      __typename
+    }
+    numberOfAbsents
+    days
+    studentId
+    studentPerson {
+      id
+      name
+      email
+      password
+      createdAt
+      updatedAt
+      __typename
+    }
+    events {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateSubject(
+  $input: UpdateSubjectInput!
+  $condition: ModelSubjectConditionInput
+) {
+  updateSubject(input: $input, condition: $condition) {
+    id
+    title
+    startDate
+    endDate
+    images
+    recordings
+    notes
+    files
+    grades {
+      nextToken
+      __typename
+    }
+    numberOfAbsents
+    days
+    studentId
+    studentPerson {
+      id
+      name
+      email
+      password
+      createdAt
+      updatedAt
+      __typename
+    }
+    events {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteSubject(
+  $input: DeleteSubjectInput!
+  $condition: ModelSubjectConditionInput
+) {
+  deleteSubject(input: $input, condition: $condition) {
+    id
+    title
+    startDate
+    endDate
+    images
+    recordings
+    notes
+    files
+    grades {
+      nextToken
+      __typename
+    }
+    numberOfAbsents
+    days
+    studentId
+    studentPerson {
+      id
+      name
+      email
+      password
+      createdAt
+      updatedAt
+      __typename
+    }
+    events {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation CreateEvent(
+  $input: CreateEventInput!
+  $condition: ModelEventConditionInput
+) {
+  createEvent(input: $input, condition: $condition) {
+    id
+    name
+    date
+    time
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateEvent(
+  $input: UpdateEventInput!
+  $condition: ModelEventConditionInput
+) {
+  updateEvent(input: $input, condition: $condition) {
+    id
+    name
+    date
+    time
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteEvent(
+  $input: DeleteEventInput!
+  $condition: ModelEventConditionInput
+) {
+  deleteEvent(input: $input, condition: $condition) {
+    id
+    name
+    date
+    time
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation CreateGrade(
+  $input: CreateGradeInput!
+  $condition: ModelGradeConditionInput
+) {
+  createGrade(input: $input, condition: $condition) {
+    id
+    date
+    weight
+    term
+    subjectId
+    subjectObject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateGrade(
+  $input: UpdateGradeInput!
+  $condition: ModelGradeConditionInput
+) {
+  updateGrade(input: $input, condition: $condition) {
+    id
+    date
+    weight
+    term
+    subjectId
+    subjectObject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteGrade(
+  $input: DeleteGradeInput!
+  $condition: ModelGradeConditionInput
+) {
+  deleteGrade(input: $input, condition: $condition) {
+    id
+    date
+    weight
+    term
+    subjectId
+    subjectObject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation CreateStudent(
+  $input: CreateStudentInput!
+  $condition: ModelStudentConditionInput
+) {
+  createStudent(input: $input, condition: $condition) {
+    id
+    name
+    email
+    password
+    subjects {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateStudent(
+  $input: UpdateStudentInput!
+  $condition: ModelStudentConditionInput
+) {
+  updateStudent(input: $input, condition: $condition) {
+    id
+    name
+    email
+    password
+    subjects {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteStudent(
+  $input: DeleteStudentInput!
+  $condition: ModelStudentConditionInput
+) {
+  deleteStudent(input: $input, condition: $condition) {
+    id
+    name
+    email
+    password
+    subjects {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
