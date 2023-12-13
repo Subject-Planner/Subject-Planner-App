@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subject Title"
+            android:text="@string/sign_up"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="25sp"
@@ -47,6 +47,15 @@
             android:shadowRadius="15"
             android:shadowColor="@android:color/darker_gray"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up with email to to access all features."
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            android:textSize="16sp"
+            android:layout_marginStart="20sp"
+            tools:ignore="HardcodedText" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -58,46 +67,89 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <LinearLayout
+                <LinearLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/note_background"
-                android:orientation="vertical"
-                android:padding="20sp">
-
-                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16sp"
-                    android:paddingTop="20sp"
-                    android:inputType="text"
-                    android:minHeight="48dp"
-                    android:text="Number Of Absents"
-                    android:textColor="@color/buttonColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:ignore="TextViewEdits" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:padding="20sp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Grades"
-                    android:textColor="@color/buttonColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70sp"
+                        android:layout_marginTop="15sp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16sp"
-                    android:text="Lecture time"
-                    android:textColor="@color/buttonColor"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/education_learning_19_svgrepo_com">
 
-            </LinearLayout>
-          </ScrollView>
+                        </ImageView>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:paddingTop="20sp"
+                        android:inputType="text"
+                        android:minHeight="48dp"
+                        android:text="@string/full_name"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:ignore="TextViewEdits" />
+
+                    <EditText
+                        android:id="@+id/signUpFullNameEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16sp"
+                        android:inputType="text"
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/signUpEmailEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:inputType="textEmailAddress"
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:text="@string/password"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/signUpPasswordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:importantForAutofill="no"
+                        android:inputType="textPassword"
+                        android:minHeight="48dp"
+                        android:textSize="16sp"
+                        tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+
+                </LinearLayout>
+            </ScrollView>
 
         </androidx.cardview.widget.CardView>
 
@@ -110,7 +162,7 @@
             android:layout_marginLeft="40sp"
             android:layout_marginRight="40sp"
             android:background="@drawable/button_background"
-            android:text="Edit"
+            android:text="@string/sign_up"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -124,5 +176,3 @@
 
 
 </RelativeLayout>
-
-
