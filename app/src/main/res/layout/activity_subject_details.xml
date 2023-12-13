@@ -21,8 +21,6 @@
             android:layout_height="0sp"
             android:layout_weight="1"
             android:background="@color/white"></View>
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -37,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/subject_details"
+            android:text="Subject Title"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="25sp"
@@ -47,15 +45,6 @@
             android:shadowRadius="15"
             android:shadowColor="@android:color/darker_gray"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Up with email to to access all features."
-            android:textColor="@color/white"
-            android:textStyle="normal"
-            android:textSize="16sp"
-            android:layout_marginStart="20sp"
-            tools:ignore="HardcodedText" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -64,91 +53,72 @@
             android:layout_margin="20sp"
             app:cardCornerRadius="20sp"
             app:cardElevation="10sp">
+
+            <!-- Record TextView over the CardView -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/note_background" />
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <LinearLayout
 
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:padding="20sp">
+                <!-- Your scrollable content goes here -->
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="70sp"
-                        android:layout_marginTop="15sp">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/education_learning_19_svgrepo_com">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/recordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Record"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_margin="16sp"
+                android:background="#80000000" ></TextView>
 
-                        </ImageView>
+            <TextView
+                android:id="@+id/notesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16sp"
+                android:background="#80000000"
+                android:text="notes"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"></TextView>
+            <TextView
+                android:id="@+id/filesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16sp"
+                android:background="#80000000"
+                android:text="files"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"></TextView>
+            <TextView
+                android:id="@+id/daysTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16sp"
+                android:background="#80000000"
+                android:text="days"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"></TextView>
+            <TextView
+                android:id="@+id/gradeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16sp"
+                android:background="#80000000"
+                android:text="days"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"></TextView>
 
-                    </RelativeLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16sp"
-                        android:paddingTop="20sp"
-                        android:inputType="text"
-                        android:minHeight="48dp"
-                        android:text="@string/subject_title"
-                        android:textColor="@color/buttonColor"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:ignore="TextViewEdits" />
-
-                    <EditText
-                        android:id="@+id/signUpFullNameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16sp"
-                        android:inputType="text"
-                        android:minHeight="48dp"
-                        android:textSize="16sp"
-                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/email"
-                        android:textColor="@color/buttonColor"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
-
-                    <EditText
-                        android:id="@+id/signUpEmailEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints=""
-                        android:inputType="textEmailAddress"
-                        android:minHeight="48dp"
-                        android:textSize="16sp"
-                        tools:ignore="LabelFor,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16sp"
-                        android:text="@string/password"
-                        android:textColor="@color/buttonColor"
-                        android:textSize="16sp"
-                        android:textStyle="bold"/>
-
-                    <EditText
-                        android:id="@+id/signUpPasswordEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:importantForAutofill="no"
-                        android:inputType="textPassword"
-                        android:minHeight="48dp"
-                        android:textSize="16sp"
-                        tools:ignore="VisualLintTextFieldSize,SpeakableTextPresentCheck" />
-
-                </LinearLayout>
+            </LinearLayout>
             </ScrollView>
 
         </androidx.cardview.widget.CardView>
@@ -162,19 +132,10 @@
             android:layout_marginLeft="40sp"
             android:layout_marginRight="40sp"
             android:background="@drawable/button_background"
-            android:text="@string/sign_up"
+            android:text="Edit"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             />
-
     </LinearLayout>
-
-
-
-
-
-
 </RelativeLayout>
-
-
