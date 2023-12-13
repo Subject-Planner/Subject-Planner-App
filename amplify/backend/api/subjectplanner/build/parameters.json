@@ -1,0 +1,8 @@
+{
+    "AppSyncApiName": "subjectplanner",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthModeLastUpdated": "2023-12-13T12:11:48.141Z",
+    "S3DeploymentBucket": "amplify-subjectplanner-dev-142326-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/54d6271566afdb4df4b2577fc6964bbe25787908"
+}

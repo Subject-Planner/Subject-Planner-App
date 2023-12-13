@@ -1,0 +1,582 @@
+type Todo {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Subject {
+  id: ID!
+  title: String!
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+  images: [String]
+  recordings: [String]
+  notes: [String]
+  files: [String]
+  grades(term: ModelStringKeyConditionInput, filter: ModelGradeFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelGradeConnection
+  numberOfAbsents: Int
+  days: [DaysEnum]
+  studentId: ID!
+  studentPerson: Student
+  events(date: ModelStringKeyConditionInput, filter: ModelEventFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Event {
+  id: ID!
+  name: String!
+  date: AWSDateTime
+  time: AWSDateTime
+  subjectId: ID!
+  subject: Subject
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum DaysEnum {
+  SATURDAY
+  SUNDAY
+  MONDAY
+  THURSDAY
+  WEDNESDAY
+  TUESDAY
+  FRIDAY
+}
+
+type Grade {
+  id: ID!
+  date: AWSDateTime
+  weight: Int
+  term: String
+  subjectId: ID!
+  subjectObject: Subject
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Student {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  subjects(title: ModelStringKeyConditionInput, filter: ModelSubjectFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelSubjectConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelTodoConnection {
+  items: [Todo]!
+  nextToken: String
+}
+
+input ModelTodoFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  description: ModelStringInput
+  and: [ModelTodoFilterInput]
+  or: [ModelTodoFilterInput]
+  not: ModelTodoFilterInput
+}
+
+type Query {
+  getTodo(id: ID!): Todo
+  listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
+  getSubject(id: ID!): Subject
+  listSubjects(filter: ModelSubjectFilterInput, limit: Int, nextToken: String): ModelSubjectConnection
+  getEvent(id: ID!): Event
+  listEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String): ModelEventConnection
+  getGrade(id: ID!): Grade
+  listGrades(filter: ModelGradeFilterInput, limit: Int, nextToken: String): ModelGradeConnection
+  getStudent(id: ID!): Student
+  listStudents(filter: ModelStudentFilterInput, limit: Int, nextToken: String): ModelStudentConnection
+  subjectsByStudentIdAndTitle(studentId: ID!, title: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelSubjectFilterInput, limit: Int, nextToken: String): ModelSubjectConnection
+  eventsBySubjectIdAndDate(subjectId: ID!, date: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelEventFilterInput, limit: Int, nextToken: String): ModelEventConnection
+  gradesBySubjectIdAndTerm(subjectId: ID!, term: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelGradeFilterInput, limit: Int, nextToken: String): ModelGradeConnection
+}
+
+input ModelTodoConditionInput {
+  name: ModelStringInput
+  description: ModelStringInput
+  and: [ModelTodoConditionInput]
+  or: [ModelTodoConditionInput]
+  not: ModelTodoConditionInput
+}
+
+input CreateTodoInput {
+  id: ID
+  name: String!
+  description: String
+}
+
+input UpdateTodoInput {
+  id: ID!
+  name: String
+  description: String
+}
+
+input DeleteTodoInput {
+  id: ID!
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!, condition: ModelTodoConditionInput): Todo
+  updateTodo(input: UpdateTodoInput!, condition: ModelTodoConditionInput): Todo
+  deleteTodo(input: DeleteTodoInput!, condition: ModelTodoConditionInput): Todo
+  createSubject(input: CreateSubjectInput!, condition: ModelSubjectConditionInput): Subject
+  updateSubject(input: UpdateSubjectInput!, condition: ModelSubjectConditionInput): Subject
+  deleteSubject(input: DeleteSubjectInput!, condition: ModelSubjectConditionInput): Subject
+  createEvent(input: CreateEventInput!, condition: ModelEventConditionInput): Event
+  updateEvent(input: UpdateEventInput!, condition: ModelEventConditionInput): Event
+  deleteEvent(input: DeleteEventInput!, condition: ModelEventConditionInput): Event
+  createGrade(input: CreateGradeInput!, condition: ModelGradeConditionInput): Grade
+  updateGrade(input: UpdateGradeInput!, condition: ModelGradeConditionInput): Grade
+  deleteGrade(input: DeleteGradeInput!, condition: ModelGradeConditionInput): Grade
+  createStudent(input: CreateStudentInput!, condition: ModelStudentConditionInput): Student
+  updateStudent(input: UpdateStudentInput!, condition: ModelStudentConditionInput): Student
+  deleteStudent(input: DeleteStudentInput!, condition: ModelStudentConditionInput): Student
+}
+
+input ModelSubscriptionTodoFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  and: [ModelSubscriptionTodoFilterInput]
+  or: [ModelSubscriptionTodoFilterInput]
+}
+
+type Subscription {
+  onCreateTodo(filter: ModelSubscriptionTodoFilterInput): Todo @aws_subscribe(mutations: ["createTodo"])
+  onUpdateTodo(filter: ModelSubscriptionTodoFilterInput): Todo @aws_subscribe(mutations: ["updateTodo"])
+  onDeleteTodo(filter: ModelSubscriptionTodoFilterInput): Todo @aws_subscribe(mutations: ["deleteTodo"])
+  onCreateSubject(filter: ModelSubscriptionSubjectFilterInput): Subject @aws_subscribe(mutations: ["createSubject"])
+  onUpdateSubject(filter: ModelSubscriptionSubjectFilterInput): Subject @aws_subscribe(mutations: ["updateSubject"])
+  onDeleteSubject(filter: ModelSubscriptionSubjectFilterInput): Subject @aws_subscribe(mutations: ["deleteSubject"])
+  onCreateEvent(filter: ModelSubscriptionEventFilterInput): Event @aws_subscribe(mutations: ["createEvent"])
+  onUpdateEvent(filter: ModelSubscriptionEventFilterInput): Event @aws_subscribe(mutations: ["updateEvent"])
+  onDeleteEvent(filter: ModelSubscriptionEventFilterInput): Event @aws_subscribe(mutations: ["deleteEvent"])
+  onCreateGrade(filter: ModelSubscriptionGradeFilterInput): Grade @aws_subscribe(mutations: ["createGrade"])
+  onUpdateGrade(filter: ModelSubscriptionGradeFilterInput): Grade @aws_subscribe(mutations: ["updateGrade"])
+  onDeleteGrade(filter: ModelSubscriptionGradeFilterInput): Grade @aws_subscribe(mutations: ["deleteGrade"])
+  onCreateStudent(filter: ModelSubscriptionStudentFilterInput): Student @aws_subscribe(mutations: ["createStudent"])
+  onUpdateStudent(filter: ModelSubscriptionStudentFilterInput): Student @aws_subscribe(mutations: ["updateStudent"])
+  onDeleteStudent(filter: ModelSubscriptionStudentFilterInput): Student @aws_subscribe(mutations: ["deleteStudent"])
+}
+
+type ModelSubjectConnection {
+  items: [Subject]!
+  nextToken: String
+}
+
+input ModelDaysEnumListInput {
+  eq: [DaysEnum]
+  ne: [DaysEnum]
+  contains: DaysEnum
+  notContains: DaysEnum
+}
+
+input ModelSubjectFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  startDate: ModelStringInput
+  endDate: ModelStringInput
+  images: ModelStringInput
+  recordings: ModelStringInput
+  notes: ModelStringInput
+  files: ModelStringInput
+  numberOfAbsents: ModelIntInput
+  days: ModelDaysEnumListInput
+  studentId: ModelIDInput
+  and: [ModelSubjectFilterInput]
+  or: [ModelSubjectFilterInput]
+  not: ModelSubjectFilterInput
+}
+
+input ModelSubjectConditionInput {
+  title: ModelStringInput
+  startDate: ModelStringInput
+  endDate: ModelStringInput
+  images: ModelStringInput
+  recordings: ModelStringInput
+  notes: ModelStringInput
+  files: ModelStringInput
+  numberOfAbsents: ModelIntInput
+  days: ModelDaysEnumListInput
+  studentId: ModelIDInput
+  and: [ModelSubjectConditionInput]
+  or: [ModelSubjectConditionInput]
+  not: ModelSubjectConditionInput
+}
+
+input CreateSubjectInput {
+  id: ID
+  title: String!
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+  images: [String]
+  recordings: [String]
+  notes: [String]
+  files: [String]
+  numberOfAbsents: Int
+  days: [DaysEnum]
+  studentId: ID!
+}
+
+input UpdateSubjectInput {
+  id: ID!
+  title: String
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+  images: [String]
+  recordings: [String]
+  notes: [String]
+  files: [String]
+  numberOfAbsents: Int
+  days: [DaysEnum]
+  studentId: ID
+}
+
+input DeleteSubjectInput {
+  id: ID!
+}
+
+input ModelSubscriptionSubjectFilterInput {
+  id: ModelSubscriptionIDInput
+  title: ModelSubscriptionStringInput
+  startDate: ModelSubscriptionStringInput
+  endDate: ModelSubscriptionStringInput
+  images: ModelSubscriptionStringInput
+  recordings: ModelSubscriptionStringInput
+  notes: ModelSubscriptionStringInput
+  files: ModelSubscriptionStringInput
+  numberOfAbsents: ModelSubscriptionIntInput
+  days: ModelSubscriptionStringInput
+  studentId: ModelSubscriptionIDInput
+  and: [ModelSubscriptionSubjectFilterInput]
+  or: [ModelSubscriptionSubjectFilterInput]
+}
+
+type ModelEventConnection {
+  items: [Event]!
+  nextToken: String
+}
+
+input ModelEventFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  date: ModelStringInput
+  time: ModelStringInput
+  subjectId: ModelIDInput
+  and: [ModelEventFilterInput]
+  or: [ModelEventFilterInput]
+  not: ModelEventFilterInput
+}
+
+input ModelEventConditionInput {
+  name: ModelStringInput
+  date: ModelStringInput
+  time: ModelStringInput
+  subjectId: ModelIDInput
+  and: [ModelEventConditionInput]
+  or: [ModelEventConditionInput]
+  not: ModelEventConditionInput
+}
+
+input CreateEventInput {
+  id: ID
+  name: String!
+  date: AWSDateTime
+  time: AWSDateTime
+  subjectId: ID!
+}
+
+input UpdateEventInput {
+  id: ID!
+  name: String
+  date: AWSDateTime
+  time: AWSDateTime
+  subjectId: ID
+}
+
+input DeleteEventInput {
+  id: ID!
+}
+
+input ModelSubscriptionEventFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  date: ModelSubscriptionStringInput
+  time: ModelSubscriptionStringInput
+  subjectId: ModelSubscriptionIDInput
+  and: [ModelSubscriptionEventFilterInput]
+  or: [ModelSubscriptionEventFilterInput]
+}
+
+type ModelGradeConnection {
+  items: [Grade]!
+  nextToken: String
+}
+
+input ModelGradeFilterInput {
+  id: ModelIDInput
+  date: ModelStringInput
+  weight: ModelIntInput
+  term: ModelStringInput
+  subjectId: ModelIDInput
+  and: [ModelGradeFilterInput]
+  or: [ModelGradeFilterInput]
+  not: ModelGradeFilterInput
+}
+
+input ModelGradeConditionInput {
+  date: ModelStringInput
+  weight: ModelIntInput
+  term: ModelStringInput
+  subjectId: ModelIDInput
+  and: [ModelGradeConditionInput]
+  or: [ModelGradeConditionInput]
+  not: ModelGradeConditionInput
+}
+
+input CreateGradeInput {
+  id: ID
+  date: AWSDateTime
+  weight: Int
+  term: String
+  subjectId: ID!
+}
+
+input UpdateGradeInput {
+  id: ID!
+  date: AWSDateTime
+  weight: Int
+  term: String
+  subjectId: ID
+}
+
+input DeleteGradeInput {
+  id: ID!
+}
+
+input ModelSubscriptionGradeFilterInput {
+  id: ModelSubscriptionIDInput
+  date: ModelSubscriptionStringInput
+  weight: ModelSubscriptionIntInput
+  term: ModelSubscriptionStringInput
+  subjectId: ModelSubscriptionIDInput
+  and: [ModelSubscriptionGradeFilterInput]
+  or: [ModelSubscriptionGradeFilterInput]
+}
+
+type ModelStudentConnection {
+  items: [Student]!
+  nextToken: String
+}
+
+input ModelStudentFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  email: ModelStringInput
+  password: ModelStringInput
+  and: [ModelStudentFilterInput]
+  or: [ModelStudentFilterInput]
+  not: ModelStudentFilterInput
+}
+
+input ModelStudentConditionInput {
+  name: ModelStringInput
+  email: ModelStringInput
+  password: ModelStringInput
+  and: [ModelStudentConditionInput]
+  or: [ModelStudentConditionInput]
+  not: ModelStudentConditionInput
+}
+
+input CreateStudentInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+}
+
+input UpdateStudentInput {
+  id: ID!
+  name: String
+  email: String
+  password: String
+}
+
+input DeleteStudentInput {
+  id: ID!
+}
+
+input ModelSubscriptionStudentFilterInput {
+  id: ModelSubscriptionIDInput
+  name: ModelSubscriptionStringInput
+  email: ModelSubscriptionStringInput
+  password: ModelSubscriptionStringInput
+  and: [ModelSubscriptionStudentFilterInput]
+  or: [ModelSubscriptionStudentFilterInput]
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}
