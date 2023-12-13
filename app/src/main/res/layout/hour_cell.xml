@@ -27,9 +27,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:id="@+id/event1"
-            android:textSize="12sp"
+            android:textSize="20sp"
             android:lines="2"
-            android:textColor="@color/white"
+            android:textColor="@color/primary"
             android:text="Event 1"/>
 
         <TextView
@@ -39,9 +39,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:id="@+id/event2"
-            android:textSize="12sp"
+            android:textSize="20sp"
             android:lines="2"
-            android:textColor="@color/white"
+            android:textColor="@color/primary"
             android:text="Event 2"/>
 
         <TextView
@@ -51,9 +51,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:id="@+id/event3"
-            android:textSize="12sp"
+            android:textSize="20sp"
             android:lines="2"
-            android:textColor="@color/white"
+            android:textColor="@color/primary"
             android:text="Event 3"/>
 
     </LinearLayout>

@@ -54,6 +54,7 @@ public class DailyCalendarActivity extends AppCompatActivity {
         monthDayText.setText(CalendarUtils.monthDayFromDate(selectedDate));
         String dayOfWeek = selectedDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
         dayOfWeekTV.setText(dayOfWeek);
+       // dayOfWeekTV.setTextColor(getResources().getColor(R.color.primary)); // Set your desired blue color here
         setHourAdapter();
     }
 
