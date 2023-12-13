@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SubjectPlanner"
         tools:targetApi="31">
-      <activity
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.EventEditActivity"
             android:exported="false" />
         <activity
@@ -27,7 +30,7 @@
         <activity
             android:name=".activity.AddGradeActivity"
             android:exported="false" />
-      <activity
+        <activity
             android:name=".activity.SubjectDetailsActivity"
             android:exported="false" />
         <activity
@@ -52,4 +55,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
