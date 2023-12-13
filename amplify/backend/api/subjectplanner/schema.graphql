@@ -1,0 +1,65 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+# After you change this file do these steps:
+# 1. on the command line, type " amplify codegen models"
+# 2. "amplify api update -> Disable conflict resolution
+# 3. "amplify push"
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+type Subject @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String!
+  startDate: AWSDateTime
+  endDate: AWSDateTime
+  images: [String]
+  recordings: [String]
+  notes: [String]
+  files: [String]
+  grades: [Grade] @hasMany(indexName: "bySubject", fields: ["id"])
+  numberOfAbsents: Int
+  days: [DaysEnum]
+  studentId: ID! @index(name: "byStudent", sortKeyFields: ["title"])
+  studentPerson: Student @belongsTo(fields: ["studentId"])
+  events: [Event] @hasMany(indexName: "bySubject", fields: ["id"])
+}
+
+type Event @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  date: AWSDateTime
+  time: AWSDateTime
+  subjectId: ID! @index(name: "bySubject", sortKeyFields: ["date"])
+  subject: Subject @belongsTo(fields: ["subjectId"])
+}
+
+enum DaysEnum {
+  SATURDAY
+  SUNDAY
+  MONDAY
+  THURSDAY
+  WEDNESDAY
+  TUESDAY
+  FRIDAY
+}
+
+type Grade @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  date: AWSDateTime
+  weight: Int
+  term: String
+  subjectId: ID! @index(name: "bySubject", sortKeyFields: ["term"])
+  subjectObject: Subject @belongsTo(fields: ["subjectId"])
+}
+
+type Student @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  email: String!
+  password:String!
+  subjects: [Subject] @hasMany(indexName: "byStudent", fields: ["id"])
+}

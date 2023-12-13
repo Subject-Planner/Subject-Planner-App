@@ -2,7 +2,6 @@ package com.demo.subjectplanner.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.room.Dao;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -13,10 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
-import com.demo.subjectplanner.activity.database.DatabaseSingleton;
-import com.demo.subjectplanner.activity.database.SubjectDatabase;
-import com.demo.subjectplanner.activity.model.Subject;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AddGradeActivity extends AppCompatActivity {
-    SubjectDatabase subjectDatabase;
+   // SubjectDatabase subjectDatabase;
     List<Subject> subjects ;
     String selectedSubject;
     String gradeWeight;
@@ -53,14 +51,14 @@ public class AddGradeActivity extends AppCompatActivity {
     }
     private void init() {
         /*Room Database*/
-        subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+       // subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        subjects= subjectDatabase.subjectDao().findAll();
+       // subjects= subjectDatabase.subjectDao().findAll();
 
     }
     private void setUpSubjectsSpinner(){
-        Log.i("AddGradeActivity", "subjects from db: "+subjects.toString()+" titles: "+ subjects.stream().map(s->s.getTitle()).collect(Collectors.toList()));
+       // Log.i("AddGradeActivity", "subjects from db: "+subjects.toString()+" titles: "+ subjects.stream().map(s->s.getTitle()).collect(Collectors.toList()));
         subjectSpinner = findViewById(R.id.subjects_category_spinner);
         subjectSpinner.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,
@@ -81,7 +79,7 @@ public class AddGradeActivity extends AppCompatActivity {
             //collect the associated subject
             selectedSubject = subjectSpinner.getSelectedItem().toString();
             // here you should find the subject based on its name after getting a list of them using amplify and completableFuture
-            subject=subjectDatabase.subjectDao().findByTitle(selectedSubject);
+          //  subject=subjectDatabase.subjectDao().findByTitle(selectedSubject);
 
             //collect the weight
             gradeWeightEditText= findViewById(R.id.grade_weight_addgrade);
@@ -90,9 +88,9 @@ public class AddGradeActivity extends AppCompatActivity {
             //collect the term
             gradeTermEditText= findViewById(R.id.term_grade_addgrade);
             String gradeTerm = !gradeTermEditText.getText().toString().isEmpty()  ? gradeTermEditText.getText().toString().trim() : "";
-            Log.i("AddGradeActivity", "Subject: "+selectedSubject+" selected date: "+selectedDate+" selected weight:  "+gradeWeight+" selected term :  "+gradeTerm);
+           // Log.i("AddGradeActivity", "Subject: "+selectedSubject+" selected date: "+selectedDate+" selected weight:  "+gradeWeight+" selected term :  "+gradeTerm);
 
-            subjectDatabase.subjectDao().updateGradeByTitle(Integer.valueOf(gradeWeight),selectedSubject);
+          //  subjectDatabase.subjectDao().updateGradeByTitle(Integer.valueOf(gradeWeight),selectedSubject);
             Snackbar.make(findViewById(R.id.addGradeActivityLayout), "Grade added", Snackbar.LENGTH_SHORT).show();
         });
 

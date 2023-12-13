@@ -1,0 +1,329 @@
+# this is an auto generated file. This will be overwritten
+
+query GetTodo($id: ID!) {
+  getTodo(id: $id) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListTodos(
+  $filter: ModelTodoFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GetSubject($id: ID!) {
+  getSubject(id: $id) {
+    id
+    title
+    startDate
+    endDate
+    images
+    recordings
+    notes
+    files
+    grades {
+      nextToken
+      __typename
+    }
+    numberOfAbsents
+    days
+    studentId
+    studentPerson {
+      id
+      name
+      email
+      password
+      createdAt
+      updatedAt
+      __typename
+    }
+    events {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListSubjects(
+  $filter: ModelSubjectFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listSubjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GetEvent($id: ID!) {
+  getEvent(id: $id) {
+    id
+    name
+    date
+    time
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListEvents(
+  $filter: ModelEventFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      date
+      time
+      subjectId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GetGrade($id: ID!) {
+  getGrade(id: $id) {
+    id
+    date
+    weight
+    term
+    subjectId
+    subjectObject {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListGrades(
+  $filter: ModelGradeFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listGrades(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      date
+      weight
+      term
+      subjectId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GetStudent($id: ID!) {
+  getStudent(id: $id) {
+    id
+    name
+    email
+    password
+    subjects {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListStudents(
+  $filter: ModelStudentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listStudents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      email
+      password
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query SubjectsByStudentIdAndTitle(
+  $studentId: ID!
+  $title: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelSubjectFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  subjectsByStudentIdAndTitle(
+    studentId: $studentId
+    title: $title
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      startDate
+      endDate
+      images
+      recordings
+      notes
+      files
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query EventsBySubjectIdAndDate(
+  $subjectId: ID!
+  $date: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelEventFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  eventsBySubjectIdAndDate(
+    subjectId: $subjectId
+    date: $date
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      date
+      time
+      subjectId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GradesBySubjectIdAndTerm(
+  $subjectId: ID!
+  $term: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelGradeFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  gradesBySubjectIdAndTerm(
+    subjectId: $subjectId
+    term: $term
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      date
+      weight
+      term
+      subjectId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
