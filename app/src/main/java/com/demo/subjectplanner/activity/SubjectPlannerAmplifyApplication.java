@@ -6,6 +6,7 @@ import android.util.Log;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
+import com.demo.subjectplanner.R;
 
 public class SubjectPlannerAmplifyApplication extends Application {
     public static final String TAG = "subjectPlannerApplication";

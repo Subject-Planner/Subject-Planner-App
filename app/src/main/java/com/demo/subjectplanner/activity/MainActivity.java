@@ -22,8 +22,10 @@ import android.widget.Toast;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.datastore.generated.model.DaysEnum;
 import com.amplifyframework.datastore.generated.model.Event;
 import com.amplifyframework.datastore.generated.model.Grade;
+import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //setupLogin();
         setupHomePageRecyclerView();
+       // addSubject();
         
     }
 
@@ -206,19 +209,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-//    private void addSubject(){
-//        Subject newSubj = Subject.builder()
-//                .title("test")
-//                .build();
-//        Grade grade = Grade.builder()
-//                        .weight(10).build();
-//        Event event = Event.builder().name("new").build();
-//        Amplify.API.mutate(
-//                ModelMutation.create(newSubj),
-//                successResponse -> Log.i("MainActivity", "AddSubject.onCreate(): Subject added successfully"),//success response
-//                failureResponse -> Log.e("MainActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
-//        );
-//       // Snackbar.make(findViewById(R.id.M), "Task Saved", Snackbar.LENGTH_SHORT).show();
-//       // analytics(title,team); // record adding new task
-//    }
+    private void addSubject(){
+        Student student = Student.builder()
+                .name("saif")
+                .email("saif@yahoo.com")
+                .password("saif123").build();
+        Subject newSubj = Subject.builder()
+                .title("test")
+                .images(new ArrayList<>())
+                .files(new ArrayList<>())
+                .notes(new ArrayList<>())
+                .recordings(new ArrayList<>())
+                .startDate(new Temporal.DateTime(new Date(),0))
+                .endDate(new Temporal.DateTime(new Date(),0))
+                .numberOfAbsents(5)
+                .studentPerson(student)
+                .days(List.of(DaysEnum.FRIDAY))
+                .build();
+
+
+        Amplify.API.mutate(
+                ModelMutation.create(newSubj),
+                successResponse -> Log.i("MainActivity", "AddSubject.onCreate(): Subject added successfully"),//success response
+                failureResponse -> Log.e("MainActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
+        );
+
+    }
     }

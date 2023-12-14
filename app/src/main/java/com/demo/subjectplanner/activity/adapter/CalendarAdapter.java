@@ -1,5 +1,6 @@
 package com.demo.subjectplanner.activity.adapter;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demo.subjectplanner.R;
+import com.demo.subjectplanner.activity.DailyCalendarActivity;
+import com.demo.subjectplanner.activity.WeekViewActivity;
 import com.demo.subjectplanner.activity.model.CalendarUtils;
 import com.demo.subjectplanner.activity.model.Event;
 
@@ -18,6 +21,7 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>{
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
+
 
     public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener)
     {
@@ -77,6 +81,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>{
         } else {
             holder.parentView.setBackgroundResource(0);
         }
+
+
+
 
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
