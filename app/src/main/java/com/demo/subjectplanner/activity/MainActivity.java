@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-//        subjects.clear();
-        //subjects.addAll(subjectDatabase.subjectDao().findAll());
+
 
         adapter.notifyDataSetChanged();
     }
