@@ -33,6 +33,7 @@
             android:id="@+id/signUpToolbar"
             android:background="@android:color/transparent" />
         <TextView
+            android:id="@+id/subjectTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Subject Title"
