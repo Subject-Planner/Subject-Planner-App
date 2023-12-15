@@ -56,15 +56,14 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
 //        taskFragmentTextView.setText(position +" - "+ taskName);
 
        ;
-        View productViewHolder = holder.itemView;
+
         Button btn = (Button) holder.itemView.findViewById(R.id.cardViewButton);
         btn.setOnClickListener(view -> {
 
-            Intent goToOrderFormIntent = new Intent(callingActivity, SubjectDetailsActivity.class);
-            goToOrderFormIntent.putExtra(MainActivity.SUBJECT_TITLE_TAG,  subjectTitle);
-//            goToOrderFormIntent.putExtra(MainActivity.TASK_BODY_TAG,  taskBody);
-//            goToOrderFormIntent.putExtra(MainActivity.TASK_STATE_TAG, taskState);
-            callingActivity.startActivity(goToOrderFormIntent);
+            Intent goTOSubjectDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
+            goTOSubjectDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG,  subjectTitle);
+
+            callingActivity.startActivity(goTOSubjectDetails);
         });
 
     }
