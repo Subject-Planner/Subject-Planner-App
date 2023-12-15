@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.DailyCalendarActivity">
+    tools:context=".activity.DailyCalendarActivity"
+    android:background="#8ea5ca">
 
     <LinearLayout
         android:layout_width="match_parent"

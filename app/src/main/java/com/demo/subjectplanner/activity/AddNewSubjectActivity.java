@@ -7,13 +7,22 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -42,7 +51,7 @@ import java.util.Locale;
 
 public class AddNewSubjectActivity extends AppCompatActivity {
     //SubjectDatabase subjectDatabase;
-    Button pickStartTimeButton;
+    ImageView pickStartTimeButton;
     TextView startTimeView;
     MultiAutoCompleteTextView daysMultiAutoCompleteTextView;
     //
@@ -56,8 +65,10 @@ public class AddNewSubjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_subject);
         init();
+
         setDaysPicker();
         saveSubjectToDB();
+        new Handler().postDelayed(() -> animationLinearLayout(), 500); // Adjust the delay as needed
     }
 
     @Override
@@ -87,8 +98,8 @@ public class AddNewSubjectActivity extends AppCompatActivity {
     private void init() {
         /*Room Database*/
         //subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
         startTimePicker();
     }
 
@@ -148,7 +159,7 @@ public class AddNewSubjectActivity extends AppCompatActivity {
         String[] daysArray = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
 // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<DaysEnum> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, DaysEnum.values());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, DaysEnum.toStringList(List.of( DaysEnum.values())));
 
 // Set the adapter to the MultiAutoCompleteTextView
         daysMultiAutoCompleteTextView.setAdapter(adapter);
@@ -183,4 +194,66 @@ public class AddNewSubjectActivity extends AppCompatActivity {
                 failureResponse -> Log.e("AddNewSubjectActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
         );
     }
+    private void animationLinearLayout(){
+        int animationDuration = 1000;
+
+        // Get references to your LinearLayouts
+        LinearLayout titleLayout = findViewById(R.id.titleLayout);
+        LinearLayout timeLayout = findViewById(R.id.timeLayout);
+        LinearLayout absentsLayout = findViewById(R.id.absentsLayout);
+        LinearLayout daysLayout = findViewById(R.id.daysLayout);
+
+         //Slide animations
+        titleLayout.startAnimation(getSlideAnimation(0, 0, -titleLayout.getHeight(), 0, animationDuration));
+        timeLayout.startAnimation(getSlideAnimation(0, 0, -timeLayout.getHeight(), 0, animationDuration));
+        absentsLayout.startAnimation(getSlideAnimation(0, 0, -absentsLayout.getHeight(), 0, animationDuration));
+        daysLayout.startAnimation(getSlideAnimation(0, 0, -daysLayout.getHeight(), 0, animationDuration));
+
+//        rotateAnimation(titleLayout,1000);
+//     rotateAnimation(daysLayout,animationDuration);
+//        rotateAnimation(absentsLayout,animationDuration);
+//        rotateAnimation(timeLayout,animationDuration);
+
+//        bounceAnimation(timeLayout,animationDuration);
+//        bounceAnimation(titleLayout,animationDuration);
+//        bounceAnimation(daysLayout,animationDuration);
+//        bounceAnimation(absentsLayout,animationDuration);
+
+
+        scaleAnimation(timeLayout,animationDuration);
+        scaleAnimation(titleLayout,animationDuration);
+        scaleAnimation(daysLayout,animationDuration);
+        scaleAnimation(absentsLayout,animationDuration);
+
+
+    }
+    private Animation getSlideAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta, int duration) {
+        Animation animation = new TranslateAnimation(fromXDelta, toXDelta, fromYDelta, toYDelta);
+        animation.setDuration(duration);
+        return animation;
+    }
+    private void fadeInAnimation(View view, int duration) {
+        Animation animation = new AlphaAnimation(0f, 1f);
+        animation.setDuration(duration);
+        view.startAnimation(animation);
+    }
+
+    private void scaleAnimation(View view, int duration) {
+        Animation animation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(duration);
+        view.startAnimation(animation);
+    }
+    private void bounceAnimation(View view, int duration) {
+        Animation animation = new ScaleAnimation(1f, 1.2f, 1f, 1.2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(duration);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setRepeatCount(1);
+        view.startAnimation(animation);
+    }
+    private void rotateAnimation(View view, int duration) {
+        Animation animation = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        animation.setDuration(duration);
+        view.startAnimation(animation);
+    }
+
 }

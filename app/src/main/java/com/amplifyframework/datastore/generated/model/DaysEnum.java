@@ -31,5 +31,17 @@ public enum DaysEnum {
     }
     throw new IllegalArgumentException("Day unknown: " + value);
   }
+  public static List<String> toStringList(List<DaysEnum> daysEnums) {
+    List<String> daysStrings = new ArrayList<>();
 
+    for (DaysEnum dayEnum : daysEnums) {
+      daysStrings.add(toFirstLetterCapitalizedString(dayEnum.name()));
+    }
+
+    return daysStrings;
+  }
+
+  private static String toFirstLetterCapitalizedString(String value) {
+    return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
+  }
 }

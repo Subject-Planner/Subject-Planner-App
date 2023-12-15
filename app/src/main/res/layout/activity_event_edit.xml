@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,9 +13,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Name:"
-        android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/black"
+        android:textSize="20sp"
         tools:ignore="HardcodedText" />
 
     <EditText
@@ -35,9 +35,9 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Date"
-        android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/black"
+        android:textSize="20sp"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -47,22 +47,18 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:text="Time"
-        android:textSize="20sp"
         android:textAlignment="center"
         android:textColor="@color/black"
+        android:textSize="20sp"
         tools:ignore="HardcodedText" />
-
-    <Button
+    <ImageView
         android:id="@+id/chooseTimeButton_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="10dp"
-        android:text="Choose Time"
-        android:textSize="18sp"
+        android:layout_gravity="center"
         android:onClick="showTimePickerDialog"
-        tools:ignore="HardcodedText" />
-
+        app:srcCompat="@drawable/clockicon" />
     <Spinner
         android:id="@+id/subjectSpinner_calender"
         android:layout_width="wrap_content"
@@ -78,12 +74,14 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@null"
+        android:onClick="saveEventAction"
         android:text="Save"
         android:textColor="#0D47A1"
         android:textSize="20sp"
-        android:onClick="saveEventAction"
 
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
+
+
 
 </LinearLayout>

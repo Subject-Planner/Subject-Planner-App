@@ -1,5 +1,5 @@
 <!-- res/drawable/day_with_events_background.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <solid android:color="#FF0000" /> <!-- Red color -->
+    <solid android:color="#4566e0" /> <!-- Red color -->
 </shape>

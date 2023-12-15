@@ -9,27 +9,33 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.temporal.Temporal;
 //import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.Event;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.model.CalendarUtils;
-import com.demo.subjectplanner.activity.model.Event;
+//import com.demo.subjectplanner.activity.model.Event;
 
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -40,7 +46,7 @@ public class EventEditActivity extends AppCompatActivity {
     private TextView eventDateTV, eventTimeTV;
     Spinner subjectSpinner;
     String selectedSubjectString;
-    Button timeButton ;
+    ImageView timeButton ;
     private LocalTime time;
     //
     CompletableFuture<List<Subject>> subjectFuture = new CompletableFuture<>();
@@ -56,7 +62,7 @@ public class EventEditActivity extends AppCompatActivity {
         time = LocalTime.now();
         eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
        // eventTimeTV.setText("Time: " + CalendarUtils.formattedTime(time));
-timeButton=(Button) findViewById(R.id.chooseTimeButton_event);
+timeButton= findViewById(R.id.chooseTimeButton_event);
 timeButton.setOnClickListener(v->{
     showTimePickerDialog();
 });
@@ -70,15 +76,7 @@ timeButton.setOnClickListener(v->{
         subjectSpinner=findViewById(R.id.subjectSpinner_calender);
     }
 
-//    public void saveEventAction(View view)
-//    {
-//        String eventName = eventNameET.getText().toString();
-//        // selectedSubject = subjectSpinner.getSelectedItem().toString();
-//        //update event to have subject field
-//        Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
-//        Event.eventsList.add(newEvent);
-//        finish();
-//    }
+
 public void saveEventAction(View view)
 {
     String eventName = eventNameET.getText().toString();
@@ -91,14 +89,32 @@ public void saveEventAction(View view)
     } catch (ExecutionException ee) {
         Log.e("Event Activity", " ExecutionException while getting subjects");
     }
+// Assuming CalendarUtils.selectedDate is of type LocalDate
+    LocalDate selectedDate = CalendarUtils.selectedDate;
+// Use the Instant to create Temporal.DateTime
+    Date selectedDateAsDate = Date.from(selectedDate.atStartOfDay(ZoneOffset.UTC).toInstant());
 
+    // Combine date and time
+    LocalDateTime localDateTime = LocalDateTime.of(selectedDate, time);
+// Convert LocalDateTime to Date
+    Date timeAsDate = Date.from(localDateTime.atZone(ZoneOffset.UTC).toInstant());
     Subject selectedSub = subs.stream().filter(c -> c.getTitle().equals(selectedSubjectString)).findAny().orElseThrow(RuntimeException::new);
-//    Event newOne =Event.builder()
-//            .name(eventName)
+    Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getEvents().toString());
 
-//here take the sudent with his subjs and his events add them to the list, use for loop for the vents of the subject and build new event of the old class and add them to the list(oncreate)
-    Event newEvent = new Event(eventName, CalendarUtils.selectedDate, time);
-    Event.eventsList.add(newEvent);
+    Event newOne =Event.builder()
+            .name(eventName)
+            .date(new Temporal.DateTime(selectedDateAsDate,0))
+                    .time(new Temporal.DateTime(timeAsDate,0))
+                                    .subject(selectedSub)
+                                            .build();
+//    Amplify.API.mutate(
+//            ModelMutation.create(newOne),
+//            successResponse -> Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully"),//success response
+//            failureResponse -> Log.e("EventActivity", "SaveEvenTAction.onCreate(): faile d with this response" + failureResponse)// in case we have a failed response
+//    );
+//here no need to add the events to the lis. in calender they are fitched from the current std subjs and bokked on calender
+//    com.demo.subjectplanner.activity.model.Event newEvent = new com.demo.subjectplanner.activity.model.Event(eventName, CalendarUtils.selectedDate, time);
+//    com.demo.subjectplanner.activity.model.Event.eventsList.add(newEvent);
     finish();
 }
 

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.WeekViewActivity">
+    tools:context=".activity.WeekViewActivity"
+    android:background="#8ea5ca">
 
     <Button
         android:layout_width="wrap_content"
