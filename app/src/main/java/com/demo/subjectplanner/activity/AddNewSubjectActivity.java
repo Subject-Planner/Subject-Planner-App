@@ -208,7 +208,7 @@ public class AddNewSubjectActivity extends AppCompatActivity {
         timeLayout.startAnimation(getSlideAnimation(0, 0, -timeLayout.getHeight(), 0, animationDuration));
         absentsLayout.startAnimation(getSlideAnimation(0, 0, -absentsLayout.getHeight(), 0, animationDuration));
         daysLayout.startAnimation(getSlideAnimation(0, 0, -daysLayout.getHeight(), 0, animationDuration));
-
+//
 //        rotateAnimation(titleLayout,1000);
 //     rotateAnimation(daysLayout,animationDuration);
 //        rotateAnimation(absentsLayout,animationDuration);

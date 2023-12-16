@@ -7,114 +7,195 @@
     android:layout_height="match_parent"
     tools:context=".activity.AddGradeActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.MainActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header_background"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/subjectTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="Subject Planner"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/white_rectangle_background"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subjectTitle">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawablePadding="8dp"
+                    android:hint="search subjects"
+                    android:inputType="text"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="6dp"
+                    android:src="@drawable/search_icon_png"
+                    app:tint="@color/colorPrimary" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:id="@+id/subjsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#dde8ee"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:ignore="NotSibling">
+
+            <ImageView
+                android:id="@+id/imageView1010"
+                android:layout_width="53dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="76dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.066"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:srcCompat="@drawable/bookicon" />
+
+            <Spinner
+                android:id="@+id/subjects_category_spinner"
+                android:layout_width="268dp"
+                android:layout_height="55dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/grade_date_button"
+            android:layout_width="79dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/save_grade_imageview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.081"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/calendericon" />
+
+        <LinearLayout
+        android:id="@+id/gradeweightLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lavender"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:logo="@drawable/logo"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Subject Planner"
-        app:titleMarginStart="30dp"></androidx.appcompat.widget.Toolbar>
-
-    <Spinner
-        android:id="@+id/subjects_category_spinner"
-        android:layout_width="268dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="170dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="76dp"
-        android:text="Subject"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <Button
-        android:id="@+id/grade_date_button"
-        android:layout_width="155dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="32dp"
-        android:text="Date"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.062"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subjects_category_spinner" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="138dp"
-        android:layout_height="44dp"
         android:layout_marginTop="40dp"
-        android:text="Weight"
-        android:textSize="24sp"
+        android:background="#dde8ee"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grade_date_button" />
+        app:layout_constraintTop_toBottomOf="@+id/subjsLayout"
+        tools:ignore="NotSibling">
 
-    <EditText
-        android:id="@+id/grade_weight_addgrade"
-        android:layout_width="84dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <ImageView
+            android:id="@+id/aplusimage"
+            android:layout_width="86dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="28dp"
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="106dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="28dp"
-        android:text="Term"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grade_weight_addgrade" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/grade_date_button"
+            app:srcCompat="@drawable/gradeicon" />
 
-    <EditText
-        android:id="@+id/term_grade_addgrade"
-        android:layout_width="218dp"
-        android:layout_height="54dp"
-        android:ems="10"
-        android:hint="1st term"
-        android:inputType="text"
-        android:textSize="24sp"
+        <EditText
+            android:id="@+id/grade_weight_addgrade"
+            android:layout_width="84dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="36dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/aplusimage"
+            tools:layout_editor_absoluteY="367dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/termLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#dde8ee"
+        app:layout_constraintBottom_toTopOf="@+id/grade_date_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/gradeweightLayout"
+        app:layout_constraintVertical_bias="0.611"
+        tools:ignore="NotSibling">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="106dp"
+            android:layout_height="47dp"
+            android:text="Term"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/term_grade_addgrade"
+            android:layout_width="218dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="40dp"
+            android:ems="10"
+            android:hint="1st term"
+            android:inputType="text"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="428dp" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/save_grade_imageview"
         android:layout_width="91dp"
         android:layout_height="74dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/circular_image_view"
         app:circularflow_radiusInDP="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/term_grade_addgrade"
-        app:layout_constraintVertical_bias="0.515"
         app:srcCompat="@drawable/baseline_add_24" />
 
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

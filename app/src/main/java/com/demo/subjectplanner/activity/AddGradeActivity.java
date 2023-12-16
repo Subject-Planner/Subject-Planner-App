@@ -54,14 +54,14 @@ public class AddGradeActivity extends AppCompatActivity {
     }
     private void init() {
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
     }
 
     private void collectGradeInfo(){
         // collect the associated date
-        Button pickGradeDate= findViewById(R.id.grade_date_button);
+        ImageView pickGradeDate= findViewById(R.id.grade_date_button);
         pickGradeDate.setOnClickListener(view -> {
             openDialog();
         });
