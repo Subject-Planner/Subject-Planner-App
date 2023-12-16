@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
 
     public static final String TAG = "SubjectActivity";
+    public static final String NUMBER_OF_ABSENTS = "numberOfAbsents";
     public static final String SUBJECT_TITLE_TAG = "subjectTitle";
+    public static final String SUBJECT_ID_TAG ="subjectId" ;
     List<Subject> subjects=null;
     HomePageRecyclerViewAdapter adapter;
     @SuppressLint("MissingInflatedId")

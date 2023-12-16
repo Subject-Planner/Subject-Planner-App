@@ -91,6 +91,30 @@
                 android:text="notes"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"></TextView>
+                <TextView
+                    android:id="@+id/notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subject Title"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginStart="70sp"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="15"
+                    android:shadowColor="@android:color/black"
+                    />
+
+            <TextView
+                android:id="@+id/filesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16sp"
+                android:background="#80000000"
+                android:text="files"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"></TextView>
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -110,23 +134,28 @@
 
                 </ScrollView>
             <TextView
-                android:id="@+id/filesTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16sp"
-                android:background="#80000000"
-                android:text="files"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"></TextView>
-            <TextView
                 android:id="@+id/daysTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16sp"
                 android:background="#80000000"
-                android:text="days"
+                android:text="Number of Absents"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"></TextView>
+                <TextView
+                    android:id="@+id/numberOfAbsents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subject Title"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginStart="70sp"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="15"
+                    android:shadowColor="@android:color/black"
+                    />
             <TextView
                 android:id="@+id/gradeTextView"
                 android:layout_width="wrap_content"
@@ -136,6 +165,43 @@
                 android:text="days"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"></TextView>
+                <TextView
+                    android:id="@+id/days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subject Title"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginStart="70sp"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="15"
+                    android:shadowColor="@android:color/black"
+                    />
+                <TextView
+                    android:id="@+id/gradeTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16sp"
+                    android:background="#80000000"
+                    android:text="Events"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"></TextView>
+                <TextView
+                    android:id="@+id/events"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subject Title"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginStart="70sp"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="15"
+                    android:shadowColor="@android:color/black"
+                    />
 
             </LinearLayout>
             </ScrollView>
