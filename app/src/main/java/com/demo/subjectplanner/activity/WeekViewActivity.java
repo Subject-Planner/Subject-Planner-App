@@ -76,6 +76,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setWeekView();
     }
 
+
     @Override
     protected void onResume()
     {

@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
+import com.amplifyframework.datastore.generated.model.Grade;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 
@@ -21,17 +26,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class AddGradeActivity extends AppCompatActivity {
-   // SubjectDatabase subjectDatabase;
-    List<Subject> subjects ;
     String selectedSubject;
-    String gradeWeight;
-    String gradeTerm;
-    Subject subject;
+    CompletableFuture<List<Subject>> subjectFuture = new CompletableFuture<>();
 
-    //
+    
     Spinner subjectSpinner;
     Date selectedDate;
     EditText gradeWeightEditText;
@@ -45,32 +48,23 @@ public class AddGradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_grade);
         init();
-        setUpSubjectsSpinner();
+        setupSubjectSpinner();
         collectGradeInfo();
 
     }
     private void init() {
-        /*Room Database*/
-       // subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-       // subjects= subjectDatabase.subjectDao().findAll();
+
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
     }
-    private void setUpSubjectsSpinner(){
-       // Log.i("AddGradeActivity", "subjects from db: "+subjects.toString()+" titles: "+ subjects.stream().map(s->s.getTitle()).collect(Collectors.toList()));
-        subjectSpinner = findViewById(R.id.subjects_category_spinner);
-        subjectSpinner.setAdapter(new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item,
-                subjects.stream().map(s->s.getTitle()).collect(Collectors.toList())));
-    }
+
     private void collectGradeInfo(){
         // collect the associated date
-        Button pickGradeDate= findViewById(R.id.grade_date_button);
+        ImageView pickGradeDate= findViewById(R.id.grade_date_button);
         pickGradeDate.setOnClickListener(view -> {
             openDialog();
         });
-
 
 
         //save the grade
@@ -78,8 +72,15 @@ public class AddGradeActivity extends AppCompatActivity {
         saveGradeButton.setOnClickListener(view -> {
             //collect the associated subject
             selectedSubject = subjectSpinner.getSelectedItem().toString();
-            // here you should find the subject based on its name after getting a list of them using amplify and completableFuture
-          //  subject=subjectDatabase.subjectDao().findByTitle(selectedSubject);
+            List<Subject> subs = null;
+            try {
+                subs = subjectFuture.get();
+            } catch (InterruptedException ie) {
+                Log.e("Grade Activity", " InterruptedException while getting subjects");
+            } catch (ExecutionException ee) {
+                Log.e("Grade Activity", " ExecutionException while getting subjects");
+            }
+            Subject selectedSub = subs.stream().filter(c -> c.getTitle().equals(selectedSubject)).findAny().orElseThrow(RuntimeException::new);
 
             //collect the weight
             gradeWeightEditText= findViewById(R.id.grade_weight_addgrade);
@@ -88,10 +89,20 @@ public class AddGradeActivity extends AppCompatActivity {
             //collect the term
             gradeTermEditText= findViewById(R.id.term_grade_addgrade);
             String gradeTerm = !gradeTermEditText.getText().toString().isEmpty()  ? gradeTermEditText.getText().toString().trim() : "";
-           // Log.i("AddGradeActivity", "Subject: "+selectedSubject+" selected date: "+selectedDate+" selected weight:  "+gradeWeight+" selected term :  "+gradeTerm);
-
-          //  subjectDatabase.subjectDao().updateGradeByTitle(Integer.valueOf(gradeWeight),selectedSubject);
-            Snackbar.make(findViewById(R.id.addGradeActivityLayout), "Grade added", Snackbar.LENGTH_SHORT).show();
+            Log.i("AddGradeActivity", "Subject: "+selectedSub.toString()+" selected date: "+selectedDate+" selected weight:  "+gradeWeight+" selected term :  "+gradeTerm);
+            Log.i("AddGradeActivity", "subject grades: "+selectedSub.getGrades().toString());
+            Grade newGrade = Grade.builder()
+                    .date(new Temporal.DateTime(selectedDate,0))
+                            .term(gradeTerm)
+                                    .weight(Integer.valueOf(gradeWeight))
+                                            .subjectObject(selectedSub)
+                                                    .build();
+            Amplify.API.mutate(
+                    ModelMutation.create(newGrade),
+                    successResponse -> Log.i("Add Grade Activity", " Grade added successfully"),//success response
+                    failureResponse -> Log.e("Add Grade Activity", "Grade failed with this response" + failureResponse)// in case we have a failed response
+            );
+            Snackbar.make(findViewById(R.id.addGradeActivityLayout), "Grade Added", Snackbar.LENGTH_SHORT).show();
         });
 
     }
@@ -107,5 +118,35 @@ public class AddGradeActivity extends AppCompatActivity {
             selectedDate = calendar1.getTime();
         }, currentYear, currentMonth, currentDay);
         dialog.show();
+    }
+    private void setupSubjectSpinner(){  //here I get the subject using future complete and pass them to the spinner
+        subjectSpinner = findViewById(R.id.subjects_category_spinner);
+        Amplify.API.query(
+                ModelQuery.list(Subject.class),
+                success ->
+                {
+                    Log.i("Grade activity", "Read Subjects Successfully");
+                    ArrayList<String> subjectNames = new ArrayList<>();
+                    ArrayList<Subject> subjects = new ArrayList<>();
+                    for (Subject subject : success.getData()) {
+                        subjects.add(subject);
+                        subjectNames.add(subject.getTitle());
+                    }
+                    subjectFuture.complete(subjects);
+
+                    runOnUiThread(() ->
+                    {
+                        subjectSpinner.setAdapter(new ArrayAdapter<>(
+                                this,
+                                (android.R.layout.simple_spinner_item),
+                                subjectNames
+                        ));
+                    });
+                },
+                failure -> {
+                    subjectFuture.complete(null);
+                    Log.i("Grade Activity", "Did not read Subjects successfully");
+                }
+        );
     }
 }
