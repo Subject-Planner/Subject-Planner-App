@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.DaysEnum;
@@ -45,8 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
 
-
-    List<Subject> subjects;
+    public static final String TAG = "SubjectActivity";
+    public static final String SUBJECT_TITLE_TAG = "subjectTitle";
+    List<Subject> subjects=null;
     HomePageRecyclerViewAdapter adapter;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,7 +56,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        subjects=new ArrayList<>();
+        Amplify.API.query(
+                ModelQuery.list(Subject.class),
+                success -> {
+                    Log.i(TAG, "Updated Tasks Successfully!");
+                    subjects.clear();
+                    for(Subject databaseTask : success.getData()){
+                        subjects.add(databaseTask);
+                    }
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                },
 
+
+                failure -> Log.i(TAG, "failed with this response: ")
+        );
         init();
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);

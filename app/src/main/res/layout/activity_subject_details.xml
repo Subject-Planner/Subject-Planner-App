@@ -33,6 +33,7 @@
             android:id="@+id/signUpToolbar"
             android:background="@android:color/transparent" />
         <TextView
+            android:id="@+id/subjectTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Subject Title"
@@ -90,6 +91,24 @@
                 android:text="notes"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"></TextView>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp">
+
+                    <!-- Use a RecyclerView instead of a LinearLayout -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:clipToPadding="false"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:scrollbars="horizontal" />
+
+                </ScrollView>
             <TextView
                 android:id="@+id/filesTextView"
                 android:layout_width="wrap_content"
