@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "login_Activity_TAG";
-    public static final String ID_TAG = "email";
+    public static final String ID_TAG = "userId";
     Button loginButton;
     List<Student> users = new ArrayList<>();
     SharedPreferences sharedPreferences;
@@ -57,7 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLoginButton() {
-        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+//        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(b -> {

@@ -50,13 +50,17 @@
 
             <TextView
                 android:id="@+id/textViewDescCards"
-                android:layout_width="0dp"
+                android:layout_width="224dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:background="@drawable/custom_button"
+                android:padding="4dp"
                 android:text="Sample Card Descriptions"
+                android:textAlignment="center"
                 android:textSize="18sp"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -64,15 +68,6 @@
                 app:layout_constraintVertical_bias="0.07999998" />
 
             <!-- Add a Button to the ConstraintLayout -->
-            <Button
-                android:id="@+id/cardViewButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Details"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDescCards" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

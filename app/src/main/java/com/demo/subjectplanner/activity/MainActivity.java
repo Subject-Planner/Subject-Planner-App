@@ -1,5 +1,7 @@
 package com.demo.subjectplanner.activity;
 
+import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,71 +44,35 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-        public static final String DATABASE_TAG="subjectDatabase";
-  //  SubjectDatabase subjectDatabase;
+
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-
+    SharedPreferences sharedPreferences;
     public static final String TAG = "SubjectActivity";
     public static final String NUMBER_OF_ABSENTS = "numberOfAbsents";
     public static final String SUBJECT_TITLE_TAG = "subjectTitle";
+    List<Subject> subjects;
+    Student loggedInStudent;
     public static final String SUBJECT_ID_TAG ="subjectId" ;
-    List<Subject> subjects=null;
     HomePageRecyclerViewAdapter adapter;
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        subjects=new ArrayList<>();
-        Amplify.API.query(
-                ModelQuery.list(Subject.class),
-                success -> {
-                    Log.i(TAG, "Updated Tasks Successfully!");
-                    subjects.clear();
-                    for(Subject databaseTask : success.getData()){
-                        subjects.add(databaseTask);
-                    }
-                    runOnUiThread(() -> {
-                        adapter.notifyDataSetChanged();
-                    });
-                },
-
-
-                failure -> Log.i(TAG, "failed with this response: ")
-        );
         init();
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
 
-        setSupportActionBar(toolbar);
-
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this , drawerLayout , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        /*Room Database*/
-       // subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-        //setupLogin();
         setupHomePageRecyclerView();
-       // addSubject();
-        
+        getLoggedUserSubjects();
+addNewSubjectButton();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+
     @Override
     protected void onResume() {
         super.onResume();
-
 
         adapter.notifyDataSetChanged();
     }
@@ -154,45 +122,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent goToProfile = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(goToProfile);
         }
+        if (id == R.id.nav_logout) {
+            // Handle the Grades item click
+            Toast.makeText(this, "log out", Toast.LENGTH_LONG).show();
+            // Clear user-related data from SharedPreferences
+            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
+            preferenceEditor.remove(ID_TAG);
+            preferenceEditor.apply();
 
-        // Add more cases for other items if needed...
+            // Navigate to the login screen
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
 
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id==R.id.Agenda){
-            Toast.makeText(this,"go to Calendar",Toast.LENGTH_LONG).show();
-        }
-        if(id==R.id.Recordings){
-            Toast.makeText(this,"go to Recordings",Toast.LENGTH_LONG).show();
-        }
-        if(id==R.id.Calendar){
-            Toast.makeText(this,"go to Calendar",Toast.LENGTH_LONG).show();
-            Intent goToCalender= new Intent(MainActivity.this,Calendar.class);
-            startActivity(goToCalender);
-        }
-        if(id==R.id.Grades){
-            Toast.makeText(this,"go to Grades",Toast.LENGTH_LONG).show();
-            Intent goToGrades= new Intent(MainActivity.this, AddGradeActivity.class);
-            startActivity(goToGrades);
-        }
-        return true;
-    }
 
-//    void setupLogin(){
-//        TextView login = findViewById(R.id.loginTextView);
-//        login.setOnClickListener((V -> {
-//
-//
-//            Intent goTologinIntent = new Intent(MainActivity.this, LoginActivity.class);
-//
-//            startActivity(goTologinIntent);
-//        }));
-//}
 
 
     public void setupHomePageRecyclerView() {
@@ -202,56 +150,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homePageRecyclerView.setLayoutManager(layoutManager);
 
         subjects = new ArrayList<>();
-//        Subject subject = new Subject("Arabic","","","","",new Date(),new ArrayList<>(),0,5);
-//        subject.setTitle("English english english ");
-//        Subject subject2 = new Subject();
-//        subject2.setTitle("Life Skills");
-//        Subject subject3 = new Subject();
-//        subject3.setTitle("Java");
-//        subjects.add(subject);
-//        subjects.add(subject2);
-//        subjects.add(subject);
-       // Log.i("MainActivity", "subjects: "+ subjects.toString()+"subject"+subjects.get(0).toString());
 
-        adapter = new HomePageRecyclerViewAdapter(subjects ,this);
+        adapter = new HomePageRecyclerViewAdapter( subjects,this);
         homePageRecyclerView.setAdapter(adapter);
     }
     private void init() {
-        /*Room Database*/
-        //subjectDatabase = DatabaseSingleton.getInstance(getApplicationContext());
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
 
-//        add new subject
-        ImageButton addNewSubject= findViewById(R.id.add_subject_button);
+        setSupportActionBar(toolbar);
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this , drawerLayout , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
+    }
+    private void addNewSubjectButton() {
+        ImageButton addNewSubject = findViewById(R.id.add_subject_button);
+        Log.i(TAG, "logged user: " + loggedInStudent);
         addNewSubject.setOnClickListener(view -> {
-            Intent goToAddNewSubject=new Intent( MainActivity.this,AddNewSubjectActivity.class);
-            startActivity(goToAddNewSubject);
+            if (loggedInStudent == null) {
+                Log.i(TAG, "User is null, not starting AddNewSubjectActivity");
+                Snackbar.make(findViewById(R.id.drawer_layout), "Login to add subjects", Snackbar.LENGTH_SHORT).show();
+            } else {
+                Log.i(TAG, "Starting AddNewSubjectActivity");
+                Intent goToAddNewSubject = new Intent(MainActivity.this, AddNewSubjectActivity.class);
+                startActivity(goToAddNewSubject);
+            }
         });
     }
 
-    private void addSubject(){
-        Student student = Student.builder()
-                .name("saif")
-                .email("saif@yahoo.com")
-                .password("saif123").build();
-        Subject newSubj = Subject.builder()
-                .title("test")
-                .images(new ArrayList<>())
-                .files(new ArrayList<>())
-                .notes(new ArrayList<>())
-                .recordings(new ArrayList<>())
-                .startDate(new Temporal.DateTime(new Date(),0))
-                .endDate(new Temporal.DateTime(new Date(),0))
-                .numberOfAbsents(5)
-                .studentPerson(student)
-                .days(List.of(DaysEnum.FRIDAY))
-                .build();
+private void getLoggedUserSubjects(){
+    //subjects=new ArrayList<>();
+    String loggedUserId= sharedPreferences.getString(ID_TAG,"");
+    Amplify.API.query(
+            ModelQuery.get(Student.class, loggedUserId),
+            response -> {
+                loggedInStudent = response.getData();
+                if (loggedInStudent != null) {
+                    subjects.clear(); // Clear the existing list before adding new subjects
 
+                    subjects.addAll(loggedInStudent.getSubjects());
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
 
-        Amplify.API.mutate(
-                ModelMutation.create(newSubj),
-                successResponse -> Log.i("MainActivity", "AddSubject.onCreate(): Subject added successfully"),//success response
-                failureResponse -> Log.e("MainActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
-        );
+                } else {
+                    Log.e(TAG, "User Not Found");
+                }
+            },
+            error -> {
+                Log.e(TAG, "Error fetching User by ID", error);
+            }
+    );
+}
 
-    }
     }
