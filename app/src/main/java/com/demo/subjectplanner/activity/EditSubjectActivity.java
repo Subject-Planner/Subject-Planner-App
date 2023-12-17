@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.demo.subjectplanner.R;
+import com.demo.subjectplanner.activity.adapter.EditRecordsRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.adapter.RecordsRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class EditSubjectActivity extends AppCompatActivity {
 
         RecyclerView recordsrecyclerView = findViewById(R.id.EditRecordsRecyclerView);
         recordsrecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        RecordsRecyclerViewAdapter recordsRecyclerViewAdapter = new RecordsRecyclerViewAdapter(recordList, this);
+        EditRecordsRecyclerViewAdapter recordsRecyclerViewAdapter = new EditRecordsRecyclerViewAdapter(recordList, this);
         recordsrecyclerView.setAdapter(recordsRecyclerViewAdapter);
 
 
