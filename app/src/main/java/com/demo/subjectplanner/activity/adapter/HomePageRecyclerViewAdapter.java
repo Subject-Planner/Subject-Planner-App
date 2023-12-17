@@ -39,30 +39,30 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
     }
 
       public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
-        TextView subjectTitleTextView = holder.itemView.findViewById(R.id.textTitle);
-        TextView subjectDescTextView = holder.itemView.findViewById(R.id.textViewDescCards);
+          TextView subjectTitleTextView = holder.itemView.findViewById(R.id.textTitle);
+          TextView subjectDescTextView = holder.itemView.findViewById(R.id.textViewDescCards);
 
-        Subject subject = subjects.get(position);
+          Subject subject = subjects.get(position);
 
-        subjectTitleTextView.setText(subject.getTitle());
+          subjectTitleTextView.setText(subject.getTitle());
 
-        String subjectTitle = subjects.get(position).getTitle();
-        List<String> subjectDays= DaysEnum.toStringList(subject.getDays());
-        StringBuilder result = new StringBuilder("Days: " );
-        for (String str : subjectDays) {
-            result.append(str.substring(0, 1).toUpperCase() + str.substring(1,2).toLowerCase()+" ");
-        }
-        result.append("\n Time: "+timeModify(subject.getStartDate().toString().substring(45,50)));
-        subjectDescTextView.setText(result.toString());
-View subjectView = holder.itemView;
-        subjectView.setOnClickListener(view -> {
-            Intent goToSubDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
-            goToSubDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG,  subjectTitle);
+          String subjectTitle = subjects.get(position).getTitle();
+          List<String> subjectDays = DaysEnum.toStringList(subject.getDays());
+          StringBuilder result = new StringBuilder("Days: ");
+          for (String str : subjectDays) {
+              result.append(str.substring(0, 1).toUpperCase() + str.substring(1, 2).toLowerCase() + " ");
+          }
+          result.append("\n Time: " + timeModify(subject.getStartDate().toString().substring(45, 50)));
+          subjectDescTextView.setText(result.toString());
+          View subjectView = holder.itemView;
+          subjectView.setOnClickListener(view -> {
+              Intent goToSubDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
+              goToSubDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG, subjectTitle);
 
-            callingActivity.startActivity(goToSubDetails);
-        });
+              callingActivity.startActivity(goToSubDetails);
+          });
 
-
+      }
     private String timeModify(String inputTimeString){  //increase time by 3 hours when getting it from aws
         // Parse the input time string
         LocalTime inputTime = LocalTime.parse(inputTimeString, DateTimeFormatter.ofPattern("HH:mm"));
