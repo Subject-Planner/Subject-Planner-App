@@ -1,5 +1,6 @@
 package com.demo.subjectplanner.activity;
 
+import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
 import static com.demo.subjectplanner.activity.model.CalendarUtils.daysInMonthArray;
 import static com.demo.subjectplanner.activity.model.CalendarUtils.monthYearFromDate;
 
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,7 +19,9 @@ import android.widget.TextView;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.CalendarAdapter;
@@ -40,6 +45,8 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
 
     //
     CompletableFuture<List<Event>> retrievedEvents = new CompletableFuture<>();
+    Student loggedInStudent;
+    SharedPreferences sharedPreferences;
 
 
 
@@ -48,11 +55,12 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        getLoggedUser();
+
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
-        getEvents();
-        setupSubjectActivities();
+
     }
 
     private void initWidgets()
@@ -100,48 +108,70 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
     }
 
     private void setupSubjectActivities(){
-        List<Event> eve = null;
+        Log.i("Calendar Activity", "setupSubjectActivities method called, user:" +loggedInStudent);
+        List<Event> eve =new ArrayList<>();
+        if (loggedInStudent!=null){
+
         try {
             eve = retrievedEvents.get();
         } catch (InterruptedException ie) {
-            Log.e("Event Activity", " InterruptedException while getting events");
+            Log.e("Calendar Activity", " InterruptedException while getting events");
         } catch (ExecutionException ee) {
-            Log.e("Event Activity", " ExecutionException while getting events");
+            Log.e("Calendar Activity", " ExecutionException while getting events");
         }
-        for(Event event:eve){
-//            Instant instant = event.getDate().toDate().toInstant();
-//
-//            LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
-//            LocalTime time1 = localDateTime.toLocalTime();
-//            LocalTime time2 = instant.atZone(ZoneOffset.UTC).toLocalTime();
-            LocalTime time3 = LocalTime.of(Integer.valueOf(event.getTime().toString().substring(45,47)),Integer.valueOf(event.getTime().toString().substring(48,50)));
-            Log.i("Event Activity", " retrieved events: "+event.getName()+ " time mins "+event.getTime().toString().substring(48,50)+"  hrs "+event.getTime().toString().substring(45,47));
+            Log.i("Calendar Activity", "setupSubjectActivities method called, events:" +eve.toString());
 
-            com.demo.subjectplanner.activity.model.Event newEvent = new com.demo.subjectplanner.activity.model.Event(event.getName(), CalendarUtils.selectedDate, time3);
+            for(Event event:eve){
+                Log.i("Calendar Activity", "setupSubjectActivities method called, inside loop:" +eve.toString());
+
+                LocalTime time3 = LocalTime.of(Integer.valueOf(event.getTime().toString().substring(45,47)),Integer.valueOf(event.getTime().toString().substring(48,50)));
+            Log.i("Calender Activity", " retrieved events: "+event.getName()+ " time mins "+event.getTime().toString().substring(48,50)+"  hrs "+event.getTime().toString().substring(45,47)+" date "+event.getTime().toString());
+            Temporal.DateTime dateTime = event.getTime();
+
+// Convert DateTime to Instant
+            Instant instant = dateTime.toDate().toInstant();
+
+// Convert Instant to LocalDate
+            LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+            Log.i("Calender Activity","parsed date: "+localDate.toString());
+            com.demo.subjectplanner.activity.model.Event newEvent = new com.demo.subjectplanner.activity.model.Event(event.getName(), localDate, time3);
             com.demo.subjectplanner.activity.model.Event.eventsList.add(newEvent);
-        }
-        // use intent to resieve it here with loged in user and loop through his subjs and events to do cron job
-//        com.demo.subjectplanner.activity.model.Event newEvent = new com.demo.subjectplanner.activity.model.Event(eventName, CalendarUtils.selectedDate, time);
-//        com.demo.subjectplanner.activity.model.Event.eventsList.add(newEvent);
+        }}
+
     }
     private void getEvents(){
+        Log.i("Calendar Activity", "get events method called, user:" +loggedInStudent);
+
+        if(loggedInStudent!=null){
+        List<Subject>loggedUserSubjects= loggedInStudent.getSubjects();
+        ArrayList<String> eventNames = new ArrayList<>();
+        ArrayList<Event> events = new ArrayList<>();
+        for(Subject sub:loggedUserSubjects){
+        for (Event event : sub.getEvents()) {
+            events.add(event);
+            eventNames.add(event.getName());
+        }}
+        retrievedEvents.complete(events);
+    }}
+
+    private void getLoggedUser(){
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
+        String loggedUserId= sharedPreferences.getString(ID_TAG,"");
         Amplify.API.query(
-                ModelQuery.list(Event.class),
-                success ->
-                {
-                    Log.i("Calendar activity", "Read events Successfully");
-                    ArrayList<String> eventNames = new ArrayList<>();
-                    ArrayList<Event> events = new ArrayList<>();
-                    for (Event event : success.getData()) {
-                        events.add(event);
-                        eventNames.add(event.getName());
+                ModelQuery.get(Student.class, loggedUserId),
+                response -> {
+                    loggedInStudent = response.getData();
+                    if (loggedInStudent != null) {
+
+getEvents();
+                        setupSubjectActivities();
+                    } else {
+                        Log.e("EditEventActivity", "User Not Found");
                     }
-retrievedEvents.complete(events);
-
                 },
-                failure -> {
-
-                    Log.i("Calendar Activity", "Did not read events successfully");
+                error -> {
+                    Log.e("EditEventActivity", "Error fetching User by ID", error);
                 }
         );
     }

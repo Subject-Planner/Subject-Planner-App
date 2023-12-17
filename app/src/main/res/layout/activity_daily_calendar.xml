@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/daily_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.DailyCalendarActivity"
-    android:background="#8ea5ca">
+    android:background="#8ea5ca"
+    android:orientation="vertical"
+    tools:context=".activity.DailyCalendarActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
         <Button
             android:layout_width="0dp"
@@ -28,12 +29,12 @@
         <TextView
             android:id="@+id/monthDayText"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:text="Feb 2021"
-            android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"
+            android:textSize="20sp"
             tools:ignore="HardcodedText" />
 
         <Button
@@ -77,6 +78,6 @@
         android:id="@+id/hourListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"/>
+        android:layout_weight="5" />
 
 </LinearLayout>

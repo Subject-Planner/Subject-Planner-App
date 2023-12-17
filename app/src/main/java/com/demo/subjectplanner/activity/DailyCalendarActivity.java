@@ -1,20 +1,28 @@
 package com.demo.subjectplanner.activity;
 
+import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
 import static com.demo.subjectplanner.activity.model.CalendarUtils.selectedDate;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Student;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HourAdapter;
 import com.demo.subjectplanner.activity.model.CalendarUtils;
 import com.demo.subjectplanner.activity.model.Event;
 import com.demo.subjectplanner.activity.model.HourEvent;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalTime;
 import java.time.format.TextStyle;
@@ -26,12 +34,15 @@ public class DailyCalendarActivity extends AppCompatActivity {
     private TextView monthDayText;
     private TextView dayOfWeekTV;
     private ListView hourListView;
+    SharedPreferences sharedPreferences;
+    Student loggedInStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_calendar);
+        getLoggedUser();
         initWidgets();
     }
 
@@ -92,7 +103,31 @@ public class DailyCalendarActivity extends AppCompatActivity {
     }
 
     public void newEventAction(View view)
+
     {
-        startActivity(new Intent(this, EventEditActivity.class));
+        if(loggedInStudent!=null){
+
+            startActivity(new Intent(this, EventEditActivity.class));}
+        else
+            Snackbar.make(findViewById(R.id.daily_layout), "Login to add events", Snackbar.LENGTH_SHORT).show();
+
+    }
+    private void getLoggedUser(){
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        String loggedUserId= sharedPreferences.getString(ID_TAG,"");
+        Amplify.API.query(
+                ModelQuery.get(Student.class, loggedUserId),
+                response -> {
+                    loggedInStudent = response.getData();
+                    if (loggedInStudent != null) {
+
+                    } else {
+                        Log.e("EditEventActivity", "User Not Found");
+                    }
+                },
+                error -> {
+                    Log.e("EditEventActivity", "Error fetching User by ID", error);
+                }
+        );
     }
 }

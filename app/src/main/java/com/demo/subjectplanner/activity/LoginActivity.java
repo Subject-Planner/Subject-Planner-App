@@ -23,7 +23,7 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "login_Activity_TAG";
-    public static final String ID_TAG = "email";
+    public static final String ID_TAG = "userId";
     Button loginButton;
     List<Student> users = new ArrayList<>();
     SharedPreferences sharedPreferences;
@@ -58,7 +58,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLoginButton() {
+
+//        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(b -> {
             String loginEmail = ((EditText) findViewById(R.id.loginEmailEditText)).getText().toString();
