@@ -1,7 +1,6 @@
 package com.demo.subjectplanner.activity;
 import static com.demo.subjectplanner.activity.MainActivity.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
@@ -96,6 +100,8 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         addNote();
         addFile();
         addEvent();
+
+//        createPopUpWindow();
     }
 
     private void addEvent() {
@@ -109,34 +115,122 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     }
 
     private void addFile() {
-        Button addFileButton=(Button) findViewById(R.id.addFileButton);
+        Button addFileButton = findViewById(R.id.addFileButton);
         addFileButton.setOnClickListener(view -> {
 
-//            Intent goToAddFileIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
-//            goToAddFileIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
-//            startActivity(goToAddFileIntent);
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            // Inflate the popup_addfiles.xml
+            View popupView = inflater.inflate(R.layout.popup_addfiles, null);
+
+            // Create a new instance of PopupWindow
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            // Set background drawable to allow dismissal when clicking outside the popup window
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
+
+            // Set focusable true to enable touch events outside of the popup window
+            popupWindow.setFocusable(true);
+
+            // Find the "Cancel" button in the popup layout
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonFilePopup); // Replace with the actual ID of your "Cancel" button
+
+            // Set an OnClickListener for the "Cancel" button to dismiss the popup
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
+                }
+            });
+
+            // Show the popup window
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
     }
+
 
     private void addNote() {
-        Button addNoteButton=(Button) findViewById(R.id.addNoteButton);
+        Button addNoteButton = findViewById(R.id.addNoteButton);
         addNoteButton.setOnClickListener(view -> {
 
-//            Intent goToAddNoteIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
-//            goToAddNoteIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
-//            startActivity(goToAddNoteIntent);
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            // Inflate the popup_addnotes.xml
+            View popupView = inflater.inflate(R.layout.popup_addnotes, null);
+
+            // Create a new instance of PopupWindow
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            // Set background drawable to allow dismissal when clicking outside the popup window
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
+
+            // Set focusable true to enable touch events outside of the popup window
+            popupWindow.setFocusable(true);
+
+            // Find the "Cancel" button in the popup layout
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonNotePopup); // Replace with the actual ID of your "Cancel" button
+
+            // Set an OnClickListener for the "Cancel" button to dismiss the popup
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
+                }
+            });
+
+            // Show the popup window
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
     }
+
 
     private void addRecord() {
-        Button addRecordButton=(Button) findViewById(R.id.addRecordButton);
+        Button addRecordButton = findViewById(R.id.addRecordButton);
         addRecordButton.setOnClickListener(view -> {
 
-//            Intent goToAddRecordIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
-//            goToAddRecordIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
-//            startActivity(goToAddRecordIntent);
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+            // Inflate the popup_layout.xml
+            View popupView = inflater.inflate(R.layout.popup_addrecords, null);
+
+            // Create a new instance of PopupWindow
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            // Set background drawable to allow dismissal when clicking outside the popup window
+            popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
+
+            // Set focusable true to enable touch events outside of the popup window
+            popupWindow.setFocusable(true);
+
+            // Find the "Cancel" button in the popup layout
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonRecordPopup); // Replace with the actual ID of your "Cancel" button
+
+            // Set an OnClickListener for the "Cancel" button to dismiss the popup
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
+                }
+            });
+
+            // Show the popup window
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
         });
     }
+
 
     private void goToEditSubject() {
         Button editSubjectButton=(Button) findViewById(R.id.editSubjectButton);
