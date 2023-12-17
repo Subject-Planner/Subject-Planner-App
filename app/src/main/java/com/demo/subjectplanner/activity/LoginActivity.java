@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLoginButton() {
+
 //        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
