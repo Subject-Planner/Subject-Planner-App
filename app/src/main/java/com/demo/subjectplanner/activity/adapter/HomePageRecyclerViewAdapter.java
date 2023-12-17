@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Grade;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.MainActivity;
@@ -37,32 +38,27 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         TextView subjectTitleTextView = holder.itemView.findViewById(R.id.textTitle);
+
         TextView subjectDescTextView = holder.itemView.findViewById(R.id.textViewDescCards);
 
         Subject subject = subjects.get(position);
 
-        // Set the data from the Subject object
+
+
         subjectTitleTextView.setText(subject.getTitle());
-        // You can set other data as needed
-
-        // For example, if you have a description field in your Subject class:
-       //  subjectDescTextView.setText(subject.getStartTime().toString());
 
 
-//        TextView taskFragmentTextView = (TextView) holder.itemView.findViewById(R.layout.cards_view);
         String subjectTitle = subjects.get(position).getTitle();
-//        String taskBody = tasks.get(position).getDescription();
-//        String taskState = String.valueOf(tasks.get(position).getTaskStatusEnum());
-//        taskFragmentTextView.setText(position +" - "+ taskName);
+        String numberOfAbsents = "Number of Absents : " + String.valueOf(subjects.get(position).getNumberOfAbsents());
 
-       ;
+
 
         Button btn = (Button) holder.itemView.findViewById(R.id.cardViewButton);
         btn.setOnClickListener(view -> {
 
             Intent goTOSubjectDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
             goTOSubjectDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG,  subjectTitle);
-
+            goTOSubjectDetails.putExtra(MainActivity.NUMBER_OF_ABSENTS,  numberOfAbsents);
             callingActivity.startActivity(goTOSubjectDetails);
         });
 
