@@ -16,6 +16,9 @@
             android:layout_height="0sp"
             android:layout_weight="2"
             android:background="@color/buttonColor"></View>
+
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0sp"
@@ -31,21 +34,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/signUpToolbar"
-            android:background="@android:color/transparent" />
-        <TextView
-            android:id="@+id/subjectTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Subject Title"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:layout_marginStart="20sp"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="15"
-            android:shadowColor="@android:color/darker_gray"
-            />
+            android:background="@android:color/transparent" >
+            <TextView
+                android:id="@+id/subjectTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject Title"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_marginStart="20sp"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="15"
+                android:shadowColor="@android:color/darker_gray"
+                />
+        </androidx.appcompat.widget.Toolbar>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -60,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/note_background" />
+                android:src="@drawable/note_background1" />
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -72,25 +77,77 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-            <TextView
-                android:id="@+id/recordTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Record"
-                android:textSize="20sp"
-                android:textColor="@android:color/white"
-                android:layout_margin="16sp"
-                android:background="#80000000" ></TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/notesTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16sp"
-                android:background="#80000000"
-                android:text="notes"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"></TextView>
+                    <TextView
+                        android:id="@+id/recordTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Record"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/white"
+                        android:layout_margin="16sp"
+                        android:background="#80000000" ></TextView>
+
+
+                    <Button
+                        android:id="@+id/addRecordButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Record"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="160sp"/>
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4sp"
+                    android:minHeight="76sp">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/SubjectRecordsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+                </ScrollView>
+<!--                android:id="@+id/notesTextView"-->
+<!--                android:text="notes"-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/notesTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="notes"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/white"
+                        android:layout_margin="16sp"
+                        android:background="#80000000" ></TextView>
+
+
+                    <Button
+                        android:id="@+id/addNoteButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Note"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="186sp"/>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/notes"
                     android:layout_width="wrap_content"
@@ -106,15 +163,32 @@
                     android:shadowColor="@android:color/black"
                     />
 
-            <TextView
-                android:id="@+id/filesTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16sp"
-                android:background="#80000000"
-                android:text="files"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"></TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/filesTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="files"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/white"
+                        android:layout_margin="16sp"
+                        android:background="#80000000" ></TextView>
+
+
+                    <Button
+                        android:id="@+id/addFileButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add FILE"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="205sp"/>
+                </LinearLayout>
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -124,6 +198,92 @@
                     <!-- Use a RecyclerView instead of a LinearLayout -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:clipToPadding="false"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:scrollbars="horizontal" />
+
+                </ScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/eventTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Events"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/white"
+                        android:layout_margin="16sp"
+                        android:background="#80000000" ></TextView>
+
+
+                    <Button
+                        android:id="@+id/addEventButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Event"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="176sp"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/events"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Events"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="25sp"
+                    android:layout_marginStart="70sp"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="15"
+                    android:shadowColor="@android:color/black"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/grades"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Grades"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/white"
+                        android:layout_margin="16sp"
+                        android:background="#80000000" ></TextView>
+
+
+                    <Button
+                        android:id="@+id/addGrandesButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Grade"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="169sp"/>
+                </LinearLayout>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp">
+
+                    <!-- Use a RecyclerView instead of a LinearLayout -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/grecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
@@ -179,63 +339,14 @@
                     android:shadowRadius="15"
                     android:shadowColor="@android:color/black"
                     />
-                <TextView
-                    android:id="@+id/gradeTextView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16sp"
-                    android:background="#80000000"
-                    android:text="Events"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"></TextView>
-                <TextView
-                    android:id="@+id/events"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Subject Title"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="25sp"
-                    android:layout_marginStart="70sp"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="15"
-                    android:shadowColor="@android:color/black"
-                    />
-                <TextView
-                    android:id="@+id/grades"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16sp"
-                    android:background="#80000000"
-                    android:text="Grades"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"></TextView>
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp">
 
-                    <!-- Use a RecyclerView instead of a LinearLayout -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/grecyclerView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:clipToPadding="false"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:scrollbars="horizontal" />
-
-                </ScrollView>
             </LinearLayout>
             </ScrollView>
 
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/signUpSubmitButton"
+            android:id="@+id/editSubjectButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40sp"

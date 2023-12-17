@@ -37,9 +37,7 @@ query GetSubject($id: ID!) {
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -57,6 +55,14 @@ query GetSubject($id: ID!) {
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
       nextToken
       __typename
     }
@@ -78,12 +84,102 @@ query ListSubjects(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GetRecord($id: ID!) {
+  getRecord(id: $id) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListRecords(
+  $filter: ModelRecordFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      link
+      subjectId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query GetFile($id: ID!) {
+  getFile(id: $id) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+query ListFiles(
+  $filter: ModelFileFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFiles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      link
+      subjectId
       createdAt
       updatedAt
       __typename
@@ -106,9 +202,7 @@ query GetEvent($id: ID!) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -156,9 +250,7 @@ query GetGrade($id: ID!) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -251,12 +343,70 @@ query SubjectsByStudentIdAndTitle(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query RecordsBySubjectIdAndName(
+  $subjectId: ID!
+  $name: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelRecordFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  recordsBySubjectIdAndName(
+    subjectId: $subjectId
+    name: $name
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      link
+      subjectId
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+
+query FilesBySubjectIdAndName(
+  $subjectId: ID!
+  $name: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelFileFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  filesBySubjectIdAndName(
+    subjectId: $subjectId
+    name: $name
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      link
+      subjectId
       createdAt
       updatedAt
       __typename

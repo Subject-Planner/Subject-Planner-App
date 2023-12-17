@@ -1,5 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.BelongsTo;
 import com.amplifyframework.core.model.temporal.Temporal;
 
 
@@ -9,7 +10,10 @@ import java.util.Objects;
 
 import androidx.core.util.ObjectsCompat;
 
+import com.amplifyframework.core.model.AuthStrategy;
 import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.ModelOperation;
+import com.amplifyframework.core.model.annotations.AuthRule;
 import com.amplifyframework.core.model.annotations.Index;
 import com.amplifyframework.core.model.annotations.ModelConfig;
 import com.amplifyframework.core.model.annotations.ModelField;
@@ -17,16 +21,21 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the Todo type in your schema. */
+/** This is an auto generated class representing the File type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Todos")
-public final class Todo implements Model {
-  public static final QueryField ID = field("Todo", "id");
-  public static final QueryField NAME = field("Todo", "name");
-  public static final QueryField DESCRIPTION = field("Todo", "description");
+@ModelConfig(pluralName = "Files", authRules = {
+  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
+})
+@Index(name = "bySubject", fields = {"subjectId","name"})
+public final class File implements Model {
+  public static final QueryField ID = field("File", "id");
+  public static final QueryField NAME = field("File", "name");
+  public static final QueryField LINK = field("File", "link");
+  public static final QueryField SUBJECT = field("File", "subjectId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
-  private final @ModelField(targetType="String") String description;
+  private final @ModelField(targetType="String", isRequired = true) String link;
+  private final @ModelField(targetType="Subject") @BelongsTo(targetName = "subjectId",  type = Subject.class) Subject subject;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -43,8 +52,12 @@ public final class Todo implements Model {
       return name;
   }
   
-  public String getDescription() {
-      return description;
+  public String getLink() {
+      return link;
+  }
+  
+  public Subject getSubject() {
+      return subject;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -55,10 +68,11 @@ public final class Todo implements Model {
       return updatedAt;
   }
   
-  private Todo(String id, String name, String description) {
+  private File(String id, String name, String link, Subject subject) {
     this.id = id;
     this.name = name;
-    this.description = description;
+    this.link = link;
+    this.subject = subject;
   }
   
   @Override
@@ -68,12 +82,13 @@ public final class Todo implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      Todo todo = (Todo) obj;
-      return ObjectsCompat.equals(getId(), todo.getId()) &&
-              ObjectsCompat.equals(getName(), todo.getName()) &&
-              ObjectsCompat.equals(getDescription(), todo.getDescription()) &&
-              ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
+      File file = (File) obj;
+      return ObjectsCompat.equals(getId(), file.getId()) &&
+              ObjectsCompat.equals(getName(), file.getName()) &&
+              ObjectsCompat.equals(getLink(), file.getLink()) &&
+              ObjectsCompat.equals(getSubject(), file.getSubject()) &&
+              ObjectsCompat.equals(getCreatedAt(), file.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), file.getUpdatedAt());
       }
   }
   
@@ -82,7 +97,8 @@ public final class Todo implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getName())
-      .append(getDescription())
+      .append(getLink())
+      .append(getSubject())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -92,10 +108,11 @@ public final class Todo implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("Todo {")
+      .append("File {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("name=" + String.valueOf(getName()) + ", ")
-      .append("description=" + String.valueOf(getDescription()) + ", ")
+      .append("link=" + String.valueOf(getLink()) + ", ")
+      .append("subject=" + String.valueOf(getSubject()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -114,9 +131,10 @@ public final class Todo implements Model {
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
    */
-  public static Todo justId(String id) {
-    return new Todo(
+  public static File justId(String id) {
+    return new File(
       id,
+      null,
       null,
       null
     );
@@ -125,54 +143,70 @@ public final class Todo implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       name,
-      description);
+      link,
+      subject);
   }
   public interface NameStep {
-    BuildStep name(String name);
+    LinkStep name(String name);
+  }
+  
+
+  public interface LinkStep {
+    BuildStep link(String link);
   }
   
 
   public interface BuildStep {
-    Todo build();
+    File build();
     BuildStep id(String id);
-    BuildStep description(String description);
+    BuildStep subject(Subject subject);
   }
   
 
-  public static class Builder implements NameStep, BuildStep {
+  public static class Builder implements NameStep, LinkStep, BuildStep {
     private String id;
     private String name;
-    private String description;
+    private String link;
+    private Subject subject;
     public Builder() {
       
     }
     
-    private Builder(String id, String name, String description) {
+    private Builder(String id, String name, String link, Subject subject) {
       this.id = id;
       this.name = name;
-      this.description = description;
+      this.link = link;
+      this.subject = subject;
     }
     
     @Override
-     public Todo build() {
+     public File build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new Todo(
+        return new File(
           id,
           name,
-          description);
+          link,
+          subject);
     }
     
     @Override
-     public BuildStep name(String name) {
+     public LinkStep name(String name) {
         Objects.requireNonNull(name);
         this.name = name;
         return this;
     }
     
     @Override
-     public BuildStep description(String description) {
-        this.description = description;
+     public BuildStep link(String link) {
+        Objects.requireNonNull(link);
+        this.link = link;
+        return this;
+    }
+    
+    @Override
+     public BuildStep subject(Subject subject) {
+        this.subject = subject;
         return this;
     }
     
@@ -188,9 +222,10 @@ public final class Todo implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description) {
-      super(id, name, description);
+    private CopyOfBuilder(String id, String name, String link, Subject subject) {
+      super(id, name, link, subject);
       Objects.requireNonNull(name);
+      Objects.requireNonNull(link);
     }
     
     @Override
@@ -199,12 +234,16 @@ public final class Todo implements Model {
     }
     
     @Override
-     public CopyOfBuilder description(String description) {
-      return (CopyOfBuilder) super.description(description);
+     public CopyOfBuilder link(String link) {
+      return (CopyOfBuilder) super.link(link);
+    }
+    
+    @Override
+     public CopyOfBuilder subject(Subject subject) {
+      return (CopyOfBuilder) super.subject(subject);
     }
   }
   
 
 
-  
 }

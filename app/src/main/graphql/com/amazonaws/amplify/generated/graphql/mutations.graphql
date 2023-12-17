@@ -52,9 +52,7 @@ mutation CreateSubject(
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -72,6 +70,14 @@ mutation CreateSubject(
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
       nextToken
       __typename
     }
@@ -91,9 +97,7 @@ mutation UpdateSubject(
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -111,6 +115,14 @@ mutation UpdateSubject(
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
       nextToken
       __typename
     }
@@ -130,9 +142,7 @@ mutation DeleteSubject(
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -151,6 +161,188 @@ mutation DeleteSubject(
     }
     events {
       nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation CreateRecord(
+  $input: CreateRecordInput!
+  $condition: ModelRecordConditionInput
+) {
+  createRecord(input: $input, condition: $condition) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateRecord(
+  $input: UpdateRecordInput!
+  $condition: ModelRecordConditionInput
+) {
+  updateRecord(input: $input, condition: $condition) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteRecord(
+  $input: DeleteRecordInput!
+  $condition: ModelRecordConditionInput
+) {
+  deleteRecord(input: $input, condition: $condition) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation CreateFile(
+  $input: CreateFileInput!
+  $condition: ModelFileConditionInput
+) {
+  createFile(input: $input, condition: $condition) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation UpdateFile(
+  $input: UpdateFileInput!
+  $condition: ModelFileConditionInput
+) {
+  updateFile(input: $input, condition: $condition) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+mutation DeleteFile(
+  $input: DeleteFileInput!
+  $condition: ModelFileConditionInput
+) {
+  deleteFile(input: $input, condition: $condition) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
       __typename
     }
     createdAt
@@ -175,9 +367,7 @@ mutation CreateEvent(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -207,9 +397,7 @@ mutation UpdateEvent(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -239,9 +427,7 @@ mutation DeleteEvent(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -271,9 +457,7 @@ mutation CreateGrade(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -303,9 +487,7 @@ mutation UpdateGrade(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -335,9 +517,7 @@ mutation DeleteGrade(
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId

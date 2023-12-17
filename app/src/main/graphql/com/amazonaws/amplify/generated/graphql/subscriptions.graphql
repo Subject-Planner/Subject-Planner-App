@@ -40,9 +40,7 @@ subscription OnCreateSubject($filter: ModelSubscriptionSubjectFilterInput) {
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -60,6 +58,14 @@ subscription OnCreateSubject($filter: ModelSubscriptionSubjectFilterInput) {
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
       nextToken
       __typename
     }
@@ -76,9 +82,7 @@ subscription OnUpdateSubject($filter: ModelSubscriptionSubjectFilterInput) {
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -96,6 +100,14 @@ subscription OnUpdateSubject($filter: ModelSubscriptionSubjectFilterInput) {
       __typename
     }
     events {
+      nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
       nextToken
       __typename
     }
@@ -112,9 +124,7 @@ subscription OnDeleteSubject($filter: ModelSubscriptionSubjectFilterInput) {
     startDate
     endDate
     images
-    recordings
     notes
-    files
     grades {
       nextToken
       __typename
@@ -133,6 +143,170 @@ subscription OnDeleteSubject($filter: ModelSubscriptionSubjectFilterInput) {
     }
     events {
       nextToken
+      __typename
+    }
+    records {
+      nextToken
+      __typename
+    }
+    files {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+subscription OnCreateRecord($filter: ModelSubscriptionRecordFilterInput) {
+  onCreateRecord(filter: $filter) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+subscription OnUpdateRecord($filter: ModelSubscriptionRecordFilterInput) {
+  onUpdateRecord(filter: $filter) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+subscription OnDeleteRecord($filter: ModelSubscriptionRecordFilterInput) {
+  onDeleteRecord(filter: $filter) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+subscription OnCreateFile($filter: ModelSubscriptionFileFilterInput) {
+  onCreateFile(filter: $filter) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+subscription OnUpdateFile($filter: ModelSubscriptionFileFilterInput) {
+  onUpdateFile(filter: $filter) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+
+subscription OnDeleteFile($filter: ModelSubscriptionFileFilterInput) {
+  onDeleteFile(filter: $filter) {
+    id
+    name
+    link
+    subjectId
+    subject {
+      id
+      title
+      startDate
+      endDate
+      images
+      notes
+      numberOfAbsents
+      days
+      studentId
+      createdAt
+      updatedAt
       __typename
     }
     createdAt
@@ -154,9 +328,7 @@ subscription OnCreateEvent($filter: ModelSubscriptionEventFilterInput) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -183,9 +355,7 @@ subscription OnUpdateEvent($filter: ModelSubscriptionEventFilterInput) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -212,9 +382,7 @@ subscription OnDeleteEvent($filter: ModelSubscriptionEventFilterInput) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -241,9 +409,7 @@ subscription OnCreateGrade($filter: ModelSubscriptionGradeFilterInput) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -270,9 +436,7 @@ subscription OnUpdateGrade($filter: ModelSubscriptionGradeFilterInput) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId
@@ -299,9 +463,7 @@ subscription OnDeleteGrade($filter: ModelSubscriptionGradeFilterInput) {
       startDate
       endDate
       images
-      recordings
       notes
-      files
       numberOfAbsents
       days
       studentId

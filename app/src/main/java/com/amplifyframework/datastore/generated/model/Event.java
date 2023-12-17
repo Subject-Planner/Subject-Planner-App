@@ -23,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Event type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Events", authRules = {
+@ModelConfig(pluralName = "Events",  authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 @Index(name = "bySubject", fields = {"subjectId","date"})
@@ -37,7 +37,7 @@ public final class Event implements Model {
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime date;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime time;
-  private final @ModelField(targetType="Subject") @BelongsTo(targetName = "subjectId", type = Subject.class) Subject subject;
+  private final @ModelField(targetType="Subject") @BelongsTo(targetName = "subjectId",  type = Subject.class) Subject subject;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */

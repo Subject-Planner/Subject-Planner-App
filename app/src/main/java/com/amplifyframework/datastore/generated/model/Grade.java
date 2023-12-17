@@ -3,6 +3,7 @@ package com.amplifyframework.datastore.generated.model;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.annotations.BelongsTo;
 
+
 import java.util.List;
 import java.util.UUID;
 import java.util.Objects;
@@ -22,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Grade type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Grades", authRules = {
+@ModelConfig(pluralName = "Grades",  authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 @Index(name = "bySubject", fields = {"subjectId","term"})
@@ -36,7 +37,7 @@ public final class Grade implements Model {
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime date;
   private final @ModelField(targetType="Int") Integer weight;
   private final @ModelField(targetType="String") String term;
-  private final @ModelField(targetType="Subject") @BelongsTo(targetName = "subjectId", type = Subject.class) Subject subjectObject;
+  private final @ModelField(targetType="Subject") @BelongsTo(targetName = "subjectId",  type = Subject.class) Subject subjectObject;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
