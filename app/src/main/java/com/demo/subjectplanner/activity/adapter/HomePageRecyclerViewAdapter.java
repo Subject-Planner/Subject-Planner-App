@@ -11,11 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.DaysEnum;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.MainActivity;
 import com.demo.subjectplanner.activity.SubjectDetailsActivity;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRecyclerViewAdapter.SubjectViewHolder> {
@@ -41,31 +44,37 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
 
         Subject subject = subjects.get(position);
 
-        // Set the data from the Subject object
         subjectTitleTextView.setText(subject.getTitle());
-        // You can set other data as needed
 
-        // For example, if you have a description field in your Subject class:
-       //  subjectDescTextView.setText(subject.getStartTime().toString());
-
-
-//        TextView taskFragmentTextView = (TextView) holder.itemView.findViewById(R.layout.cards_view);
         String subjectTitle = subjects.get(position).getTitle();
-//        String taskBody = tasks.get(position).getDescription();
-//        String taskState = String.valueOf(tasks.get(position).getTaskStatusEnum());
-//        taskFragmentTextView.setText(position +" - "+ taskName);
+        List<String> subjectDays= DaysEnum.toStringList(subject.getDays());
+        StringBuilder result = new StringBuilder("Days: " );
+        for (String str : subjectDays) {
+            result.append(str.substring(0, 1).toUpperCase() + str.substring(1,2).toLowerCase()+" ");
+        }
+        result.append("\n Time: "+timeModify(subject.getStartDate().toString().substring(45,50)));
+        subjectDescTextView.setText(result.toString());
+View subjectView = holder.itemView;
+        subjectView.setOnClickListener(view -> {
+            Intent goToSubDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
+            goToSubDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG,  subjectTitle);
 
-       ;
-
-        Button btn = (Button) holder.itemView.findViewById(R.id.cardViewButton);
-        btn.setOnClickListener(view -> {
-
-            Intent goTOSubjectDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
-            goTOSubjectDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG,  subjectTitle);
-
-            callingActivity.startActivity(goTOSubjectDetails);
+            callingActivity.startActivity(goToSubDetails);
         });
 
+
+
+    }
+    private String timeModify(String inputTimeString){  //increase time by 3 hours when getting it from aws
+        // Parse the input time string
+        LocalTime inputTime = LocalTime.parse(inputTimeString, DateTimeFormatter.ofPattern("HH:mm"));
+
+        // Subtract 3 hours
+        LocalTime earlierTime = inputTime.plusHours(3);
+
+        // Format the result back into a string
+        String resultTimeString = earlierTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        return resultTimeString;
     }
 
     @Override

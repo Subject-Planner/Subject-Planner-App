@@ -1,9 +1,13 @@
 package com.demo.subjectplanner.activity;
 
+import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,9 +24,11 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.temporal.Temporal;
 //import com.amplifyframework.datastore.generated.model.Event;
 import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.model.CalendarUtils;
+import com.google.android.material.snackbar.Snackbar;
 //import com.demo.subjectplanner.activity.model.Event;
 
 
@@ -48,7 +54,9 @@ public class EventEditActivity extends AppCompatActivity {
     String selectedSubjectString;
     ImageView timeButton ;
     private LocalTime time;
+    Student loggedInStudent;
     //
+    SharedPreferences sharedPreferences;
     CompletableFuture<List<Subject>> subjectFuture = new CompletableFuture<>();
 
 
@@ -58,7 +66,10 @@ public class EventEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_edit);
         initWidgets();
-        setupSubjectSpinner();
+        //setupSubjectSpinner();
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
+        getLoggedUser();
         time = LocalTime.now();
         eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
        // eventTimeTV.setText("Time: " + CalendarUtils.formattedTime(time));
@@ -79,6 +90,7 @@ timeButton.setOnClickListener(v->{
 
 public void saveEventAction(View view)
 {
+    if(loggedInStudent!=null){
     String eventName = eventNameET.getText().toString();
     selectedSubjectString = subjectSpinner.getSelectedItem().toString();
     List<Subject> subs = null;
@@ -99,7 +111,7 @@ public void saveEventAction(View view)
 // Convert LocalDateTime to Date
     Date timeAsDate = Date.from(localDateTime.atZone(ZoneOffset.UTC).toInstant());
     Subject selectedSub = subs.stream().filter(c -> c.getTitle().equals(selectedSubjectString)).findAny().orElseThrow(RuntimeException::new);
-    Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getEvents().toString());
+    Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getTitle().toString());
 
     Event newOne =Event.builder()
             .name(eventName)
@@ -107,15 +119,16 @@ public void saveEventAction(View view)
                     .time(new Temporal.DateTime(timeAsDate,0))
                                     .subject(selectedSub)
                                             .build();
-//    Amplify.API.mutate(
-//            ModelMutation.create(newOne),
-//            successResponse -> Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully"),//success response
-//            failureResponse -> Log.e("EventActivity", "SaveEvenTAction.onCreate(): faile d with this response" + failureResponse)// in case we have a failed response
-//    );
-//here no need to add the events to the lis. in calender they are fitched from the current std subjs and bokked on calender
-//    com.demo.subjectplanner.activity.model.Event newEvent = new com.demo.subjectplanner.activity.model.Event(eventName, CalendarUtils.selectedDate, time);
-//    com.demo.subjectplanner.activity.model.Event.eventsList.add(newEvent);
+    Amplify.API.mutate(
+            ModelMutation.create(newOne),
+            successResponse -> Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully"),//success response
+            failureResponse -> Log.e("EventActivity", "SaveEvenTAction.onCreate(): faile d with this response" + failureResponse)// in case we have a failed response
+    );
+
     finish();
+    }
+
+
 }
 
 private void showTimePickerDialog(){
@@ -134,14 +147,10 @@ private void showTimePickerDialog(){
 
 }
     private void setupSubjectSpinner(){  //here I get the subject using future complete and pass them to the spinner
-        Amplify.API.query(
-                ModelQuery.list(Subject.class),
-                success ->
-                {
-                    Log.i("Event activity", "Read Subjects Successfully");
-                    ArrayList<String> subjectNames = new ArrayList<>();
+
+        ArrayList<String> subjectNames = new ArrayList<>();
                     ArrayList<Subject> subjects = new ArrayList<>();
-                    for (Subject subject : success.getData()) {
+                    for (Subject subject : loggedInStudent.getSubjects()) {
                         subjects.add(subject);
                         subjectNames.add(subject.getTitle());
                     }
@@ -154,11 +163,25 @@ private void showTimePickerDialog(){
                                 (android.R.layout.simple_spinner_item),
                                 subjectNames
                         ));
-                    });
+    });
+}
+    private void getLoggedUser(){
+
+        String loggedUserId= sharedPreferences.getString(ID_TAG,"");
+        Amplify.API.query(
+                ModelQuery.get(Student.class, loggedUserId),
+                response -> {
+                    loggedInStudent = response.getData();
+                    if (loggedInStudent != null) {
+
+                        setupSubjectSpinner();
+
+                    } else {
+                        Log.e("EditEventActivity", "User Not Found");
+                    }
                 },
-                failure -> {
-                    subjectFuture.complete(null);
-                    Log.i("Event Activity", "Did not read Subjects successfully");
+                error -> {
+                    Log.e("EditEventActivity", "Error fetching User by ID", error);
                 }
         );
     }

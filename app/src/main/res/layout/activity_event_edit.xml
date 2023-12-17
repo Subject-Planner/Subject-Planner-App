@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_event_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -51,14 +52,16 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         tools:ignore="HardcodedText" />
+
     <ImageView
         android:id="@+id/chooseTimeButton_event"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:onClick="showTimePickerDialog"
         app:srcCompat="@drawable/clockicon" />
+
     <Spinner
         android:id="@+id/subjectSpinner_calender"
         android:layout_width="wrap_content"
@@ -81,7 +84,6 @@
 
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
-
 
 
 </LinearLayout>
