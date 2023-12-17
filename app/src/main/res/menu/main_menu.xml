@@ -4,13 +4,10 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_agenda"
             android:title="Agenda"
-            android:icon="@drawable/agenda_icon" />
+            android:icon="@drawable/baseline_view_agenda_24" />
         <item android:id="@+id/nav_grades"
             android:title="Grades"
             android:icon="@drawable/grades_icon" />
-        <item android:id="@+id/nav_recordings"
-            android:title="Recordings"
-            android:icon="@drawable/recordings_icon" />
         <item android:id="@+id/nav_calender"
             android:title="Calender"
             android:icon="@drawable/calender_icon" />

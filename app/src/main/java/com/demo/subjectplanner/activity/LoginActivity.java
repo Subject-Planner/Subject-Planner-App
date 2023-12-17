@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,8 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLoginButton() {
-        sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
-
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         loginButton = findViewById(R.id.loginButton);
         loginButton.setOnClickListener(b -> {
             String loginEmail = ((EditText) findViewById(R.id.loginEmailEditText)).getText().toString();

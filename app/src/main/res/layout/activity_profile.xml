@@ -27,7 +27,7 @@
         app:srcCompat="@drawable/profile" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/usernameReplacedTextView0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zaid Izziddine"
@@ -35,19 +35,20 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/emailReplacedTextView0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Your Email"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintEnd_toEndOf="@+id/usernameReplacedTextView0"
+        app:layout_constraintStart_toStartOf="@+id/usernameReplacedTextView0"
+        app:layout_constraintTop_toBottomOf="@+id/usernameReplacedTextView0" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +59,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8">
+        app:layout_constraintTop_toBottomOf="@+id/emailReplacedTextView0">
 
         <LinearLayout
             android:layout_width="match_parent"
