@@ -19,6 +19,7 @@ import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.MainActivity;
 import com.demo.subjectplanner.activity.adapter.FileAdapter;
+import com.demo.subjectplanner.activity.adapter.GradeAdapter;
 import com.demo.subjectplanner.activity.model.FileEntity;
 
 import java.util.ArrayList;
@@ -57,7 +58,16 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             @Override
             public void onSubjectsRetrieved(List<Subject> subjectList) {
 
+
                 subject = getSubjectByTitle(subjectTitleString, subjectList);
+
+                RecyclerView gradeRecyclerView = findViewById(R.id.grecyclerView);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                gradeRecyclerView.setLayoutManager(layoutManager);
+                GradeAdapter gradeAdapter = new GradeAdapter(subject.getGrades(), SubjectDetailsActivity.this);
+                gradeRecyclerView.setAdapter(gradeAdapter);
+
+
 
                 subjectNameTextView = findViewById(R.id.subjectTitleText);
                 subjectNameTextView.setText(subject.getTitle());
