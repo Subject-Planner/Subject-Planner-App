@@ -4,6 +4,7 @@ import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.annotations.HasMany;
 import com.amplifyframework.core.model.annotations.BelongsTo;
 
+
 import java.util.List;
 import java.util.UUID;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Subject type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Subjects",  authRules = {
+@ModelConfig(pluralName = "Subjects", authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 @Index(name = "byStudent", fields = {"studentId","title"})
@@ -33,9 +34,7 @@ public final class Subject implements Model {
   public static final QueryField START_DATE = field("Subject", "startDate");
   public static final QueryField END_DATE = field("Subject", "endDate");
   public static final QueryField IMAGES = field("Subject", "images");
-  public static final QueryField RECORDINGS = field("Subject", "recordings");
   public static final QueryField NOTES = field("Subject", "notes");
-  public static final QueryField FILES = field("Subject", "files");
   public static final QueryField NUMBER_OF_ABSENTS = field("Subject", "numberOfAbsents");
   public static final QueryField DAYS = field("Subject", "days");
   public static final QueryField STUDENT_PERSON = field("Subject", "studentId");
@@ -44,14 +43,14 @@ public final class Subject implements Model {
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime startDate;
   private final @ModelField(targetType="AWSDateTime") Temporal.DateTime endDate;
   private final @ModelField(targetType="String") List<String> images;
-  private final @ModelField(targetType="String") List<String> recordings;
   private final @ModelField(targetType="String") List<String> notes;
-  private final @ModelField(targetType="String") List<String> files;
   private final @ModelField(targetType="Grade") @HasMany(associatedWith = "subjectObject", type = Grade.class) List<Grade> grades = null;
   private final @ModelField(targetType="Int") Integer numberOfAbsents;
   private final @ModelField(targetType="DaysEnum") List<DaysEnum> days;
-  private final @ModelField(targetType="Student") @BelongsTo(targetName = "studentId", type = Student.class) Student studentPerson;
+  private final @ModelField(targetType="Student") @BelongsTo(targetName = "studentId",  type = Student.class) Student studentPerson;
   private final @ModelField(targetType="Event") @HasMany(associatedWith = "subject", type = Event.class) List<Event> events = null;
+  private final @ModelField(targetType="Record") @HasMany(associatedWith = "subject", type = Record.class) List<Record> records = null;
+  private final @ModelField(targetType="File") @HasMany(associatedWith = "subject", type = File.class) List<File> files = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -80,16 +79,8 @@ public final class Subject implements Model {
       return images;
   }
   
-  public List<String> getRecordings() {
-      return recordings;
-  }
-  
   public List<String> getNotes() {
       return notes;
-  }
-  
-  public List<String> getFiles() {
-      return files;
   }
   
   public List<Grade> getGrades() {
@@ -112,6 +103,14 @@ public final class Subject implements Model {
       return events;
   }
   
+  public List<Record> getRecords() {
+      return records;
+  }
+  
+  public List<File> getFiles() {
+      return files;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -120,15 +119,13 @@ public final class Subject implements Model {
       return updatedAt;
   }
   
-  private Subject(String id, String title, Temporal.DateTime startDate, Temporal.DateTime endDate, List<String> images, List<String> recordings, List<String> notes, List<String> files, Integer numberOfAbsents, List<DaysEnum> days, Student studentPerson) {
+  private Subject(String id, String title, Temporal.DateTime startDate, Temporal.DateTime endDate, List<String> images, List<String> notes, Integer numberOfAbsents, List<DaysEnum> days, Student studentPerson) {
     this.id = id;
     this.title = title;
     this.startDate = startDate;
     this.endDate = endDate;
     this.images = images;
-    this.recordings = recordings;
     this.notes = notes;
-    this.files = files;
     this.numberOfAbsents = numberOfAbsents;
     this.days = days;
     this.studentPerson = studentPerson;
@@ -147,9 +144,7 @@ public final class Subject implements Model {
               ObjectsCompat.equals(getStartDate(), subject.getStartDate()) &&
               ObjectsCompat.equals(getEndDate(), subject.getEndDate()) &&
               ObjectsCompat.equals(getImages(), subject.getImages()) &&
-              ObjectsCompat.equals(getRecordings(), subject.getRecordings()) &&
               ObjectsCompat.equals(getNotes(), subject.getNotes()) &&
-              ObjectsCompat.equals(getFiles(), subject.getFiles()) &&
               ObjectsCompat.equals(getNumberOfAbsents(), subject.getNumberOfAbsents()) &&
               ObjectsCompat.equals(getDays(), subject.getDays()) &&
               ObjectsCompat.equals(getStudentPerson(), subject.getStudentPerson()) &&
@@ -166,9 +161,7 @@ public final class Subject implements Model {
       .append(getStartDate())
       .append(getEndDate())
       .append(getImages())
-      .append(getRecordings())
       .append(getNotes())
-      .append(getFiles())
       .append(getNumberOfAbsents())
       .append(getDays())
       .append(getStudentPerson())
@@ -187,9 +180,7 @@ public final class Subject implements Model {
       .append("startDate=" + String.valueOf(getStartDate()) + ", ")
       .append("endDate=" + String.valueOf(getEndDate()) + ", ")
       .append("images=" + String.valueOf(getImages()) + ", ")
-      .append("recordings=" + String.valueOf(getRecordings()) + ", ")
       .append("notes=" + String.valueOf(getNotes()) + ", ")
-      .append("files=" + String.valueOf(getFiles()) + ", ")
       .append("numberOfAbsents=" + String.valueOf(getNumberOfAbsents()) + ", ")
       .append("days=" + String.valueOf(getDays()) + ", ")
       .append("studentPerson=" + String.valueOf(getStudentPerson()) + ", ")
@@ -221,8 +212,6 @@ public final class Subject implements Model {
       null,
       null,
       null,
-      null,
-      null,
       null
     );
   }
@@ -233,9 +222,7 @@ public final class Subject implements Model {
       startDate,
       endDate,
       images,
-      recordings,
       notes,
-      files,
       numberOfAbsents,
       days,
       studentPerson);
@@ -251,9 +238,7 @@ public final class Subject implements Model {
     BuildStep startDate(Temporal.DateTime startDate);
     BuildStep endDate(Temporal.DateTime endDate);
     BuildStep images(List<String> images);
-    BuildStep recordings(List<String> recordings);
     BuildStep notes(List<String> notes);
-    BuildStep files(List<String> files);
     BuildStep numberOfAbsents(Integer numberOfAbsents);
     BuildStep days(List<DaysEnum> days);
     BuildStep studentPerson(Student studentPerson);
@@ -266,9 +251,7 @@ public final class Subject implements Model {
     private Temporal.DateTime startDate;
     private Temporal.DateTime endDate;
     private List<String> images;
-    private List<String> recordings;
     private List<String> notes;
-    private List<String> files;
     private Integer numberOfAbsents;
     private List<DaysEnum> days;
     private Student studentPerson;
@@ -276,15 +259,13 @@ public final class Subject implements Model {
       
     }
     
-    private Builder(String id, String title, Temporal.DateTime startDate, Temporal.DateTime endDate, List<String> images, List<String> recordings, List<String> notes, List<String> files, Integer numberOfAbsents, List<DaysEnum> days, Student studentPerson) {
+    private Builder(String id, String title, Temporal.DateTime startDate, Temporal.DateTime endDate, List<String> images, List<String> notes, Integer numberOfAbsents, List<DaysEnum> days, Student studentPerson) {
       this.id = id;
       this.title = title;
       this.startDate = startDate;
       this.endDate = endDate;
       this.images = images;
-      this.recordings = recordings;
       this.notes = notes;
-      this.files = files;
       this.numberOfAbsents = numberOfAbsents;
       this.days = days;
       this.studentPerson = studentPerson;
@@ -300,9 +281,7 @@ public final class Subject implements Model {
           startDate,
           endDate,
           images,
-          recordings,
           notes,
-          files,
           numberOfAbsents,
           days,
           studentPerson);
@@ -334,20 +313,8 @@ public final class Subject implements Model {
     }
     
     @Override
-     public BuildStep recordings(List<String> recordings) {
-        this.recordings = recordings;
-        return this;
-    }
-    
-    @Override
      public BuildStep notes(List<String> notes) {
         this.notes = notes;
-        return this;
-    }
-    
-    @Override
-     public BuildStep files(List<String> files) {
-        this.files = files;
         return this;
     }
     
@@ -381,8 +348,8 @@ public final class Subject implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, Temporal.DateTime startDate, Temporal.DateTime endDate, List<String> images, List<String> recordings, List<String> notes, List<String> files, Integer numberOfAbsents, List<DaysEnum> days, Student studentPerson) {
-      super(id, title, startDate, endDate, images, recordings, notes, files, numberOfAbsents, days, studentPerson);
+    private CopyOfBuilder(String id, String title, Temporal.DateTime startDate, Temporal.DateTime endDate, List<String> images, List<String> notes, Integer numberOfAbsents, List<DaysEnum> days, Student studentPerson) {
+      super(id, title, startDate, endDate, images, notes, numberOfAbsents, days, studentPerson);
       Objects.requireNonNull(title);
     }
     
@@ -407,18 +374,8 @@ public final class Subject implements Model {
     }
     
     @Override
-     public CopyOfBuilder recordings(List<String> recordings) {
-      return (CopyOfBuilder) super.recordings(recordings);
-    }
-    
-    @Override
      public CopyOfBuilder notes(List<String> notes) {
       return (CopyOfBuilder) super.notes(notes);
-    }
-    
-    @Override
-     public CopyOfBuilder files(List<String> files) {
-      return (CopyOfBuilder) super.files(files);
     }
     
     @Override
