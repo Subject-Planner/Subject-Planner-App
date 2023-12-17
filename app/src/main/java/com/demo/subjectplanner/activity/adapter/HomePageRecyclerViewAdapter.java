@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amplifyframework.datastore.generated.model.DaysEnum;
+import com.amplifyframework.datastore.generated.model.Grade;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.MainActivity;
@@ -37,8 +38,7 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
         return new SubjectViewHolder(subjectView);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
+      public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         TextView subjectTitleTextView = holder.itemView.findViewById(R.id.textTitle);
         TextView subjectDescTextView = holder.itemView.findViewById(R.id.textViewDescCards);
 
@@ -63,8 +63,6 @@ View subjectView = holder.itemView;
         });
 
 
-
-    }
     private String timeModify(String inputTimeString){  //increase time by 3 hours when getting it from aws
         // Parse the input time string
         LocalTime inputTime = LocalTime.parse(inputTimeString, DateTimeFormatter.ofPattern("HH:mm"));
@@ -76,6 +74,9 @@ View subjectView = holder.itemView;
         String resultTimeString = earlierTime.format(DateTimeFormatter.ofPattern("HH:mm"));
         return resultTimeString;
     }
+
+
+
 
     @Override
     public int getItemCount() {
