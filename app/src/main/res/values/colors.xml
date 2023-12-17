@@ -6,6 +6,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8692f7</color>
     <color name="colorPrimary">#2BCC6F</color>
+    <color name="cancelPopup">#B54D4F</color>
     <color name="colorPrimaryDark">#2BCC6F</color>
     <color name="colorAccent">#333333</color>
     <color name="colorPrimaryLight">#E9F8F1</color>

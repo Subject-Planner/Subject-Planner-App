@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#D6D6D6"
-    android:id="@+id/relative">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="450dp"
         android:background="@drawable/popupbg"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
@@ -23,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="Add Your Record"
+            android:text="Add Your Files"
             android:textColor="@color/black"
             android:layout_marginStart="@dimen/_20sdp"
             android:textSize="@dimen/_16sdp" />
@@ -32,48 +29,53 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Record Title"
+            android:text="Add File Title"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:textSize="@dimen/_13ssp"/>
 
-      <EditText
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="@dimen/_20sdp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Record Link"
+            android:text="Add File Link"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:textSize="@dimen/_13ssp"/>
 
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/_20sdp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             >
-            <TextView
+            <Button
+                android:id="@+id/cancelButtonFilePopup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="skip"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@drawable/cancel_btnbg"
                 android:padding="@dimen/_5sdp"/>
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Got it"
+                android:text="Add"
+                android:textAllCaps="false"
                 android:background="@drawable/btnbg"
                 android:textColor="@color/white"
                 android:padding="@dimen/_5sdp"
@@ -84,6 +86,5 @@
         </RelativeLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>
