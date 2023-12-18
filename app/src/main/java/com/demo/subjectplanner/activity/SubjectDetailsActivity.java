@@ -19,6 +19,8 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.DaysEnum;
 import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.File;
+import com.amplifyframework.datastore.generated.model.Record;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.FileAdapter;
@@ -39,34 +41,30 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Subject> subjects;
     Subject subject;
-    String subjectTitleString=null;
+    String subjectIDFromIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_subject_details);
+retrieveSubject();
 
-        Intent callingIntent = getIntent();
-         subjectTitleString = callingIntent.getStringExtra(MainActivity.SUBJECT_TITLE_TAG);
-
-        List<FileEntity> fileList = generateFileList();
+      List<File> fileList = subject.getFiles();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        FileAdapter adapter = new FileAdapter(fileList, this);
+        FileAdapter adapter = new FileAdapter(subject.getFiles(), this);
         recyclerView.setAdapter(adapter);
 
 
         retrieveAllSubjects(subjectList -> {
-            List<String> recordList = generateRecordList();
-
+           List<Record> recordList = subject.getRecords();
             RecyclerView recordsrecyclerView = findViewById(R.id.SubjectRecordsRecyclerView);
 
             recordsrecyclerView.setLayoutManager(new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
             RecordsRecyclerViewAdapter recordsRecyclerViewAdapter = new RecordsRecyclerViewAdapter(recordList, SubjectDetailsActivity.this);
             recordsrecyclerView.setAdapter(recordsRecyclerViewAdapter);
 
-            subject = getSubjectByTitle(subjectTitleString, subjectList);
 
             RecyclerView gradeRecyclerView = findViewById(R.id.grecyclerView);
             LinearLayoutManager layoutManager = new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -94,12 +92,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         });
 
 
-        addGrade();
-        goToEditSubject();
-        addRecord();
-        addNote();
-        addFile();
-        addEvent();
+
 
 //        createPopUpWindow();
     }
@@ -237,7 +230,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         editSubjectButton.setOnClickListener(view -> {
 
             Intent goToEditSubjectIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
-            goToEditSubjectIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
+            goToEditSubjectIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
             startActivity(goToEditSubjectIntent);
         });
     }
@@ -247,7 +240,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         addGradeButton.setOnClickListener(view -> {
 
             Intent goToAddGradeIntent = new Intent(SubjectDetailsActivity.this,AddGradeActivity.class );
-            goToAddGradeIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
+            goToAddGradeIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
             startActivity(goToAddGradeIntent);
         });
     }
@@ -330,27 +323,54 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         return null;
     }
 
-    private List<FileEntity> generateFileList() {
-        List<FileEntity> fileList = new ArrayList<>();
-        fileList.add(new FileEntity("AI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
-        fileList.add(new FileEntity("PIC", "https://elcom-hu.com/Subjects/Mech/4th-and-5th-year/%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A7%D8%AA-%D9%88%D9%85%D8%AA%D8%AD%D9%83%D9%85%D8%A7%D8%AA-%D8%AF%D9%82%D9%8A%D9%82%D8%A9/%D8%AF%D9%81%D8%AA%D8%B1-%D8%A8%D9%8A%D9%83-%D8%AF.%D8%A7%D8%B3%D9%85%D8%A7%D8%A1-%D8%A7%D9%84%D8%AA%D9%85%D9%8A%D9%85%D9%8A"));
-        // Add more files as needed
-        fileList.add(new FileEntity("AsI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
-        fileList.add(new FileEntity("AeI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
+//    private List<FileEntity> generateFileList() {
+//        List<FileEntity> fileList = new ArrayList<>();
+//        fileList.add(new FileEntity("AI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
+//        fileList.add(new FileEntity("PIC", "https://elcom-hu.com/Subjects/Mech/4th-and-5th-year/%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A7%D8%AA-%D9%88%D9%85%D8%AA%D8%AD%D9%83%D9%85%D8%A7%D8%AA-%D8%AF%D9%82%D9%8A%D9%82%D8%A9/%D8%AF%D9%81%D8%AA%D8%B1-%D8%A8%D9%8A%D9%83-%D8%AF.%D8%A7%D8%B3%D9%85%D8%A7%D8%A1-%D8%A7%D9%84%D8%AA%D9%85%D9%8A%D9%85%D9%8A"));
+//        // Add more files as needed
+//        fileList.add(new FileEntity("AsI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
+//        fileList.add(new FileEntity("AeI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
+//
+//        return fileList;
+//    }
+//
+//    private List<String> generateRecordList() {
+//        List<String> recordList = new ArrayList<>();
+//        recordList.add("Record 1" );
+//        recordList.add("Record 2" );
+//        recordList.add("Record 3" );
+//        recordList.add("Record 4" );
+//        recordList.add("Record 5" );
+//        recordList.add("Record 6" );
+//        recordList.add("Record 7" );
+//        recordList.add("Record 8" );
+//        return recordList;
+//    }
+    private void retrieveSubject(){
+        Intent callingIntent = getIntent();
+        subjectIDFromIntent = callingIntent.getStringExtra(MainActivity.SUBJECT_TITLE_TAG);        subjects = new ArrayList<>();
 
-        return fileList;
-    }
+        Amplify.API.query(
+                ModelQuery.get(Subject.class, subjectIDFromIntent),
+                response -> {
+                    subject = response.getData();
+                    if (subject != null) {
+                        addGrade();
+                        goToEditSubject();
+                        addRecord();
+                        addNote();
+                        addFile();
+                        addEvent();
+                    } else {
+                        // Task not found
+                        // Handle the case where the task with the given ID is not found
+                    }
+                },
+                error -> {
+                    // Handle query error
+                    Log.e("GetTaskError", "Error fetching task by ID", error);
+                }
+        );
 
-    private List<String> generateRecordList() {
-        List<String> recordList = new ArrayList<>();
-        recordList.add("Record 1" );
-        recordList.add("Record 2" );
-        recordList.add("Record 3" );
-        recordList.add("Record 4" );
-        recordList.add("Record 5" );
-        recordList.add("Record 6" );
-        recordList.add("Record 7" );
-        recordList.add("Record 8" );
-        return recordList;
     }
 }

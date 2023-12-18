@@ -47,6 +47,7 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
           subjectTitleTextView.setText(subject.getTitle());
 
           String subjectTitle = subjects.get(position).getTitle();
+          String subjectId= subjects.get(position).getId();
           List<String> subjectDays = DaysEnum.toStringList(subject.getDays());
           StringBuilder result = new StringBuilder("Days: ");
           for (String str : subjectDays) {
@@ -57,7 +58,7 @@ public class HomePageRecyclerViewAdapter extends RecyclerView.Adapter<HomePageRe
           View subjectView = holder.itemView;
           subjectView.setOnClickListener(view -> {
               Intent goToSubDetails = new Intent(callingActivity, SubjectDetailsActivity.class);
-              goToSubDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG, subjectTitle);
+              goToSubDetails.putExtra(MainActivity.SUBJECT_TITLE_TAG, subjectId);
 
               callingActivity.startActivity(goToSubDetails);
           });
