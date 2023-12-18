@@ -1,11 +1,18 @@
 package com.demo.subjectplanner.activity;
 
 import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
+import static com.demo.subjectplanner.activity.model.CalendarUtils.selectedDate;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -32,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar;
 //import com.demo.subjectplanner.activity.model.Event;
 
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -66,12 +74,12 @@ public class EventEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_edit);
         initWidgets();
-        //setupSubjectSpinner();
+        createNotificationChannel();
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
         getLoggedUser();
         time = LocalTime.now();
-        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
+        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(selectedDate));
        // eventTimeTV.setText("Time: " + CalendarUtils.formattedTime(time));
 timeButton= findViewById(R.id.chooseTimeButton_event);
 timeButton.setOnClickListener(v->{
@@ -111,7 +119,7 @@ public void saveEventAction(View view)
 // Convert LocalDateTime to Date
     Date timeAsDate = Date.from(localDateTime.atZone(ZoneOffset.UTC).toInstant());
     Subject selectedSub = subs.stream().filter(c -> c.getTitle().equals(selectedSubjectString)).findAny().orElseThrow(RuntimeException::new);
-    Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getTitle().toString());
+    Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+ CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getTitle().toString());
 
     Event newOne =Event.builder()
             .name(eventName)
@@ -121,7 +129,8 @@ public void saveEventAction(View view)
                                             .build();
     Amplify.API.mutate(
             ModelMutation.create(newOne),
-            successResponse -> Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully"),//success response
+            successResponse -> {Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully");
+                scheduleNotification(eventName, time);},
             failureResponse -> Log.e("EventActivity", "SaveEvenTAction.onCreate(): faile d with this response" + failureResponse)// in case we have a failed response
     );
 
@@ -185,4 +194,46 @@ private void showTimePickerDialog(){
                 }
         );
     }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "EventChannel";
+            String description = "Channel for event notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("EVENT_CHANNEL", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    private void scheduleNotification(String eventName, LocalTime eventDateTime) {
+        LocalDateTime localDateTime = LocalDateTime.of(selectedDate, time.atOffset(ZoneOffset.UTC).toLocalTime());
+
+        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+        notificationIntent.putExtra("eventName", eventName);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        long millis = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+        // Convert timestamp to Date
+        Date date = new Date(millis);
+
+        // Format the Date as a String
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = sdf.format(date);
+        Log.i("Edit Event Activity", "scheduleNotification: at time  "+millis+" date"+formattedDate.toString() );
+
+        if (alarmManager != null) {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, millis, pendingIntent);
+        }
+    }
+
 }

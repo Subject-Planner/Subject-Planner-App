@@ -112,6 +112,16 @@ public class DailyCalendarActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.daily_layout), "Login to add events", Snackbar.LENGTH_SHORT).show();
 
     }
+
+    public void onItemClick(int position) {
+        // Implement the logic to handle item click
+        // You can use the position to identify the clicked item in your list
+        // For example, show details or navigate to another activity
+        HourEvent clickedEvent = (HourEvent) hourListView.getAdapter().getItem(position);
+        // TODO: Implement your logic here
+                Snackbar.make(findViewById(R.id.daily_layout), "you clicked", Snackbar.LENGTH_SHORT).show();
+
+    }
     private void getLoggedUser(){
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         String loggedUserId= sharedPreferences.getString(ID_TAG,"");
