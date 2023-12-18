@@ -89,7 +89,7 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
     public void nextMonthAction(View view)
     {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
-        setMonthView();
+          setMonthView();
     }
 
     @Override
@@ -110,6 +110,8 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
     private void setupSubjectActivities(){
         Log.i("Calendar Activity", "setupSubjectActivities method called, user:" +loggedInStudent);
         List<Event> eve =new ArrayList<>();
+        com.demo.subjectplanner.activity.model.Event.eventsList.clear();
+
         if (loggedInStudent!=null){
 
         try {
@@ -120,7 +122,6 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
             Log.e("Calendar Activity", " ExecutionException while getting events");
         }
             Log.i("Calendar Activity", "setupSubjectActivities method called, events:" +eve.toString());
-
             for(Event event:eve){
                 Log.i("Calendar Activity", "setupSubjectActivities method called, inside loop:" +eve.toString());
 
