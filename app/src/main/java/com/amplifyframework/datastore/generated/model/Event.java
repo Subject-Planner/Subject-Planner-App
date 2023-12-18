@@ -4,7 +4,6 @@ import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.annotations.BelongsTo;
 
 
-import java.util.List;
 import java.util.UUID;
 import java.util.Objects;
 
@@ -74,7 +73,7 @@ public final class Event implements Model {
       return updatedAt;
   }
   
-  private Event(String id, String name, Temporal.DateTime date, Temporal.DateTime time, Subject subject) {
+  public Event(String id, String name, Temporal.DateTime date, Temporal.DateTime time, Subject subject) {
     this.id = id;
     this.name = name;
     this.date = date;
