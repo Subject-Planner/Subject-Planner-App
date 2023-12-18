@@ -50,7 +50,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Subject> subjects;
     Subject subject;
-    String subjectTitleString=null;
+    String subjectIDFromIntent;
     Student loggedInStudent;
 
     SharedPreferences sharedPreferences;
@@ -65,107 +65,101 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subject_details);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
-        getLoggedUser();
-        Intent callingIntent = getIntent();
-         subjectTitleString = callingIntent.getStringExtra(MainActivity.SUBJECT_TITLE_TAG);
+        retrieveSubject();
 
+
+    }
+
+    private void retrieveSubject() {
+        Intent callingIntent = getIntent();
+        subjectIDFromIntent = callingIntent.getStringExtra(MainActivity.SUBJECT_ID_TAG);
+     //   Log.i(SUBJECT_DETAILS, "retrieveSubject: " + subjectIDFromIntent);
+
+        Amplify.API.query(
+                ModelQuery.get(Subject.class, subjectIDFromIntent),
+                response -> {
+                    subject = response.getData();
+
+                    Log.i(SUBJECT_DETAILS, "subject after : response.getData();" + subject);
+                    if (subject != null) {
+                        runOnUiThread(() -> {
+                            retrieveAllSubjectInfo();
+                            addGrade();
+                            goToEditSubject();
+                             addRecord();
+                             addNote();
+                             addFile();
+                             addEvent();
+                        });
+                    } else {
+                        // Subject not found
+                        // Handle the case where the Subject with the given ID is not found
+                    }
+                },
+                error -> {
+                    // Handle query error
+                    Log.e("GetSubjectError", "Error fetching Subject by ID", error);
+                }
+        );
+    }
+
+
+
+
+    void retrieveAllSubjectInfo() {
         List<FileEntity> fileList = generateFileList();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         FileAdapter adapter = new FileAdapter(fileList, this);
         recyclerView.setAdapter(adapter);
+        List<String> recordList = generateRecordList();
 
+        RecyclerView recordsrecyclerView = findViewById(R.id.SubjectRecordsRecyclerView);
 
-        retrieveAllSubjects(subjectList -> {
-            List<String> recordList = generateRecordList();
-
-            RecyclerView recordsrecyclerView = findViewById(R.id.SubjectRecordsRecyclerView);
-
-            recordsrecyclerView.setLayoutManager(new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
-            RecordsRecyclerViewAdapter recordsRecyclerViewAdapter = new RecordsRecyclerViewAdapter(recordList, SubjectDetailsActivity.this);
-            recordsrecyclerView.setAdapter(recordsRecyclerViewAdapter);
-
-            subject = getSubjectByTitle(subjectTitleString, subjectList);
-
-            RecyclerView gradeRecyclerView = findViewById(R.id.grecyclerView);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
-            gradeRecyclerView.setLayoutManager(layoutManager);
-            GradeAdapter gradeAdapter = new GradeAdapter(subject.getGrades(), SubjectDetailsActivity.this);
-            gradeRecyclerView.setAdapter(gradeAdapter);
+        recordsrecyclerView.setLayoutManager(new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        RecordsRecyclerViewAdapter recordsRecyclerViewAdapter = new RecordsRecyclerViewAdapter(recordList, SubjectDetailsActivity.this);
+        recordsrecyclerView.setAdapter(recordsRecyclerViewAdapter);
 
 
 
-            subjectNameTextView = findViewById(R.id.subjectTitleText);
-            subjectNameTextView.setText(subject.getTitle());
-
-            numberOfAbsentsTextView = findViewById(R.id.numberOfAbsents);
-            numberOfAbsentsTextView.setText("Number of Absents : "+subject.getNumberOfAbsents());
-
-            daysTextView = findViewById(R.id.days);
-            daysTextView.setText(concatenateDaysEnum(subject.getDays()));
-
-            eventsTextView = findViewById(R.id.events);
-            eventsTextView.setText(concatenateEventDays(subject.getEvents()));
-
-            notesTextView=findViewById(R.id.notes);
-            notesTextView.setText(createNumberedList(subject.getNotes()));
-
-        });
+        RecyclerView gradeRecyclerView = findViewById(R.id.grecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(SubjectDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        gradeRecyclerView.setLayoutManager(layoutManager);
+        GradeAdapter gradeAdapter = new GradeAdapter(subject.getGrades(), SubjectDetailsActivity.this);
+        gradeRecyclerView.setAdapter(gradeAdapter);
 
 
-        addGrade();
-        goToEditSubject();
-        addRecord();
-        addNote();
-        addFile();
-        addEvent();
 
-//        createPopUpWindow();
+        subjectNameTextView = findViewById(R.id.detailsSubjectTitleText);
+        subjectNameTextView.setText(subject.getTitle());
+
+        numberOfAbsentsTextView = findViewById(R.id.numberOfAbsents);
+        numberOfAbsentsTextView.setText("Number of Absents : "+subject.getNumberOfAbsents());
+
+        daysTextView = findViewById(R.id.days);
+        daysTextView.setText(concatenateDaysEnum(subject.getDays()));
+
+        eventsTextView = findViewById(R.id.events);
+        eventsTextView.setText(concatenateEventDays(subject.getEvents()));
+
+        notesTextView=findViewById(R.id.notes);
+        notesTextView.setText(createNumberedList(subject.getNotes()));
+
+
     }
 
 
-    public void saveRecordAction(View view) {
-        if(loggedInStudent!=null) {
-//            String recordName = eventNameET.getText().toString();
-//            selectedSubjectString = subjectSpinner.getSelectedItem().toString();
-            List<Record> records = null;
-            try {
-                records = recordFuture.get();
-            } catch (InterruptedException ie) {
-                Log.e(SUBJECT_DETAILS, " InterruptedException while getting records");
-            } catch (ExecutionException ee) {
-                Log.e(SUBJECT_DETAILS, " ExecutionException while getting records");
-            }
 
 
-// Convert LocalDateTime to Date
 
-//            Subject selectedSub = subs.stream().filter(c -> c.getTitle().equals(selectedSubjectString)).findAny().orElseThrow(RuntimeException::new);
-//            Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getTitle().toString());
-//            Record newRecord=Record.builder()
-////                    .name()
-////                    .link()
-////                    .subject(subject)
-////                    .build();
-////
-////
-////            Amplify.API.mutate(
-////                    ModelMutation.create(newRecord),
-////                    successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
-////                    failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
-////            );
-////
-////            finish();
-////        }
-        }}
     private void addEvent() {
         Button addEventButton=(Button) findViewById(R.id.addEventButton);
         addEventButton.setOnClickListener(view -> {
 
-//            Intent goToAddEventIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
-//            goToAddEventIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
-//            startActivity(goToAddEventIntent);
+            Intent goToAddEventIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
+            goToAddEventIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
+            startActivity(goToAddEventIntent);
         });
     }
 
@@ -262,8 +256,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
-//            TextView popAddRecordTitleTextView=findViewById(R.id.addRecordPopupTitle);
-//            popAddRecordTitleTextView.setText("Add Your Record to : " + subject.getTitle());
+
+            Log.i("subjectDetailsActivity", "subject in addRecordPopButton.setOnClickListener;" + subject);
+            TextView popAddRecordTitleTextView=findViewById(R.id.addRecordPopupTitle);
+         //   popAddRecordTitleTextView.setText("Add Your Record to : WEB ");
+
+
+
             // Set background drawable to allow dismissal when clicking outside the popup window
             popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
 
@@ -280,26 +279,28 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                     popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
                 }
             });
-            Button addRecordPopButton = popupView.findViewById(R.id.addButtonRecordPopup); // Replace with the actual ID of your "Cancel" button
+            Button addRecordPopButton = popupView.findViewById(R.id.addButtonRecordPopup);
 
-            // Set an OnClickListener for the "Cancel" button to dismiss the popup
             addRecordPopButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     EditText popRecordLink=findViewById(R.id.addLinkRecordPopupEditText);
                     EditText potRecordTitle=findViewById(R.id.addTitleRecordPopupEditText);
-                    Record newRecord=Record.builder()
-                            .name(potRecordTitle.getText().toString())
-                            .link(popRecordLink.getText().toString())
-                            .subject(subject)
-                            .build();
-
-
-                    Amplify.API.mutate(
-                            ModelMutation.create(newRecord),
-                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
-                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
-                    );
+                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:"+potRecordTitle.getText().toString());
+                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:"+popRecordLink.getText().toString());
+//                    Record newRecord=Record.builder()
+//                            .name(potRecordTitle.getText().toString())
+//                            .link(popRecordLink.getText().toString())
+//                            .subject(subject)
+//                            .build();
+//
+//
+//                    Amplify.API.mutate(
+//                            ModelMutation.create(newRecord),
+//                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
+//                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
+//                    );
 //                    finish();
 
 
@@ -317,7 +318,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         editSubjectButton.setOnClickListener(view -> {
 
             Intent goToEditSubjectIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
-            goToEditSubjectIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
+            goToEditSubjectIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
             startActivity(goToEditSubjectIntent);
         });
     }
@@ -327,7 +328,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         addGradeButton.setOnClickListener(view -> {
 
             Intent goToAddGradeIntent = new Intent(SubjectDetailsActivity.this,AddGradeActivity.class );
-            goToAddGradeIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectTitleString);
+            goToAddGradeIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
             startActivity(goToAddGradeIntent);
         });
     }
@@ -377,38 +378,10 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         return result.toString();
     }
 
-    private void retrieveAllSubjects(OnSubjectsRetrievedListener listener) {
-        subjects = new ArrayList<>();
-        Amplify.API.query(
-                ModelQuery.list(Subject.class),
-                success -> {
-                    Log.i(TAG, "Retrieved Subjects Successfully!");
-                    subjects.clear();
-                    for (Subject databaseSubject : success.getData()) {
-                        subjects.add(databaseSubject);
-                    }
-                    runOnUiThread(() -> {
-                        if (listener != null) {
-                            listener.onSubjectsRetrieved(subjects);
-                        }
-                    });
-                },
-                failure -> Log.e(TAG, "Failed to retrieve subjects. Error: " + failure.toString())
-        );
-    }
 
-    private interface OnSubjectsRetrievedListener {
-        void onSubjectsRetrieved(List<Subject> subjects);
-    }
 
-    private Subject getSubjectByTitle(String title, List<Subject> subjectList) {
-        for (Subject subject : subjectList) {
-            if (subject.getTitle().equals(title)) {
-                return subject;
-            }
-        }
-        return null;
-    }
+
+
 
     private List<FileEntity> generateFileList() {
         List<FileEntity> fileList = new ArrayList<>();
@@ -434,25 +407,5 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         return recordList;
     }
 
-    private void getLoggedUser(){
-
-        String loggedUserId= sharedPreferences.getString(ID_TAG,"");
-        Amplify.API.query(
-                ModelQuery.get(Student.class, loggedUserId),
-                response -> {
-                    loggedInStudent = response.getData();
-                    if (loggedInStudent != null) {
-
-//                        setupSubjectSpinner();
-
-                    } else {
-                        Log.e("EditEventActivity", "User Not Found");
-                    }
-                },
-                error -> {
-                    Log.e("EditEventActivity", "Error fetching User by ID", error);
-                }
-        );
-    }
 
 }
