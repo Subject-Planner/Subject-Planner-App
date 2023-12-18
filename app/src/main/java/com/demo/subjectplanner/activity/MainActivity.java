@@ -2,16 +2,6 @@ package com.demo.subjectplanner.activity;
 
 import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,33 +10,38 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amplifyframework.api.graphql.model.ModelMutation;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.model.temporal.Temporal;
-import com.amplifyframework.datastore.generated.model.DaysEnum;
-import com.amplifyframework.datastore.generated.model.Event;
-import com.amplifyframework.datastore.generated.model.Grade;
 import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.HomePageRecyclerViewAdapter;
-
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    private EditText searchEditText;
     Toolbar toolbar;
     SharedPreferences sharedPreferences;
     public static final String TAG = "SubjectActivity";
@@ -54,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String SUBJECT_TITLE_TAG = "subjectTitle";
     List<Subject> subjects;
     Student loggedInStudent;
-    public static final String SUBJECT_ID_TAG ="subjectId" ;
+    public static final String SUBJECT_ID_TAG = "subjectId";
     HomePageRecyclerViewAdapter adapter;
 
     @Override
@@ -63,11 +58,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         init();
+        getLoggedUserSubjects();
+
 
         setupHomePageRecyclerView();
-        getLoggedUserSubjects();
-addNewSubjectButton();
+        addNewSubjectButton();
+        setupSearchFunctionality();
+
+
     }
+
+    private void setupSearchFunctionality() {
+        searchEditText = findViewById(R.id.search_edittext);
+        ImageView searchIcon = findViewById(R.id.search_icon);
+
+        searchIcon.setOnClickListener(view -> {
+            String query = searchEditText.getText().toString().trim();
+            performSearch(query);
+        });
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void performSearch(String query) {
+        RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecyclerView);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        homePageRecyclerView.setLayoutManager(layoutManager);
+
+            List<Subject> searchResults = new ArrayList<>();
+            for (Subject subject : subjects) {
+                if (subject.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    searchResults.add(subject);
+                }
+            }
+
+            // Update the RecyclerView with search results
+            adapter = new HomePageRecyclerViewAdapter(searchResults, this);
+            homePageRecyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+        }
+
+
 
 
     @Override
@@ -80,10 +113,9 @@ addNewSubjectButton();
     @Override
     public void onBackPressed() {
 
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
 
@@ -91,9 +123,10 @@ addNewSubjectButton();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -141,8 +174,6 @@ addNewSubjectButton();
     }
 
 
-
-
     public void setupHomePageRecyclerView() {
         RecyclerView homePageRecyclerView = (RecyclerView) findViewById(R.id.homeActivityRecyclerView);
 
@@ -151,9 +182,10 @@ addNewSubjectButton();
 
         subjects = new ArrayList<>();
 
-        adapter = new HomePageRecyclerViewAdapter( subjects,this);
+        adapter = new HomePageRecyclerViewAdapter(subjects, this);
         homePageRecyclerView.setAdapter(adapter);
     }
+
     private void init() {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -162,14 +194,15 @@ addNewSubjectButton();
         setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this , drawerLayout , toolbar , R.string.navigation_drawer_open , R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
     }
+
     private void addNewSubjectButton() {
         ImageButton addNewSubject = findViewById(R.id.add_subject_button);
         Log.i(TAG, "logged user: " + loggedInStudent);
@@ -185,29 +218,29 @@ addNewSubjectButton();
         });
     }
 
-private void getLoggedUserSubjects(){
-    //subjects=new ArrayList<>();
-    String loggedUserId= sharedPreferences.getString(ID_TAG,"");
-    Amplify.API.query(
-            ModelQuery.get(Student.class, loggedUserId),
-            response -> {
-                loggedInStudent = response.getData();
-                if (loggedInStudent != null) {
-                    subjects.clear(); // Clear the existing list before adding new subjects
+    private void getLoggedUserSubjects() {
+        //subjects=new ArrayList<>();
+        String loggedUserId = sharedPreferences.getString(ID_TAG, "");
+        Amplify.API.query(
+                ModelQuery.get(Student.class, loggedUserId),
+                response -> {
+                    loggedInStudent = response.getData();
+                    if (loggedInStudent != null) {
+                        subjects.clear(); // Clear the existing list before adding new subjects
 
-                    subjects.addAll(loggedInStudent.getSubjects());
-                    runOnUiThread(() -> {
-                        adapter.notifyDataSetChanged();
-                    });
+                        subjects.addAll(loggedInStudent.getSubjects());
+                        runOnUiThread(() -> {
+                            adapter.notifyDataSetChanged();
+                        });
 
-                } else {
-                    Log.e(TAG, "User Not Found");
+                    } else {
+                        Log.e(TAG, "User Not Found");
+                    }
+                },
+                error -> {
+                    Log.e(TAG, "Error fetching User by ID", error);
                 }
-            },
-            error -> {
-                Log.e(TAG, "Error fetching User by ID", error);
-            }
-    );
-}
-
+        );
     }
+
+}
