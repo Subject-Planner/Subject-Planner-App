@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,6 +20,7 @@
 
 
         <TextView
+            android:id="@+id/addRecordPopupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
@@ -37,10 +39,13 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:textSize="@dimen/_13ssp"/>
 
-      <EditText
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginStart="@dimen/_20sdp"/>
+        <EditText
+            android:id="@+id/addTitleRecordPopupEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,10 +56,13 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:textSize="@dimen/_13ssp"/>
 
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/_20sdp"/>
+        <EditText
+            android:id="@+id/addLinkRecordPopupEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -74,6 +82,7 @@
                 android:padding="@dimen/_5sdp"/>
 
             <Button
+                android:id="@+id/addButtonRecordPopup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add"
