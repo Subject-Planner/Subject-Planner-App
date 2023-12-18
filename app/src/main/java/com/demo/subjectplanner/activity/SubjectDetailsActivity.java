@@ -1,4 +1,5 @@
 package com.demo.subjectplanner.activity;
+import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
 import static com.demo.subjectplanner.activity.MainActivity.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,19 +7,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.DaysEnum;
 import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.Record;
+import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.adapter.FileAdapter;
@@ -28,9 +36,12 @@ import com.demo.subjectplanner.activity.model.FileEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class SubjectDetailsActivity extends AppCompatActivity {
     public static final String SUBJECT_TITLE = "subjectTitle";
+    public static final String SUBJECT_DETAILS = "subjectDetailsActivity";
     TextView subjectNameTextView;
     TextView numberOfAbsentsTextView;
     TextView daysTextView;
@@ -40,12 +51,21 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     List<Subject> subjects;
     Subject subject;
     String subjectTitleString=null;
+    Student loggedInStudent;
+
+    SharedPreferences sharedPreferences;
+
+    CompletableFuture<List<Record>> recordFuture = new CompletableFuture<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_subject_details);
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
+        getLoggedUser();
         Intent callingIntent = getIntent();
          subjectTitleString = callingIntent.getStringExtra(MainActivity.SUBJECT_TITLE_TAG);
 
@@ -104,6 +124,41 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 //        createPopUpWindow();
     }
 
+
+    public void saveRecordAction(View view) {
+        if(loggedInStudent!=null) {
+//            String recordName = eventNameET.getText().toString();
+//            selectedSubjectString = subjectSpinner.getSelectedItem().toString();
+            List<Record> records = null;
+            try {
+                records = recordFuture.get();
+            } catch (InterruptedException ie) {
+                Log.e(SUBJECT_DETAILS, " InterruptedException while getting records");
+            } catch (ExecutionException ee) {
+                Log.e(SUBJECT_DETAILS, " ExecutionException while getting records");
+            }
+
+
+// Convert LocalDateTime to Date
+
+//            Subject selectedSub = subs.stream().filter(c -> c.getTitle().equals(selectedSubjectString)).findAny().orElseThrow(RuntimeException::new);
+//            Log.i("EventActivity", "saveEventAction: "+ " name "+eventName+ " date: "+CalendarUtils.selectedDate.toString()+" time: "+time.toString()+" subject: "+selectedSub.getTitle().toString());
+//            Record newRecord=Record.builder()
+////                    .name()
+////                    .link()
+////                    .subject(subject)
+////                    .build();
+////
+////
+////            Amplify.API.mutate(
+////                    ModelMutation.create(newRecord),
+////                    successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
+////                    failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
+////            );
+////
+////            finish();
+////        }
+        }}
     private void addEvent() {
         Button addEventButton=(Button) findViewById(R.id.addEventButton);
         addEventButton.setOnClickListener(view -> {
@@ -207,7 +262,8 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
-
+//            TextView popAddRecordTitleTextView=findViewById(R.id.addRecordPopupTitle);
+//            popAddRecordTitleTextView.setText("Add Your Record to : " + subject.getTitle());
             // Set background drawable to allow dismissal when clicking outside the popup window
             popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
 
@@ -224,7 +280,31 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                     popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
                 }
             });
+            Button addRecordPopButton = popupView.findViewById(R.id.addButtonRecordPopup); // Replace with the actual ID of your "Cancel" button
 
+            // Set an OnClickListener for the "Cancel" button to dismiss the popup
+            addRecordPopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EditText popRecordLink=findViewById(R.id.addLinkRecordPopupEditText);
+                    EditText potRecordTitle=findViewById(R.id.addTitleRecordPopupEditText);
+                    Record newRecord=Record.builder()
+                            .name(potRecordTitle.getText().toString())
+                            .link(popRecordLink.getText().toString())
+                            .subject(subject)
+                            .build();
+
+
+                    Amplify.API.mutate(
+                            ModelMutation.create(newRecord),
+                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
+                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
+                    );
+//                    finish();
+
+
+                }
+            });
             // Show the popup window
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
@@ -353,4 +433,26 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         recordList.add("Record 8" );
         return recordList;
     }
+
+    private void getLoggedUser(){
+
+        String loggedUserId= sharedPreferences.getString(ID_TAG,"");
+        Amplify.API.query(
+                ModelQuery.get(Student.class, loggedUserId),
+                response -> {
+                    loggedInStudent = response.getData();
+                    if (loggedInStudent != null) {
+
+//                        setupSubjectSpinner();
+
+                    } else {
+                        Log.e("EditEventActivity", "User Not Found");
+                    }
+                },
+                error -> {
+                    Log.e("EditEventActivity", "Error fetching User by ID", error);
+                }
+        );
+    }
+
 }
