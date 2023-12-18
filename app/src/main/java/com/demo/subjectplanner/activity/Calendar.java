@@ -164,8 +164,7 @@ public class Calendar extends AppCompatActivity implements CalendarAdapter.OnIte
                 response -> {
                     loggedInStudent = response.getData();
                     if (loggedInStudent != null) {
-
-getEvents();
+                        getEvents();
                         setupSubjectActivities();
                     } else {
                         Log.e("EditEventActivity", "User Not Found");

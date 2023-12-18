@@ -26,15 +26,6 @@
             </intent-filter>
         </receiver>
 
-<!--        <activity-->
-<!--            android:name=".activity.TestDialogueWindow"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".activity.NotificationActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".NotificationActivity"-->
-<!--            android:exported="false" />-->
         <activity
             android:name=".activity.EditSubjectActivity"
             android:exported="false" />
