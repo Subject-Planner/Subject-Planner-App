@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.File;
 import com.demo.subjectplanner.R;
 import com.demo.subjectplanner.activity.model.FileEntity;
 
@@ -19,10 +20,10 @@ import java.util.List;
 
 public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
-    private List<FileEntity> fileList;
+    private List<File> fileList;
     private Context context;
 
-    public FileAdapter(List<FileEntity> fileList, Context context) {
+    public FileAdapter(List<File> fileList, Context context) {
         this.fileList = fileList;
         this.context = context;
     }
@@ -36,10 +37,10 @@ public class FileAdapter extends RecyclerView.Adapter<FileAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FileEntity fileEntity = fileList.get(position);
+        File fileEntity = fileList.get(position);
 
 
-        holder.textViewTitle.setText(fileEntity.getTitle());
+        holder.textViewTitle.setText(fileEntity.getName());
 
         // Set click listener for the card
         holder.cardView.setOnClickListener(new View.OnClickListener() {

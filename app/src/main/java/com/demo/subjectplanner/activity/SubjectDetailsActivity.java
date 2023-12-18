@@ -25,6 +25,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.DaysEnum;
 import com.amplifyframework.datastore.generated.model.Event;
+import com.amplifyframework.datastore.generated.model.File;
 import com.amplifyframework.datastore.generated.model.Record;
 import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
@@ -33,6 +34,7 @@ import com.demo.subjectplanner.activity.adapter.FileAdapter;
 import com.demo.subjectplanner.activity.adapter.GradeAdapter;
 import com.demo.subjectplanner.activity.adapter.RecordsRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.model.FileEntity;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,13 +109,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
 
     void retrieveAllSubjectInfo() {
-        List<FileEntity> fileList = generateFileList();
+        List<File> fileList = generateFileList();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         FileAdapter adapter = new FileAdapter(fileList, this);
         recyclerView.setAdapter(adapter);
-        List<String> recordList = generateRecordList();
+        List<Record> recordList = generateRecordList();
 
         RecyclerView recordsrecyclerView = findViewById(R.id.SubjectRecordsRecyclerView);
 
@@ -186,7 +188,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             popupWindow.setFocusable(true);
 
             // Find the "Cancel" button in the popup layout
-            Button cancelButton = popupView.findViewById(R.id.cancelButtonFilePopup); // Replace with the actual ID of your "Cancel" button
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonFilePopup);
 
             // Set an OnClickListener for the "Cancel" button to dismiss the popup
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -196,10 +198,59 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                 }
             });
 
+            // Find views from the inflated layout (popupView)
+            TextView popAddFileTitleTextView = popupView.findViewById(R.id.addFilePopupTitle);
+            EditText popFileName = popupView.findViewById(R.id.addFileNamePopupEditText);
+            EditText popFilePath = popupView.findViewById(R.id.addFileLinkPopupEditText);
+
+            // Set the text for popAddFileTitleTextView
+            popAddFileTitleTextView.setText("Add Your File to : " + subject.getTitle());
+
+            // Find the "Cancel" button in the popup layout
+            Button addFilePopButton = popupView.findViewById(R.id.addButtonFilePopup);
+
+            addFilePopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("subjectDetailsActivity", "addFilePopButton.setOnClickListeneronClick:" + popFileName.getText().toString());
+                    Log.i("subjectDetailsActivity", "addFilePopButton.setOnClickListeneronClick:" + popFilePath.getText().toString());
+
+                    // Add your file creation logic here
+                    String fileName = popFileName.getText().toString();
+                    String filePath = popFilePath.getText().toString();
+
+                    // Add your file creation logic here
+                    File newFile = File.builder()
+                            .name(fileName)
+                            .link(filePath)  // Assuming filePath is the link to the file
+                            .subject(subject)
+                            .build();
+
+                    // Replace the following logic with your actual API call or file handling logic
+                    // Amplify.API.mutate(
+                    //         ModelMutation.create(newFile),
+                    //         successResponse -> Log.i(SUBJECT_DETAILS, "SaveFileAction.onCreate(): File added successfully"),
+                    //         failureResponse -> Log.e(SUBJECT_DETAILS, "SaveFileAction.onCreate(): failed with this response" + failureResponse)
+                    // );
+
+                    Amplify.API.mutate(
+                            ModelMutation.create(newFile),
+                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveFileAction.onCreate(): Record added successfully"),//success response
+                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveFileAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
+                    );
+                    finish();
+                    // Close the popup
+                    Snackbar.make(findViewById(android.R.id.content), "File Added", Snackbar.LENGTH_SHORT).show();
+
+                    popupWindow.dismiss();
+                }
+            });
+
             // Show the popup window
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
     }
+
 
 
     private void addNote() {
@@ -238,6 +289,8 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             // Show the popup window
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
+
+
     }
 
 
@@ -257,20 +310,22 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
 
-            Log.i("subjectDetailsActivity", "subject in addRecordPopButton.setOnClickListener;" + subject);
-            TextView popAddRecordTitleTextView=findViewById(R.id.addRecordPopupTitle);
-         //   popAddRecordTitleTextView.setText("Add Your Record to : WEB ");
-
-
-
             // Set background drawable to allow dismissal when clicking outside the popup window
             popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
 
             // Set focusable true to enable touch events outside of the popup window
             popupWindow.setFocusable(true);
 
+            // Find views from the inflated layout (popupView)
+            TextView popAddRecordTitleTextView = popupView.findViewById(R.id.addRecordPopupTitle);
+            EditText popRecordLink = popupView.findViewById(R.id.addLinkRecordPopupEditText);
+            EditText potRecordTitle = popupView.findViewById(R.id.addTitleRecordPopupEditText);
+
+            // Set the text for popAddRecordTitleTextView
+            popAddRecordTitleTextView.setText("Add Your Record to : "+subject.getTitle());
+
             // Find the "Cancel" button in the popup layout
-            Button cancelButton = popupView.findViewById(R.id.cancelButtonRecordPopup); // Replace with the actual ID of your "Cancel" button
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonRecordPopup);
 
             // Set an OnClickListener for the "Cancel" button to dismiss the popup
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -279,38 +334,39 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                     popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
                 }
             });
+
             Button addRecordPopButton = popupView.findViewById(R.id.addButtonRecordPopup);
 
             addRecordPopButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:" + potRecordTitle.getText().toString());
+                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:" + popRecordLink.getText().toString());
 
-                    EditText popRecordLink=findViewById(R.id.addLinkRecordPopupEditText);
-                    EditText potRecordTitle=findViewById(R.id.addTitleRecordPopupEditText);
-                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:"+potRecordTitle.getText().toString());
-                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:"+popRecordLink.getText().toString());
-//                    Record newRecord=Record.builder()
-//                            .name(potRecordTitle.getText().toString())
-//                            .link(popRecordLink.getText().toString())
-//                            .subject(subject)
-//                            .build();
-//
-//
-//                    Amplify.API.mutate(
-//                            ModelMutation.create(newRecord),
-//                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
-//                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
-//                    );
-//                    finish();
+                    // Add your record creation logic here
+                    Record newRecord=Record.builder()
+                            .name(potRecordTitle.getText().toString())
+                            .link(popRecordLink.getText().toString())
+                            .subject(subject)
+                            .build();
 
 
+                    Amplify.API.mutate(
+                            ModelMutation.create(newRecord),
+                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
+                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
+                    );
+                    finish();
+                    // Close the popup
+                    popupWindow.dismiss();
                 }
             });
+
             // Show the popup window
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
         });
     }
+
 
 
     private void goToEditSubject() {
@@ -383,27 +439,15 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
 
 
-    private List<FileEntity> generateFileList() {
-        List<FileEntity> fileList = new ArrayList<>();
-        fileList.add(new FileEntity("AI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
-        fileList.add(new FileEntity("PIC", "https://elcom-hu.com/Subjects/Mech/4th-and-5th-year/%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A7%D8%AA-%D9%88%D9%85%D8%AA%D8%AD%D9%83%D9%85%D8%A7%D8%AA-%D8%AF%D9%82%D9%8A%D9%82%D8%A9/%D8%AF%D9%81%D8%AA%D8%B1-%D8%A8%D9%8A%D9%83-%D8%AF.%D8%A7%D8%B3%D9%85%D8%A7%D8%A1-%D8%A7%D9%84%D8%AA%D9%85%D9%8A%D9%85%D9%8A"));
-        // Add more files as needed
-        fileList.add(new FileEntity("AsI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
-        fileList.add(new FileEntity("AeI", "https://elcom-team.com/Subjects/%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A/%D8%AA%D9%84%D8%AE%D9%8A%D8%B5%20%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20-%20%D8%AD%D9%85%D8%B2%D8%A9%20%D8%A7%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84.pdf"));
+    private List<File> generateFileList() {
+        List<File> fileList = subject.getFiles();
 
         return fileList;
     }
 
-    private List<String> generateRecordList() {
-        List<String> recordList = new ArrayList<>();
-        recordList.add("Record 1" );
-        recordList.add("Record 2" );
-        recordList.add("Record 3" );
-        recordList.add("Record 4" );
-        recordList.add("Record 5" );
-        recordList.add("Record 6" );
-        recordList.add("Record 7" );
-        recordList.add("Record 8" );
+    private List<Record> generateRecordList() {
+        List<Record> recordList =subject.getRecords();
+
         return recordList;
     }
 

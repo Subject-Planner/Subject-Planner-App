@@ -1,5 +1,6 @@
 package com.demo.subjectplanner.activity.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,16 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Record;
 import com.demo.subjectplanner.R;
 
 import java.util.List;
 
 public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> recordsList;
+    private List<Record> recordsList;
     private Context context;
 
-    public RecordsRecyclerViewAdapter(List<String> recordsList, Context context) {
+    public RecordsRecyclerViewAdapter(List<Record> recordsList, Context context) {
         this.recordsList = recordsList;
         this.context = context;
     }
@@ -35,8 +37,8 @@ public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String recordTitle = recordsList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        String recordTitle = recordsList.get(position).getName();
 
         // Static image
         holder.textViewTitle.setText(recordTitle);
@@ -45,7 +47,7 @@ public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecy
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, recordTitle, Toast.LENGTH_LONG).show();
+                openLink(recordsList.get(position).getLink());
             }
         });
     }
