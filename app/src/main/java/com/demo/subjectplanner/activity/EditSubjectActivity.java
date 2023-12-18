@@ -44,7 +44,7 @@ public class EditSubjectActivity extends AppCompatActivity {
         recordList.add("Record 1" );
         recordList.add("Record 2" );
         recordList.add("Record 3" );
-        recordList.add("Record 4" );
+        recordList.add("Record  4" );
         recordList.add("Record 5" );
         recordList.add("Record 6" );
         recordList.add("Record 7" );

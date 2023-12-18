@@ -1,10 +1,14 @@
 package com.demo.subjectplanner.activity;
 
+import static com.demo.subjectplanner.activity.LoginActivity.ID_TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +21,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.generated.model.Grade;
+import com.amplifyframework.datastore.generated.model.Student;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
 
@@ -33,8 +38,8 @@ import java.util.stream.Collectors;
 public class AddGradeActivity extends AppCompatActivity {
     String selectedSubject;
     CompletableFuture<List<Subject>> subjectFuture = new CompletableFuture<>();
-
-    
+Student loggedInStudent;
+    SharedPreferences sharedPreferences;
     Spinner subjectSpinner;
     Date selectedDate;
     EditText gradeWeightEditText;
@@ -47,25 +52,21 @@ public class AddGradeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_grade);
-        init();
-        setupSubjectSpinner();
-        collectGradeInfo();
+getLoggedUser();
 
-    }
-    private void init() {
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
     }
 
-    private void collectGradeInfo(){
+
+    private  void collectGradeInfo(){
         // collect the associated date
         ImageView pickGradeDate= findViewById(R.id.grade_date_button);
         pickGradeDate.setOnClickListener(view -> {
             openDialog();
         });
+        Log.i("AddGradeActivity", "logged in user: "+loggedInStudent);
 
+        if(loggedInStudent!=null){
 
         //save the grade
         saveGradeButton= findViewById(R.id.save_grade_imageview);
@@ -103,7 +104,10 @@ public class AddGradeActivity extends AppCompatActivity {
                     failureResponse -> Log.e("Add Grade Activity", "Grade failed with this response" + failureResponse)// in case we have a failed response
             );
             Snackbar.make(findViewById(R.id.addGradeActivityLayout), "Grade Added", Snackbar.LENGTH_SHORT).show();
-        });
+        });}else{
+            Snackbar.make(findViewById(R.id.addGradeActivityLayout), "Login to add grade", Snackbar.LENGTH_SHORT).show();
+
+        }
 
     }
     private void openDialog() {
@@ -121,31 +125,44 @@ public class AddGradeActivity extends AppCompatActivity {
     }
     private void setupSubjectSpinner(){  //here I get the subject using future complete and pass them to the spinner
         subjectSpinner = findViewById(R.id.subjects_category_spinner);
-        Amplify.API.query(
-                ModelQuery.list(Subject.class),
-                success ->
-                {
-                    Log.i("Grade activity", "Read Subjects Successfully");
-                    ArrayList<String> subjectNames = new ArrayList<>();
-                    ArrayList<Subject> subjects = new ArrayList<>();
-                    for (Subject subject : success.getData()) {
-                        subjects.add(subject);
-                        subjectNames.add(subject.getTitle());
-                    }
-                    subjectFuture.complete(subjects);
 
-                    runOnUiThread(() ->
-                    {
-                        subjectSpinner.setAdapter(new ArrayAdapter<>(
-                                this,
-                                (android.R.layout.simple_spinner_item),
-                                subjectNames
-                        ));
-                    });
+        ArrayList<String> subjectNames = new ArrayList<>();
+        ArrayList<Subject> subjects = new ArrayList<>();
+        for (Subject subject : loggedInStudent.getSubjects()) {
+            subjects.add(subject);
+            subjectNames.add(subject.getTitle());
+        }
+        subjectFuture.complete(subjects);
+
+        runOnUiThread(() ->
+        {
+            subjectSpinner.setAdapter(new ArrayAdapter<>(
+                    this,
+                    (android.R.layout.simple_spinner_item),
+                    subjectNames
+            ));
+        });
+    }
+    private void getLoggedUser(){
+        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
+        String loggedUserId= sharedPreferences.getString(ID_TAG,"");
+        Amplify.API.query(
+                ModelQuery.get(Student.class, loggedUserId),
+                response -> {
+                    loggedInStudent = response.getData();
+                    if (loggedInStudent != null) {
+                        runOnUiThread(() -> {
+                            setupSubjectSpinner();
+                            collectGradeInfo();
+                        });
+
+                    } else {
+                        Log.e("AddGradeActivity", "User Not Found");
+                    }
                 },
-                failure -> {
-                    subjectFuture.complete(null);
-                    Log.i("Grade Activity", "Did not read Subjects successfully");
+                error -> {
+                    Log.e("AddGradeActivity", "Error fetching User by ID", error);
                 }
         );
     }
