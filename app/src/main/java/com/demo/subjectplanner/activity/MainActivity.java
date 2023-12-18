@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setupHomePageRecyclerView();
         getLoggedUserSubjects();
-addNewSubjectButton();
+        addNewSubjectButton();
     }
 
 
@@ -134,6 +134,13 @@ addNewSubjectButton();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+        }
+
+        if (id == R.id.nav_agenda) {
+            // Handle the Agenda item click
+            Toast.makeText(this, "Go to Agenda", Toast.LENGTH_LONG).show();
+            Intent goToAgenda = new Intent(MainActivity.this, AgendaActivity.class);
+            startActivity(goToAgenda);
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
