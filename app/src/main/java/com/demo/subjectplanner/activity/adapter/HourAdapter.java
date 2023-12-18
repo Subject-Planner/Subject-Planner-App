@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,12 @@ public class HourAdapter extends ArrayAdapter<HourEvent>
 
         setHour(convertView, event.getTime());
         setEvents(convertView, event.getEvents());
+
+        Button deleteButton = convertView.findViewById(R.id.deleteButton);
+
+        // Set a tag to identify the position of the item in the adapter
+        deleteButton.setTag(position);
+
 
         return convertView;
     }
@@ -86,6 +93,8 @@ public class HourAdapter extends ArrayAdapter<HourEvent>
             eventsNotShown += " More Events";
             event3.setText(eventsNotShown);
         }
+        //
+
     }
 
     private void setEvent(TextView textView, Event event)
@@ -98,4 +107,6 @@ public class HourAdapter extends ArrayAdapter<HourEvent>
     {
         tv.setVisibility(View.INVISIBLE);
     }
+    // Interface for onItemClick event
+
 }
