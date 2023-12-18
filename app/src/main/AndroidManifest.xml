@@ -25,6 +25,9 @@
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
+        <activity
+            android:name=".activity.AgendaActivity"
+            android:exported="false" />
 
         <activity
             android:name=".activity.EditSubjectActivity"
