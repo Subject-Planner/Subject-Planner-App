@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/popupbg"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:padding="@dimen/_6sdp"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="Choose the Note you want to delete "
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textSize="@dimen/_15sdp" />
+
+        <Spinner
+            android:id="@+id/editNoteSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:textSize="@dimen/_13ssp"
+            android:gravity="top"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp">
+
+            <Button
+                android:id="@+id/cancelButtonEditNotePopup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:background="@drawable/cancel_btnbg"
+                android:padding="@dimen/_5sdp" />
+
+            <ImageButton
+                android:id="@+id/deleteButtonNotePopup"
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_delete_forever_24"
+                android:textColor="@color/white"
+                android:background="@drawable/cancel_btnbg"
+                android:padding="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                ></ImageButton>
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
