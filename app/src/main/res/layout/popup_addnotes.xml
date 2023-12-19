@@ -25,7 +25,7 @@
             android:textSize="@dimen/_16sdp" />
 
         <EditText
-            android:id="@+id/commentEditText"
+            android:id="@+id/addNoteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
@@ -55,6 +55,7 @@
                 android:padding="@dimen/_5sdp" />
 
             <Button
+                android:id="@+id/addButtonNotePopup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add"
