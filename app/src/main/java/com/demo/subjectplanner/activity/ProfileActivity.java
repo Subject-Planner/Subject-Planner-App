@@ -39,7 +39,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         getUserById(userId);
         goToCalender();
+        goToAgenda();
 
+    }
+
+    private void goToAgenda() {
+        ImageView agenda = findViewById(R.id.agenda);
+        agenda.setOnClickListener(b -> {
+            Intent goToAgendaIntent = new Intent(ProfileActivity.this , AgendaActivity.class);
+            startActivity(goToAgendaIntent);
+        });
     }
 
     @Override
