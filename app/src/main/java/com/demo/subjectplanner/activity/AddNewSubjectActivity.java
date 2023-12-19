@@ -93,16 +93,12 @@ public class AddNewSubjectActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.Agenda) {
-            Toast.makeText(this, "go to Agenda", Toast.LENGTH_LONG).show();
         }
         if (id == R.id.Recordings) {
-            Toast.makeText(this, "go to Recordings", Toast.LENGTH_LONG).show();
         }
         if (id == R.id.Calendar) {
-            Toast.makeText(this, "go to Calendar", Toast.LENGTH_LONG).show();
         }
         if (id == R.id.Grades) {
-            Toast.makeText(this, "go to Grades", Toast.LENGTH_LONG).show();
         }
         return true;
     }
@@ -167,9 +163,7 @@ public class AddNewSubjectActivity extends AppCompatActivity {
                 Subject newSubj = Subject.builder()
                         .title(subjectTitle)
                         .images(new ArrayList<>())
-//                        .files(new ArrayList<>())
                         .notes(new ArrayList<>())
-//                        .recordings(new ArrayList<>())
                         .startDate(new Temporal.DateTime(utcDate, 0))
                         .endDate(new Temporal.DateTime(new Date(), 0))
                         .numberOfAbsents(Integer.valueOf(subjectAbsents))
@@ -182,6 +176,8 @@ public class AddNewSubjectActivity extends AppCompatActivity {
                         ModelMutation.create(newSubj),
                         successResponse ->{
                             Log.i("AddNewSubjectActivity", "AddSubject.onCreate(): Subject added successfully");
+                            Intent goToSubjects= new Intent(AddNewSubjectActivity.this,MainActivity.class);
+                            startActivity(goToSubjects);
                             Snackbar.make(findViewById(R.id.AddNewSubjectLayout), "Subject Added", Snackbar.LENGTH_SHORT).show();
                         },
                         failureResponse -> Log.e("AddNewSubjectActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
@@ -206,32 +202,6 @@ public class AddNewSubjectActivity extends AppCompatActivity {
 
     }
 
-//    private void addSubject(String title, Date subjectStartDate, int absents ,List<DaysEnum> daysEnums) {
-//
-////        Student student = Student.builder()
-////                .name("saif")
-////                .email("saif@yahoo.com")
-////                .password("saif123").build();
-//        Subject newSubj = Subject.builder()
-//                .title(title)
-//                .images(new ArrayList<>())
-//                .files(new ArrayList<>())
-//                .notes(new ArrayList<>())
-//                .recordings(new ArrayList<>())
-//                .startDate(new Temporal.DateTime(subjectStartDate, 0))
-//                .endDate(new Temporal.DateTime(new Date(), 0))
-//                .numberOfAbsents(absents)
-//                .days(daysEnums)
-//                .studentPerson(loggedInStudent)
-//                .build();
-//
-//
-//        Amplify.API.mutate(
-//                ModelMutation.create(newSubj),
-//                successResponse -> Log.i("AddNewSubjectActivity", "AddSubject.onCreate(): Subject added successfully"),//success response
-//                failureResponse -> Log.e("AddNewSubjectActivity", "AddSubject.onCreate(): failed with this response" + failureResponse)// in case we have a failed response
-//        );
-//    }
     private void getLoggedUser(){
 
         String loggedUserId= sharedPreferences.getString(ID_TAG,"");

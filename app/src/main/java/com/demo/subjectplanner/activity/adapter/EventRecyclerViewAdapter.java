@@ -4,11 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Event;
 import com.demo.subjectplanner.R;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -20,9 +26,10 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
     List<Event> events;
     Context callingActivity;
 
-    public EventRecyclerViewAdapter(List<Event> events , Context callingActivity) {
+    public EventRecyclerViewAdapter(List<Event> events , Context callingActivity,OnEventDeletedListener listener) {
         this.events = events;
         this.callingActivity = callingActivity;
+        this.onEventDeletedListener=listener;
         sortAndFilterEvents();
     }
 
@@ -42,9 +49,27 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         eventTitleTextView.setText(event.getName());
         String dateTime ="Time:" + event.getTime().toString().substring(45, 50);
         eventDateTextView.setText(dateTime);
+        Button deleteEventButton = holder.itemView.findViewById(R.id.deleteEvent);
+        deleteEventButton.setOnClickListener(view -> {
+            deleteThisEvent(event);
+        });
     }
 
-        private void sortAndFilterEvents() {
+    private void deleteThisEvent(Event event) {
+        Amplify.API.mutate(
+                ModelMutation.delete(event),
+                response -> {
+                    onEventDeletedListener.onEventDeleted();
+
+                    System.out.println("event deleted successfully");
+                },
+                error -> {
+                    System.err.println("Error deleting event: " + error);
+                }
+        );
+    }
+
+    private void sortAndFilterEvents() {
             // Sort events based on date and time
             Collections.sort(events, (event1, event2) -> {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -87,4 +112,9 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
             super(itemView);
         }
     }
+    public interface OnEventDeletedListener {
+        void onEventDeleted();
+    }
+    private OnEventDeletedListener onEventDeletedListener;
+
 }

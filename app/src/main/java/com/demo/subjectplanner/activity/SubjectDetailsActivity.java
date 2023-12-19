@@ -50,14 +50,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     TextView eventsTextView;
     TextView notesTextView;
     RecyclerView recyclerView;
-    List<Subject> subjects;
+
     Subject subject;
     String subjectIDFromIntent;
-    Student loggedInStudent;
+
 
     SharedPreferences sharedPreferences;
 
-    CompletableFuture<List<Record>> recordFuture = new CompletableFuture<>();
 
 
     @Override
@@ -73,6 +72,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     }
 
     private void retrieveSubject() {
+
 
             Intent callingIntentMain = getIntent();
             subjectIDFromIntent = callingIntentMain.getStringExtra(MainActivity.SUBJECT_ID_TAG);
@@ -95,14 +95,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                              addNote();
                              addFile();
                              addEvent();
+                             deleteSubject();
                         });
                     } else {
-                        // Subject not found
-                        // Handle the case where the Subject with the given ID is not found
+                        Log.e(SUBJECT_DETAILS, "subject not found");
                     }
                 },
                 error -> {
-                    // Handle query error
                     Log.e("GetSubjectError", "Error fetching Subject by ID", error);
                 }
         );
@@ -228,7 +227,6 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                             .link(filePath)  // Assuming filePath is the link to the file
                             .subject(subject)
                             .build();
-
 
 
                     Amplify.API.mutate(
@@ -451,9 +449,6 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
 
 
-
-
-
     private List<File> generateFileList() {
         List<File> fileList = subject.getFiles();
 
@@ -465,6 +460,23 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
         return recordList;
     }
-
+private void deleteSubject(){
+    Button deleteTask = findViewById(R.id.deleteSubjectButton);
+    deleteTask.setOnClickListener(view -> {
+        if(subject!=null){
+            Amplify.API.mutate(
+                    ModelMutation.delete(subject),
+                    response -> {
+                        System.out.println("Subject deleted successfully");
+                    },
+                    error -> {
+                        System.err.println("Error deleting Subject: " + error);
+                    }
+            );
+            Intent gobackFormIntent = new Intent(SubjectDetailsActivity.this, MainActivity.class);
+            startActivity(gobackFormIntent);
+        }
+    });
+}
 
 }
