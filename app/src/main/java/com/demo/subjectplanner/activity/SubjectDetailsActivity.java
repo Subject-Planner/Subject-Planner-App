@@ -50,14 +50,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     TextView eventsTextView;
     TextView notesTextView;
     RecyclerView recyclerView;
-    List<Subject> subjects;
+
     Subject subject;
     String subjectIDFromIntent;
-    Student loggedInStudent;
+
 
     SharedPreferences sharedPreferences;
 
-    CompletableFuture<List<Record>> recordFuture = new CompletableFuture<>();
 
 
     @Override
@@ -75,7 +74,6 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     private void retrieveSubject() {
         Intent callingIntent = getIntent();
         subjectIDFromIntent = callingIntent.getStringExtra(MainActivity.SUBJECT_ID_TAG);
-     //   Log.i(SUBJECT_DETAILS, "retrieveSubject: " + subjectIDFromIntent);
 
         Amplify.API.query(
                 ModelQuery.get(Subject.class, subjectIDFromIntent),
@@ -92,14 +90,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                              addNote();
                              addFile();
                              addEvent();
+                             deleteSubject();
                         });
                     } else {
-                        // Subject not found
-                        // Handle the case where the Subject with the given ID is not found
+                        Log.e(SUBJECT_DETAILS, "subject not found");
                     }
                 },
                 error -> {
-                    // Handle query error
                     Log.e("GetSubjectError", "Error fetching Subject by ID", error);
                 }
         );
@@ -226,12 +223,6 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                             .subject(subject)
                             .build();
 
-                    // Replace the following logic with your actual API call or file handling logic
-                    // Amplify.API.mutate(
-                    //         ModelMutation.create(newFile),
-                    //         successResponse -> Log.i(SUBJECT_DETAILS, "SaveFileAction.onCreate(): File added successfully"),
-                    //         failureResponse -> Log.e(SUBJECT_DETAILS, "SaveFileAction.onCreate(): failed with this response" + failureResponse)
-                    // );
 
                     Amplify.API.mutate(
                             ModelMutation.create(newFile),
@@ -436,9 +427,6 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
 
 
-
-
-
     private List<File> generateFileList() {
         List<File> fileList = subject.getFiles();
 
@@ -450,6 +438,23 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
         return recordList;
     }
-
+private void deleteSubject(){
+    Button deleteTask = findViewById(R.id.deleteSubjectButton);
+    deleteTask.setOnClickListener(view -> {
+        if(subject!=null){
+            Amplify.API.mutate(
+                    ModelMutation.delete(subject),
+                    response -> {
+                        System.out.println("Subject deleted successfully");
+                    },
+                    error -> {
+                        System.err.println("Error deleting Subject: " + error);
+                    }
+            );
+            Intent gobackFormIntent = new Intent(SubjectDetailsActivity.this, MainActivity.class);
+            startActivity(gobackFormIntent);
+        }
+    });
+}
 
 }

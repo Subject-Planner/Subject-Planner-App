@@ -130,11 +130,14 @@ public void saveEventAction(View view)
     Amplify.API.mutate(
             ModelMutation.create(newOne),
             successResponse -> {Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully");
-                scheduleNotification(eventName, time);},
+                scheduleNotification(eventName, time);
+Intent goToWeeklyView = new Intent(EventEditActivity.this,Calendar.class);
+startActivity(goToWeeklyView);
+                },
             failureResponse -> Log.e("EventActivity", "SaveEvenTAction.onCreate(): faile d with this response" + failureResponse)// in case we have a failed response
     );
 
-    finish();
+//    finish();
     }
 
 
@@ -220,6 +223,7 @@ private void showTimePickerDialog(){
         );
 
 
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long millis = localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
@@ -235,5 +239,6 @@ private void showTimePickerDialog(){
             alarmManager.set(AlarmManager.RTC_WAKEUP, millis, pendingIntent);
         }
     }
+
 
 }

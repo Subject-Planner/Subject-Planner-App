@@ -25,13 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class AgendaActivity extends AppCompatActivity {
+public class AgendaActivity extends AppCompatActivity implements EventRecyclerViewAdapter.OnEventDeletedListener {
 
     List<Event> events;
     EventRecyclerViewAdapter adapter;
     Student loggedInStudent;
     SharedPreferences sharedPreferences;
-    CompletableFuture<List<Event>> retrievedEvents = new CompletableFuture<>();
 
 
     @Override
@@ -50,34 +49,25 @@ public class AgendaActivity extends AppCompatActivity {
 
         events = new ArrayList<>();
 
-        adapter = new EventRecyclerViewAdapter( events,this);
+        adapter = new EventRecyclerViewAdapter(events, this, this);
         eventRecyclerView.setAdapter(adapter);
     }
 
     private void getEvents(){
-        Log.i("Calendar Activity", "get events method called, user:" +loggedInStudent);
+        Log.i("Agenda Activity", "get events method called, user:" +loggedInStudent);
 
         if(loggedInStudent != null){
             List<Subject> loggedUserSubjects = loggedInStudent.getSubjects();
-            List<Event> events = new ArrayList<>();
+            List<Event> events2 = new ArrayList<>();
 
             for(Subject sub : loggedUserSubjects){
                 for(Event event : sub.getEvents()) {
-                    events.add(event);
+                    events2.add(event);
                 }
             }
+            events.clear();
+            events.addAll(events2);
 
-            retrievedEvents.complete(events);
-            runOnUiThread(() -> {
-                adapter.notifyDataSetChanged();
-            });
-
-            // Update the adapter's dataset with retrievedEvents and notify the adapter of changes
-            retrievedEvents.thenAccept(retrievedEventList -> {
-                this.events.clear(); // Clear the existing events
-                this.events.addAll(retrievedEventList); // Add the retrieved events
-                adapter.notifyDataSetChanged(); // Notify adapter of dataset changes
-            });
         }
     }
 
@@ -91,12 +81,16 @@ public class AgendaActivity extends AppCompatActivity {
                     loggedInStudent = response.getData();
                     if (loggedInStudent != null) {
                         getEvents();
+
+                        runOnUiThread(() -> {
+                            adapter.notifyDataSetChanged();
+                        });
                     } else {
-                        Log.e("EditEventActivity", "User Not Found");
+                        Log.e("Agenda Activity", "User Not Found");
                     }
                 },
                 error -> {
-                    Log.e("EditEventActivity", "Error fetching User by ID", error);
+                    Log.e("Agenda Activity", "Error fetching User by ID", error);
                 }
         );
     }
@@ -106,5 +100,12 @@ public class AgendaActivity extends AppCompatActivity {
         super.onResume();
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onEventDeleted() {
+        getEvents();
+        adapter.notifyDataSetChanged();
+
     }
 }

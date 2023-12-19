@@ -39,12 +39,6 @@ public class HourAdapter extends ArrayAdapter<HourEvent>
         setHour(convertView, event.getTime());
         setEvents(convertView, event.getEvents());
 
-        Button deleteButton = convertView.findViewById(R.id.deleteButton);
-
-        // Set a tag to identify the position of the item in the adapter
-        deleteButton.setTag(position);
-
-
         return convertView;
     }
 

@@ -136,31 +136,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_grades) {
             // Handle the Grades item click
-            Toast.makeText(this, "Go to Grades", Toast.LENGTH_LONG).show();
             Intent goToGrades = new Intent(MainActivity.this, AddGradeActivity.class);
             startActivity(goToGrades);
         }
         if (id == R.id.nav_login) {
             // Handle the Grades item click
-            Toast.makeText(this, "Go to Login", Toast.LENGTH_LONG).show();
             Intent goToLogin = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(goToLogin);
         }
         if (id == R.id.nav_calender) {
             // Handle the Grades item click
-            Toast.makeText(this, "Go to Calendar", Toast.LENGTH_LONG).show();
             Intent goToCalendar = new Intent(MainActivity.this, Calendar.class);
             startActivity(goToCalendar);
         }
         if (id == R.id.nav_profile) {
             // Handle the Grades item click
-            Toast.makeText(this, "Go to Profile", Toast.LENGTH_LONG).show();
             Intent goToProfile = new Intent(MainActivity.this, ProfileActivity.class);
             startActivity(goToProfile);
         }
         if (id == R.id.nav_logout) {
             // Handle the Grades item click
-            Toast.makeText(this, "log out", Toast.LENGTH_LONG).show();
             // Clear user-related data from SharedPreferences
             SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
             preferenceEditor.remove(ID_TAG);
@@ -174,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_agenda) {
             // Handle the Agenda item click
-            Toast.makeText(this, "Go to Agenda", Toast.LENGTH_LONG).show();
             Intent goToAgenda = new Intent(MainActivity.this, AgendaActivity.class);
             startActivity(goToAgenda);
         }
