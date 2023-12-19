@@ -137,7 +137,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         subjectNameTextView.setText(subject.getTitle());
 
         numberOfAbsentsTextView = findViewById(R.id.numberOfAbsents);
-        numberOfAbsentsTextView.setText("Number of Absents : "+subject.getNumberOfAbsents());
+        numberOfAbsentsTextView.setText("Remaining Absents : "+subject.getNumberOfAbsents());
 
         daysTextView = findViewById(R.id.days);
         daysTextView.setText(concatenateDaysEnum(subject.getDays()));
@@ -159,7 +159,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         Button addEventButton=(Button) findViewById(R.id.addEventButton);
         addEventButton.setOnClickListener(view -> {
 
-            Intent goToAddEventIntent = new Intent(SubjectDetailsActivity.this,EditSubjectActivity.class );
+            Intent goToAddEventIntent = new Intent(SubjectDetailsActivity.this,Calendar.class );
             goToAddEventIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
             startActivity(goToAddEventIntent);
         });
@@ -226,22 +226,17 @@ public class SubjectDetailsActivity extends AppCompatActivity {
                             .subject(subject)
                             .build();
 
-                    // Replace the following logic with your actual API call or file handling logic
-                    // Amplify.API.mutate(
-                    //         ModelMutation.create(newFile),
-                    //         successResponse -> Log.i(SUBJECT_DETAILS, "SaveFileAction.onCreate(): File added successfully"),
-                    //         failureResponse -> Log.e(SUBJECT_DETAILS, "SaveFileAction.onCreate(): failed with this response" + failureResponse)
-                    // );
+
 
                     Amplify.API.mutate(
                             ModelMutation.create(newFile),
                             successResponse -> Log.i(SUBJECT_DETAILS, "SaveFileAction.onCreate(): Record added successfully"),//success response
                             failureResponse -> Log.e(SUBJECT_DETAILS, "SaveFileAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
                     );
-                    finish();
+
                     // Close the popup
                     Snackbar.make(findViewById(android.R.id.content), "File Added", Snackbar.LENGTH_SHORT).show();
-
+                    startActivity(getIntent());
                     popupWindow.dismiss();
                 }
             });
@@ -276,21 +271,41 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             popupWindow.setFocusable(true);
 
             // Find the "Cancel" button in the popup layout
-            Button cancelButton = popupView.findViewById(R.id.cancelButtonNotePopup); // Replace with the actual ID of your "Cancel" button
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonNotePopup);
 
             // Set an OnClickListener for the "Cancel" button to dismiss the popup
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
-                }
+            cancelButton.setOnClickListener(v -> popupWindow.dismiss());
+
+            // Find views from the inflated layout (popupView)
+            EditText noteContentEditText = popupView.findViewById(R.id.addNoteEditText);
+
+            // Find the "Add Note" button in the popup layout
+            Button addNotePopupButton = popupView.findViewById(R.id.addButtonNotePopup);
+
+            addNotePopupButton.setOnClickListener(v -> {
+                // Add your note creation logic here
+                String noteContent = noteContentEditText.getText().toString();
+
+                // Assuming you have a Subject instance (replace subject with your actual instance)
+                // and you want to associate the note string with the subject
+                subject.getNotes().add(noteContent);
+
+                // Update the subject with the new note
+                Amplify.API.mutate(
+                        ModelMutation.update(subject),
+                        successResponse -> Log.i(SUBJECT_DETAILS, "Note added successfully"),
+                        failureResponse -> Log.e(SUBJECT_DETAILS, "Failed to add note: " + failureResponse)
+                );
+
+                // Close the popup
+                Snackbar.make(findViewById(android.R.id.content), "Note Added", Snackbar.LENGTH_SHORT).show();
+                startActivity(getIntent());
+                popupWindow.dismiss();
             });
 
             // Show the popup window
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
-
-
     }
 
 
@@ -328,44 +343,44 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             Button cancelButton = popupView.findViewById(R.id.cancelButtonRecordPopup);
 
             // Set an OnClickListener for the "Cancel" button to dismiss the popup
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    popupWindow.dismiss(); // Dismiss the popup when the "Cancel" button is clicked
-                }
-            });
+            cancelButton.setOnClickListener(v -> popupWindow.dismiss());
 
             Button addRecordPopButton = popupView.findViewById(R.id.addButtonRecordPopup);
 
-            addRecordPopButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:" + potRecordTitle.getText().toString());
-                    Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:" + popRecordLink.getText().toString());
+            addRecordPopButton.setOnClickListener(v -> {
+                Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:" + potRecordTitle.getText().toString());
+                Log.i("subjectDetailsActivity", "addRecordPopButton.setOnClickListeneronClick:" + popRecordLink.getText().toString());
 
-                    // Add your record creation logic here
-                    Record newRecord=Record.builder()
-                            .name(potRecordTitle.getText().toString())
-                            .link(popRecordLink.getText().toString())
-                            .subject(subject)
-                            .build();
+                // Add your record creation logic here
+                Record newRecord = Record.builder()
+                        .name(potRecordTitle.getText().toString())
+                        .link(popRecordLink.getText().toString())
+                        .subject(subject)
+                        .build();
 
+                Amplify.API.mutate(
+                        ModelMutation.create(newRecord),
+                        successResponse -> {
+                            Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully");
+                            // Handle success as needed
+                        },
+                        failureResponse -> {
+                            Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): failed with this response" + failureResponse);
+                            // Handle failure as needed
+                        }
+                );
 
-                    Amplify.API.mutate(
-                            ModelMutation.create(newRecord),
-                            successResponse -> Log.i(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): Record added successfully"),//success response
-                            failureResponse -> Log.e(SUBJECT_DETAILS, "SaveRecordAction.onCreate(): fail d with this response" + failureResponse)// in case we have a failed response
-                    );
-                    finish();
-                    // Close the popup
-                    popupWindow.dismiss();
-                }
+                // Close the popup without finishing the activity
+                startActivity(getIntent());
+                popupWindow.dismiss();
+
             });
 
             // Show the popup window
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
     }
+
 
 
 
@@ -396,7 +411,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         }
 
         StringBuilder result = new StringBuilder();
-        result.append("Numbered List:\n");
+
 
         for (int i = 0; i < items.size(); i++) {
             result.append(i + 1).append(". ").append(items.get(i)).append("\n");
@@ -410,16 +425,13 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             return "There is no events.";
         }
         StringBuilder result = new StringBuilder();
-        result.append("[");
+
         for (int i = 0; i < events.size(); i++) {
-            Event event = events.get(i);
-            result.append(event.getName());
-            if (i < events.size() - 1) {
-                result.append(", ");
-            }
+            result.append(i + 1).append(". ").append(events.get(i).getName()).append("\n");
         }
-        result.append("]");
+
         return result.toString();
+
     }
     public static String concatenateDaysEnum(List<DaysEnum> days) {
         StringBuilder result = new StringBuilder();
