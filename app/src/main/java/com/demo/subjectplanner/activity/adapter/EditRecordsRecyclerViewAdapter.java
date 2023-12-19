@@ -16,16 +16,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Record;
 import com.demo.subjectplanner.R;
 
 import java.util.List;
 
 public class EditRecordsRecyclerViewAdapter extends RecyclerView.Adapter<EditRecordsRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> recordsList;
+    private List<Record> recordsList;
     private Context context;
 
-    public EditRecordsRecyclerViewAdapter(List<String> recordsList, Context context) {
+    public EditRecordsRecyclerViewAdapter(List<Record> recordsList, Context context) {
         this.recordsList = recordsList;
         this.context = context;
     }
@@ -39,7 +40,7 @@ public class EditRecordsRecyclerViewAdapter extends RecyclerView.Adapter<EditRec
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String recordTitle = recordsList.get(position);
+        String recordTitle = recordsList.get(position).getId();
 
         // Static image
         holder.textViewTitle.setText(recordTitle);
@@ -79,6 +80,7 @@ public class EditRecordsRecyclerViewAdapter extends RecyclerView.Adapter<EditRec
                 if (position != RecyclerView.NO_POSITION) {
                     recordsList.remove(position);
                     notifyItemRemoved(position);
+
                 }
                 dialog.dismiss();
             });

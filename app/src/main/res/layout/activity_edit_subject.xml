@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/note_background" />
+                android:src="@drawable/note_background1" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -85,55 +85,224 @@
                         android:textColor="@android:color/white"
                         android:textSize="20sp"></TextView>
 
-                        <ScrollView
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4sp"
+                        android:minHeight="76sp">
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/EditRecordsRecyclerView"
                             android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+
+                    </ScrollView>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/notesTextView"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                           android:layout_margin="4sp"
-                            android:minHeight="76sp">
+                            android:layout_margin="16sp"
+                            android:background="#80000000"
+                            android:text="notes"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"></TextView>
 
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/EditRecordsRecyclerView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/editNoteButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="186sp"
+                            android:text="edit Note"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
 
-                                </androidx.recyclerview.widget.RecyclerView>
+                    <TextView
+                        android:id="@+id/editNotes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70sp"
+                        android:shadowColor="@android:color/black"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="15"
+                        android:text="Subject Title"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/filesTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16sp"
+                            android:background="#80000000"
+                            android:text="files"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"></TextView>
 
 
+                    </LinearLayout>
 
-                        </ScrollView>
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp">
+
+                        <!-- Use a RecyclerView instead of a LinearLayout -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/editFileRecyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:orientation="horizontal"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:scrollbars="horizontal" />
+
+                    </ScrollView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/eventTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16sp"
+                            android:background="#80000000"
+                            android:text="Events"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"></TextView>
+
+
+                        <Button
+                            android:id="@+id/editEventButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="176sp"
+                            android:text="edit Event"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/editEvents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70sp"
+                        android:shadowColor="@android:color/black"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="15"
+                        android:text="Events"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/grades"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16sp"
+                            android:background="#80000000"
+                            android:text="Grades"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"></TextView>
+
+
+                    </LinearLayout>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp">
+
+                        <!-- Use a RecyclerView instead of a LinearLayout -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/editGradesRecyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:orientation="horizontal"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:scrollbars="horizontal" />
+
+                    </ScrollView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/numOfTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16sp"
+                            android:background="#80000000"
+                            android:text="Number of Absents Allowed"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"></TextView>
+
+
+                        <Button
+                            android:id="@+id/editNumberOfAbsentsButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="1sp"
+                            android:text="NumberOfAbsent"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
 
 
                     <TextView
-                        android:id="@+id/notesTextView"
+                        android:id="@+id/editNumberOfAbsents"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
-                        android:text="notes"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"></TextView>
+                        android:layout_marginStart="70sp"
+                        android:shadowColor="@android:color/black"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="15"
+                        android:text="Subject Title"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/filesTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
-                        android:text="files"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"></TextView>
 
-                    <TextView
-                        android:id="@+id/daysTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
-                        android:text="days"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"></TextView>
+
+
+
 
                     <TextView
                         android:id="@+id/gradeTextView"
@@ -141,40 +310,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16sp"
                         android:background="#80000000"
-                        android:text="Grades"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"></TextView>
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
-                        android:text="files"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"></TextView>
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
                         android:text="days"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"></TextView>
 
-                    <TextView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
-                        android:text="Grades"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"></TextView>
 
                 </LinearLayout>
             </ScrollView>
@@ -182,7 +322,7 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/SubjectEditSubmitButton"
+            android:id="@+id/SaveEditSubjectButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40sp"
@@ -190,7 +330,7 @@
             android:layout_marginLeft="40sp"
             android:layout_marginRight="40sp"
             android:background="@drawable/button_background"
-            android:text="Save Changes"
+            android:text="Edit"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
