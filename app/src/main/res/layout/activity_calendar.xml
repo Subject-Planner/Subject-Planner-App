@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.Calendar"
-    android:background="#8ea5ca">
+    android:background="@color/buttonColor">
 
     <Button
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         android:background="@null"
         android:onClick="weeklyAction"
         android:text="Weekly"
-        android:textColor="#0D47A1"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
@@ -34,7 +34,7 @@
             android:background="@null"
             android:onClick="previousMonthAction"
             android:text="@string/back"
-            android:textColor="#0D47A1"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText,SpeakableTextPresentCheck,VisualLintButtonSize" />
@@ -47,7 +47,7 @@
             android:text="Feb 2021"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="#FFFFFF"
             tools:ignore="HardcodedText" />
 
         <Button
@@ -57,7 +57,7 @@
             android:background="@null"
             android:onClick="nextMonthAction"
             android:text="@string/forward"
-            android:textColor="#0D47A1"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="HardcodedText,SpeakableTextPresentCheck,VisualLintButtonSize" />
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:text="SUN"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -85,7 +85,7 @@
             android:layout_weight="1"
             android:text="MON"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:text="TUE"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -105,7 +105,7 @@
             android:layout_weight="1"
             android:text="WED"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -115,7 +115,7 @@
             android:layout_weight="1"
             android:text="THUR"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -125,7 +125,7 @@
             android:layout_weight="1"
             android:text="FRI"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -135,7 +135,7 @@
             android:layout_weight="1"
             android:text="SAT"
             android:textAlignment="center"
-            android:textColor="#8D6E63"
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:ignore="HardcodedText" />
 
@@ -146,6 +146,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/lightGray"/>
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.demo.subjectplanner.activity.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CalendarViewHolder holder, @SuppressLint("RecyclerView") int position) {
         final LocalDate date = days.get(position);
 
         holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
@@ -68,7 +69,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>{
         }
 
         if (hasEvents(date)) {
-            holder.parentView.setBackgroundResource(R.drawable.red_circle);
+            holder.parentView.setBackgroundResource(android.R.drawable.zoom_plate);
 
             // Get events for the day
             ArrayList<Event> events = Event.eventsForDate(date);
