@@ -131,7 +131,7 @@ public void saveEventAction(View view)
             ModelMutation.create(newOne),
             successResponse -> {Log.i("EventActivity", "SaveEvenTAction.onCreate(): Event added successfully");
                 scheduleNotification(eventName, time);
-Intent goToWeeklyView = new Intent(EventEditActivity.this,Calendar.class);
+Intent goToWeeklyView = new Intent(EventEditActivity.this,AgendaActivity.class);
 startActivity(goToWeeklyView);
                 },
             failureResponse -> Log.e("EventActivity", "SaveEvenTAction.onCreate(): faile d with this response" + failureResponse)// in case we have a failed response
