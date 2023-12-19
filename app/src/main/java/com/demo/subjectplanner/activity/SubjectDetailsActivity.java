@@ -73,16 +73,19 @@ public class SubjectDetailsActivity extends AppCompatActivity {
     }
 
     private void retrieveSubject() {
-        Intent callingIntent = getIntent();
-        subjectIDFromIntent = callingIntent.getStringExtra(MainActivity.SUBJECT_ID_TAG);
-     //   Log.i(SUBJECT_DETAILS, "retrieveSubject: " + subjectIDFromIntent);
 
+            Intent callingIntentMain = getIntent();
+            subjectIDFromIntent = callingIntentMain.getStringExtra(MainActivity.SUBJECT_ID_TAG);
+            if( subjectIDFromIntent == null){
+                Intent callingIntentEdit = getIntent();
+                subjectIDFromIntent = callingIntentEdit.getStringExtra(EditSubjectActivity.SUBJECT_ID_TAG2);
+            }
         Amplify.API.query(
                 ModelQuery.get(Subject.class, subjectIDFromIntent),
                 response -> {
                     subject = response.getData();
 
-                    Log.i(SUBJECT_DETAILS, "subject after : response.getData();" + subject);
+               //     Log.i(SUBJECT_DETAILS, "subject after : response.getData();" + subject);
                     if (subject != null) {
                         runOnUiThread(() -> {
                             retrieveAllSubjectInfo();
@@ -134,7 +137,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
 
 
         subjectNameTextView = findViewById(R.id.detailsSubjectTitleText);
-        subjectNameTextView.setText(subject.getTitle());
+        subjectNameTextView.setText(subject.getTitle()+" Details");
 
         numberOfAbsentsTextView = findViewById(R.id.numberOfAbsents);
         numberOfAbsentsTextView.setText("Remaining Absents : "+subject.getNumberOfAbsents());
@@ -337,7 +340,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             EditText potRecordTitle = popupView.findViewById(R.id.addTitleRecordPopupEditText);
 
             // Set the text for popAddRecordTitleTextView
-            popAddRecordTitleTextView.setText("Add Your Record to : "+subject.getTitle());
+            popAddRecordTitleTextView.setText("Add Your Video to : "+ subject.getTitle());
 
             // Find the "Cancel" button in the popup layout
             Button cancelButton = popupView.findViewById(R.id.cancelButtonRecordPopup);
