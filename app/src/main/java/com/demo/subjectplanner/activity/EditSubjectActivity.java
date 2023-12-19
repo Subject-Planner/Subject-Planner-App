@@ -3,13 +3,24 @@ package com.demo.subjectplanner.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.DaysEnum;
@@ -22,12 +33,15 @@ import com.demo.subjectplanner.activity.adapter.EditRecordsRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.adapter.FileAdapter;
 import com.demo.subjectplanner.activity.adapter.GradeAdapter;
 import com.demo.subjectplanner.activity.adapter.RecordsRecyclerViewAdapter;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditSubjectActivity extends AppCompatActivity {
 public static final String TAG="EditSubjectActivity";
+public static final String SUBJECT_ID_TAG="SUBJECT_ID_TAG";
+public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
     private TextView recordNameTextView;
 
     private RecyclerView recordsrecyclerView;
@@ -41,6 +55,9 @@ public static final String TAG="EditSubjectActivity";
     private TextView  daysTextView;
     private TextView  numberOfAbsentsTextView;
     private TextView  subjectNameTextView;
+    Spinner noteSpinner;
+    String selectedNote;
+    RecyclerView editFileRecyclerView;
 
 
 
@@ -65,12 +82,10 @@ public static final String TAG="EditSubjectActivity";
                     if (subjectToEdit!= null) {
                         runOnUiThread(() -> {
                             retrieveAllSubjectInfo();
-//                            EditGrade();
-//                            goToEditSubject();
-//                            addRecord();
-//                            addNote();
-//                            addFile();
-//                            addEvent();
+                            deleteNote();
+                            EditEvent();
+                            decreaseAbsentBy1();
+                            goBackToDetails();
                         });
                     } else {
                         // subjectToEditnot found
@@ -84,16 +99,87 @@ public static final String TAG="EditSubjectActivity";
         );
     }
 
+    private void EditEvent() {
+        Button addEventButton=(Button) findViewById(R.id.editEventButton);
+        addEventButton.setOnClickListener(view -> {
+
+            Intent goToAddEventIntent = new Intent(EditSubjectActivity.this,AgendaActivity.class );
+            goToAddEventIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
+            startActivity(goToAddEventIntent);
+        });
+    }
+
+    private void deleteNote() {
+
+            Button editNoteButton = findViewById(R.id.editNoteButton);
+        editNoteButton.setOnClickListener(view -> {
+
+                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                // Inflate the popup_addnotes.xml
+                View popupView = inflater.inflate(R.layout.popup_editnotes, null);
+
+                // Create a new instance of PopupWindow
+                PopupWindow popupWindow = new PopupWindow(
+                        popupView,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+
+                // Set background drawable to allow dismissal when clicking outside the popup window
+                popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
+
+                // Set focusable true to enable touch events outside of the popup window
+                popupWindow.setFocusable(true);
+
+                // Find the "Cancel" button in the popup layout
+                Button cancelButton = popupView.findViewById(R.id.cancelButtonEditNotePopup);
+
+                // Set an OnClickListener for the "Cancel" button to dismiss the popup
+                cancelButton.setOnClickListener(v -> popupWindow.dismiss());
+
+                // Find views from the inflated layout (popupView)
+
+                setupNotesSpinner();
+
+                // Find the "Add Note" button in the popup layout
+                ImageButton deleteNotePopupButton = popupView.findViewById(R.id.deleteButtonNotePopup);
+
+            deleteNotePopupButton.setOnClickListener(v -> {
+                    // Add your note creation logic here
+                    String noteContent = noteSpinner.getSelectedItem().toString();
+
+                    // Assuming you have a Subject instance (replace subject with your actual instance)
+                    // and you want to associate the note string with the subject
+                    subjectToEdit.getNotes().remove(noteSpinner.getSelectedItem());
+
+                    // Update the subject with the new note
+                    Amplify.API.mutate(
+                            ModelMutation.update(subjectToEdit),
+                            successResponse -> Log.i(TAG, "Note deleted successfully"),
+                            failureResponse -> Log.e(TAG, "Failed to delete note: " + failureResponse)
+                    );
+
+                    // Close the popup
+                    Snackbar.make(findViewById(android.R.id.content), "Note Added", Snackbar.LENGTH_SHORT).show();
+                    startActivity(getIntent());
+                    popupWindow.dismiss();
+                });
+
+                // Show the popup window
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            });
+        }
 
 
 
     void retrieveAllSubjectInfo() {
         List<File> fileList = generateFileList();
 
-        filessrecyclerView = findViewById(R.id.editFileRecyclerView);
-        filessrecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        editFileRecyclerView = findViewById(R.id.editFileRecyclerView);
+        editFileRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         FileAdapter adapter = new FileAdapter(fileList, this);
-        filessrecyclerView.setAdapter(adapter);
+        editFileRecyclerView.setAdapter(adapter);
 
 
         List<Record> recordList = generateRecordList();
@@ -114,10 +200,10 @@ public static final String TAG="EditSubjectActivity";
 
 
          subjectNameTextView = findViewById(R.id.EditSubjectTitleTextView);
-        subjectNameTextView.setText(subjectToEdit.getTitle());
+        subjectNameTextView.setText("Edit "+subjectToEdit.getTitle());
 
          numberOfAbsentsTextView = findViewById(R.id.editNumberOfAbsents);
-        numberOfAbsentsTextView.setText("Number of Absents : "+subjectToEdit.getNumberOfAbsents());
+        numberOfAbsentsTextView.setText(" Remaining Absents : "+subjectToEdit.getNumberOfAbsents());
 
 
 
@@ -173,6 +259,62 @@ public static final String TAG="EditSubjectActivity";
         return result.toString();
     }
 
+    void decreaseAbsentBy1() {
+        Button decreaseAbsent = findViewById(R.id.editNumberOfAbsentsButton);
+        decreaseAbsent.setOnClickListener(view -> {
+            if (subjectToEdit.getNumberOfAbsents() > 0) {
+                int newNumberOfAbsents = subjectToEdit.getNumberOfAbsents() - 1;
+
+                // Create a new Subject instance with the updated numberOfAbsents
+                Subject updatedSubject = Subject.builder()
+                        .title(subjectToEdit.getTitle())
+                        .id(subjectToEdit.getId())
+                        .startDate(subjectToEdit.getStartDate())
+                        .endDate(subjectToEdit.getEndDate())
+                        .images(subjectToEdit.getImages())
+                        .notes(subjectToEdit.getNotes())
+                        .numberOfAbsents(newNumberOfAbsents)
+                        .days(subjectToEdit.getDays())
+                        .studentPerson(subjectToEdit.getStudentPerson())
+                        .build();
+
+
+                Amplify.API.mutate(
+                        ModelMutation.update(updatedSubject),
+                        success -> {
+                            // Successfully updated the numberOfAbsents
+                            // Perform any necessary UI updates
+                            runOnUiThread(() -> {
+                                // Update the UI or perform any other necessary actions with the new value
+
+                                // For example, if you have a TextView to display the updated value:
+                                TextView absentsTextView = findViewById(R.id.editNumberOfAbsents);
+                                absentsTextView.setText(" Remaining Absents : "+ newNumberOfAbsents);
+                            });
+                        },
+                        error -> Log.e("Amplify", "Error updating numberOfAbsents", error)
+                );
+            } else {
+                // Optionally, handle the case where the number of absents is already 0
+                Toast.makeText(this, "Number of absents is already 0", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    void goBackToDetails(){
+        Button goBackToDetails =findViewById(R.id.SaveEditSubjectButton);
+        goBackToDetails.setOnClickListener(view -> {
+
+            Intent goToAddEventIntent = new Intent(EditSubjectActivity.this,SubjectDetailsActivity.class );
+            goToAddEventIntent.putExtra(EditSubjectActivity.SUBJECT_ID_TAG2, subjectIDFromIntent);
+            startActivity(goToAddEventIntent);
+        });
+
+    }
+
+
 
 
     private List<File> generateFileList() {
@@ -185,6 +327,28 @@ public static final String TAG="EditSubjectActivity";
         List<Record> recordList =subjectToEdit.getRecords();
 
         return recordList;
+    }
+
+    private void setupNotesSpinner(){
+        noteSpinner = findViewById(R.id.editNoteSpinner);
+
+        ArrayList<String> subjectNotes = new ArrayList<>();
+
+        for (String note :subjectToEdit.getNotes() ) {
+            subjectNotes.add(note);
+
+        }
+
+
+        runOnUiThread(() ->
+        {
+            noteSpinner.setAdapter(new ArrayAdapter<>(
+                    this,
+                    (android.R.layout.simple_spinner_item),
+                    subjectNotes
+
+            ));
+        });
     }
 
 }

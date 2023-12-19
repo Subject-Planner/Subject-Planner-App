@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Record;
 import com.demo.subjectplanner.R;
 
@@ -40,7 +43,7 @@ public class EditRecordsRecyclerViewAdapter extends RecyclerView.Adapter<EditRec
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String recordTitle = recordsList.get(position).getId();
+        String recordTitle = recordsList.get(position).getName();
 
         // Static image
         holder.textViewTitle.setText(recordTitle);
@@ -73,13 +76,21 @@ public class EditRecordsRecyclerViewAdapter extends RecyclerView.Adapter<EditRec
 
         private void showDeleteWarningDialog() {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Delete Record");
-            builder.setMessage("Are you sure you want to delete this record?");
+            builder.setTitle("Delete Video");
+            builder.setMessage("Are you sure you want to delete this Video?");
             builder.setPositiveButton("Delete", (dialog, which) -> {
                 int position = getAdapterPosition();
+                Log.i("getAdapterPosition : ",""+ position );
                 if (position != RecyclerView.NO_POSITION) {
+
+                    Amplify.API.mutate(
+                            ModelMutation.delete(recordsList.get(position)),
+                            response -> Log.i("MyAmplifyApp", "Deleted record: " + response.getData().getId()),
+                            error -> Log.e("MyAmplifyApp", "Delete failed", error)
+                    );
                     recordsList.remove(position);
                     notifyItemRemoved(position);
+                    notifyDataSetChanged();
 
                 }
                 dialog.dismiss();

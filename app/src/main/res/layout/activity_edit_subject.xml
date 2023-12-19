@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="16sp"
                         android:background="#80000000"
-                        android:text="Records"
+                        android:text="Videos"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"></TextView>
 
@@ -202,7 +202,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="176sp"
+                            android:layout_marginStart="170sp"
                             android:text="edit Event"
                             android:textColor="@color/white" />
                     </LinearLayout>
@@ -269,7 +269,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="16sp"
                             android:background="#80000000"
-                            android:text="Number of Absents Allowed"
+                            android:text="Number of Absents "
                             android:textColor="@android:color/white"
                             android:textSize="20sp"></TextView>
 
@@ -279,9 +279,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="1sp"
-                            android:text="NumberOfAbsent"
-                            android:textColor="@color/white" />
+                            android:layout_marginStart="40sp"
+                            android:text="-1 absent "
+                            android:textColor="@color/white"
+                            android:background="@drawable/cancel_btnbg"
+                        />
                     </LinearLayout>
 
 
@@ -304,15 +306,7 @@
 
 
 
-                    <TextView
-                        android:id="@+id/gradeTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16sp"
-                        android:background="#80000000"
-                        android:text="days"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"></TextView>
+
 
 
 
@@ -330,7 +324,7 @@
             android:layout_marginLeft="40sp"
             android:layout_marginRight="40sp"
             android:background="@drawable/button_background"
-            android:text="Edit"
+            android:text="go back to details "
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
