@@ -86,7 +86,7 @@
                         android:id="@+id/recordTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Record"
+                        android:text="Videos"
                         android:textSize="20sp"
                         android:textColor="@android:color/white"
                         android:layout_margin="16sp"
@@ -97,7 +97,7 @@
                         android:id="@+id/addRecordButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add Record"
+                        android:text="Add Video"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
                         android:layout_marginStart="160sp"/>

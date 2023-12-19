@@ -29,6 +29,7 @@ import com.amplifyframework.datastore.generated.model.File;
 import com.amplifyframework.datastore.generated.model.Record;
 import com.amplifyframework.datastore.generated.model.Subject;
 import com.demo.subjectplanner.R;
+import com.demo.subjectplanner.activity.adapter.EditFilesRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.adapter.EditRecordsRecyclerViewAdapter;
 import com.demo.subjectplanner.activity.adapter.FileAdapter;
 import com.demo.subjectplanner.activity.adapter.GradeAdapter;
@@ -178,7 +179,7 @@ public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
 
         editFileRecyclerView = findViewById(R.id.editFileRecyclerView);
         editFileRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        FileAdapter adapter = new FileAdapter(fileList, this);
+        EditFilesRecyclerViewAdapter adapter = new EditFilesRecyclerViewAdapter(fileList, this);
         editFileRecyclerView.setAdapter(adapter);
 
 
