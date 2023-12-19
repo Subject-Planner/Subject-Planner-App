@@ -126,7 +126,27 @@ public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
                 );
+            noteSpinner = popupView.findViewById(R.id.editNoteSpinner);
 
+            ArrayList<String> subjectNotes = new ArrayList<>();
+            Log.i("saif", "setupNotesSpinner: subject notes "+subjectNotes);
+            for (String note :subjectToEdit.getNotes() ) {
+                subjectNotes.add(note);
+
+            }
+            Log.i("saif", "setupNotesSpinner: subject notes after "+subjectNotes);
+
+
+            runOnUiThread(() ->
+            {
+                noteSpinner.setAdapter(new ArrayAdapter<>(
+                        this,
+                        (android.R.layout.simple_spinner_item),
+                        subjectNotes
+
+                ));
+            });
+          //  setupNotesSpinner();
                 // Set background drawable to allow dismissal when clicking outside the popup window
                 popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
 
@@ -141,7 +161,7 @@ public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
 
                 // Find views from the inflated layout (popupView)
 
-                setupNotesSpinner();
+
 
                 // Find the "Add Note" button in the popup layout
                 ImageButton deleteNotePopupButton = popupView.findViewById(R.id.deleteButtonNotePopup);
@@ -334,11 +354,12 @@ public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
         noteSpinner = findViewById(R.id.editNoteSpinner);
 
         ArrayList<String> subjectNotes = new ArrayList<>();
-
+        Log.i("saif", "setupNotesSpinner: subject notes "+subjectNotes);
         for (String note :subjectToEdit.getNotes() ) {
             subjectNotes.add(note);
 
         }
+        Log.i("saif", "setupNotesSpinner: subject notes after "+subjectNotes);
 
 
         runOnUiThread(() ->
