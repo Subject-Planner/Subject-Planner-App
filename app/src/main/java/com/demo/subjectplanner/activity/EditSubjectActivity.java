@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -68,6 +69,7 @@ public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
         setContentView(R.layout.activity_edit_subject);
 
         retrieveSubject();
+        goToMain();
     }
     private void retrieveSubject() {
         Intent callingIntent = getIntent();
@@ -333,6 +335,15 @@ public static final String SUBJECT_ID_TAG2="SUBJECT_ID_TAG2";
             startActivity(goToAddEventIntent);
         });
 
+    }
+    private void goToMain() {
+        ImageView editSubjectButton=findViewById(R.id.editToHome);
+        editSubjectButton.setOnClickListener(view -> {
+
+            Intent goToEditSubjectIntent = new Intent(EditSubjectActivity.this,MainActivity.class );
+
+            startActivity(goToEditSubjectIntent);
+        });
     }
 
 

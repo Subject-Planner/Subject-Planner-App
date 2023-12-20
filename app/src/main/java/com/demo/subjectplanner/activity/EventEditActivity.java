@@ -79,7 +79,7 @@ public class EventEditActivity extends AppCompatActivity {
 
         getLoggedUser();
         time = LocalTime.now();
-        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(selectedDate));
+        eventDateTV.setText("Date: " + CalendarUtils.formattedDate(CalendarUtils.selectedDate));
        // eventTimeTV.setText("Time: " + CalendarUtils.formattedTime(time));
 timeButton= findViewById(R.id.chooseTimeButton_event);
 timeButton.setOnClickListener(v->{

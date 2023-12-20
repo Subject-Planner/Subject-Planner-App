@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ImageView;
 
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -39,6 +41,7 @@ public class AgendaActivity extends AppCompatActivity implements EventRecyclerVi
         setContentView(R.layout.activity_agenda);
         setupEventRecyclerView();
         getLoggedUser();
+        goToMain();
     }
 
     public void setupEventRecyclerView() {
@@ -107,5 +110,15 @@ public class AgendaActivity extends AppCompatActivity implements EventRecyclerVi
         getEvents();
         adapter.notifyDataSetChanged();
 
+    }
+
+    private void goToMain() {
+        ImageView editSubjectButton=findViewById(R.id.agendaToHome);
+        editSubjectButton.setOnClickListener(view -> {
+
+            Intent goToEditSubjectIntent = new Intent(AgendaActivity.this,MainActivity.class );
+
+            startActivity(goToEditSubjectIntent);
+        });
     }
 }

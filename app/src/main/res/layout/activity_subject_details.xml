@@ -35,6 +35,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/signUpToolbar"
             android:background="@android:color/transparent" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
             <TextView
                 android:id="@+id/detailsSubjectTitleText"
                 android:layout_width="wrap_content"
@@ -49,6 +55,15 @@
                 android:shadowRadius="15"
                 android:shadowColor="@android:color/darker_gray"
                 />
+            <ImageView
+                android:id="@+id/detailsToHome"
+                android:layout_width="wrap_content"
+                android:layout_height="35sp"
+                android:src="@drawable/home_icon_22"
+                android:layout_marginLeft="@dimen/_40sdp">
+
+            </ImageView>
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
 
@@ -146,7 +161,7 @@
                         android:text="Add Note"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
-                        android:layout_marginStart="186sp"/>
+                        android:layout_marginStart="@dimen/_120sdp"/>
                 </LinearLayout>
                 <TextView
                     android:id="@+id/notes"
@@ -186,7 +201,7 @@
                         android:text="Add FILE"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
-                        android:layout_marginStart="205sp"/>
+                        android:layout_marginStart="@dimen/_134sdp"/>
                 </LinearLayout>
 
                 <ScrollView
@@ -211,7 +226,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/eventTextView"
@@ -231,7 +247,7 @@
                         android:text="Add Event"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
-                        android:layout_marginStart="176sp"/>
+                        android:layout_marginStart="@dimen/_120sdp"/>
                 </LinearLayout>
                 <TextView
                     android:id="@+id/events"
@@ -273,8 +289,9 @@
                         android:text="Add Grade"
                         android:textColor="@color/white"
                         android:layout_gravity="center"
-                        android:layout_marginStart="169sp"/>
+                        android:layout_marginStart="@dimen/_120sdp"/>
                 </LinearLayout>
+
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -286,14 +303,15 @@
                         android:id="@+id/grecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
                         android:clipToPadding="false"
+                        android:orientation="horizontal"
                         android:paddingStart="16dp"
                         android:paddingEnd="16dp"
                         android:scrollbars="horizontal" />
 
                 </ScrollView>
-            <TextView
+
+                <TextView
                 android:id="@+id/daysTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -310,7 +328,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="25sp"
-                    android:layout_marginStart="70sp"
+                    android:layout_marginStart="10sp"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="15"
@@ -333,7 +351,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="25sp"
-                    android:layout_marginStart="70sp"
+                    android:layout_marginStart="10sp"
                     android:shadowDx="2"
                     android:shadowDy="2"
                     android:shadowRadius="15"
@@ -344,34 +362,36 @@
             </ScrollView>
 
         </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="20sp">
 
-        <Button
-            android:id="@+id/editSubjectButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginLeft="40sp"
-            android:layout_marginRight="40sp"
+
+            <Button
+                android:id="@+id/deleteSubjectButton"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cancel_btnbg"
+                android:text="Delete"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/editSubjectButton"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_50sdp"
             android:background="@drawable/button_background"
-            android:text="Edit"
+            android:text="edit  Subject"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
-            />
-        <Button
-            android:id="@+id/deleteSubjectButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginLeft="40sp"
-            android:layout_marginRight="40sp"
-            android:background="@drawable/button_background"
-            android:text="Delete"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
+        </LinearLayout>
+
+
     </LinearLayout>
 </RelativeLayout>
