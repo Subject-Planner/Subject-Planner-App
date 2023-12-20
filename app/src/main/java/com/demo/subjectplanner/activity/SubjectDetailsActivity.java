@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -67,6 +68,7 @@ public class SubjectDetailsActivity extends AppCompatActivity {
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
         retrieveSubject();
+        goToMain();
 
 
     }
@@ -402,6 +404,15 @@ public class SubjectDetailsActivity extends AppCompatActivity {
             Intent goToAddGradeIntent = new Intent(SubjectDetailsActivity.this,AddGradeActivity.class );
             goToAddGradeIntent.putExtra(SubjectDetailsActivity.SUBJECT_TITLE, subjectIDFromIntent);
             startActivity(goToAddGradeIntent);
+        });
+    }
+    private void goToMain() {
+        ImageView editSubjectButton=findViewById(R.id.detailsToHome);
+        editSubjectButton.setOnClickListener(view -> {
+
+            Intent goToEditSubjectIntent = new Intent(SubjectDetailsActivity.this,MainActivity.class );
+
+            startActivity(goToEditSubjectIntent);
         });
     }
 

@@ -32,6 +32,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/EditSubjectToolbar"
             android:background="@android:color/transparent" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             <TextView
                 android:id="@+id/EditSubjectTitleTextView"
                 android:layout_width="wrap_content"
@@ -46,6 +50,15 @@
             android:shadowRadius="15"
             android:shadowColor="@android:color/darker_gray"
             />
+                <ImageView
+                    android:id="@+id/editToHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35sp"
+                    android:src="@drawable/home_icon_22"
+                    android:layout_marginLeft="@dimen/_40sdp">
+
+                </ImageView>
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.cardview.widget.CardView
@@ -125,7 +138,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="186sp"
+                            android:layout_marginStart="@dimen/_120sdp"
                             android:text="edit Note"
                             android:textColor="@color/white" />
                     </LinearLayout>
@@ -202,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="170sp"
+                            android:layout_marginStart="@dimen/_120sdp"
                             android:text="edit Event"
                             android:textColor="@color/white" />
                     </LinearLayout>
@@ -279,7 +292,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginStart="40sp"
+                            android:layout_marginStart="@dimen/_12sdp"
                             android:text="-1 absent "
                             android:textColor="@color/white"
                             android:background="@drawable/cancel_btnbg"
@@ -291,7 +304,7 @@
                         android:id="@+id/editNumberOfAbsents"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="70sp"
+                        android:layout_marginStart="10sp"
                         android:shadowColor="@android:color/black"
                         android:shadowDx="2"
                         android:shadowDy="2"

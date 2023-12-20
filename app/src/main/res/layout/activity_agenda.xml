@@ -35,6 +35,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/AgendaToolbar"
             android:background="@android:color/transparent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,6 +53,15 @@
                 android:shadowRadius="15"
                 android:shadowColor="@android:color/darker_gray"
                 />
+        <ImageView
+            android:id="@+id/agendaToHome"
+            android:layout_width="wrap_content"
+            android:layout_height="55sp"
+            android:src="@drawable/home_icon_22"
+            android:layout_marginLeft="@dimen/_40sdp">
+
+        </ImageView>
+    </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
 
