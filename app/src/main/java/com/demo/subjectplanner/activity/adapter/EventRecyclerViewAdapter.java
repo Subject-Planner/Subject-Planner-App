@@ -49,10 +49,10 @@ public class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecycler
         eventTitleTextView.setText(event.getName());
         String dateTime ="Time:" + event.getTime().toString().substring(45, 50);
         eventDateTextView.setText(dateTime);
-        Button deleteEventButton = holder.itemView.findViewById(R.id.deleteEvent);
-        deleteEventButton.setOnClickListener(view -> {
-            deleteThisEvent(event);
-        });
+//        Button deleteEventButton = holder.itemView.findViewById(R.id.deleteEvent);
+//        deleteEventButton.setOnClickListener(view -> {
+//            deleteThisEvent(event);
+//        });
     }
 
     private void deleteThisEvent(Event event) {

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -53,6 +54,7 @@ Student loggedInStudent;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_grade);
 getLoggedUser();
+        goToMain();
 
 
     }
@@ -165,5 +167,14 @@ getLoggedUser();
                     Log.e("AddGradeActivity", "Error fetching User by ID", error);
                 }
         );
+    }
+    private void goToMain() {
+        ImageView editSubjectButton=findViewById(R.id.gradeToHome);
+        editSubjectButton.setOnClickListener(view -> {
+
+            Intent goToEditSubjectIntent = new Intent(AddGradeActivity.this,MainActivity.class );
+
+            startActivity(goToEditSubjectIntent);
+        });
     }
 }

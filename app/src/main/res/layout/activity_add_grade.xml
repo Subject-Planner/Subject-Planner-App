@@ -20,6 +20,7 @@
             android:padding="10dp"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <TextView
                 android:id="@+id/subjectTitle"
                 android:layout_width="wrap_content"
@@ -33,6 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -67,6 +69,17 @@
                     app:tint="@color/colorPrimary" />
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/gradeToHome"
+                android:layout_width="55dp"
+                android:layout_height="55sp"
+                android:layout_marginEnd="40dp"
+                android:src="@drawable/home_icon_22"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.222" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -76,18 +89,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="#dde8ee"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+
+        app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             tools:ignore="NotSibling">
 
+
             <ImageView
                 android:id="@+id/imageView1010"
                 android:layout_width="53dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="76dp"
+                android:layout_marginStart="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.066"
                 app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +113,8 @@
             <Spinner
                 android:id="@+id/subjects_category_spinner"
                 android:layout_width="268dp"
-                android:layout_height="55dp" />
+                android:layout_height="55dp"
+                android:layout_marginLeft="35sp"/>
         </LinearLayout>
 
         <ImageView
@@ -127,7 +144,7 @@
             android:id="@+id/aplusimage"
             android:layout_width="86dp"
             android:layout_height="52dp"
-            android:layout_marginTop="28dp"
+
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.112"
@@ -135,17 +152,21 @@
             app:layout_constraintTop_toBottomOf="@+id/grade_date_button"
             app:srcCompat="@drawable/gradeicon" />
 
-        <EditText
-            android:id="@+id/grade_weight_addgrade"
-            android:layout_width="84dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="36dp"
-            android:ems="10"
-            android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/aplusimage"
-            tools:layout_editor_absoluteY="367dp" />
+            <EditText
+
+                android:id="@+id/grade_weight_addgrade"
+                android:layout_width="218dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="36dp"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/aplusimage"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:layout_editor_absoluteY="367dp"
+                android:hint="Grade"
+                />
 
     </LinearLayout>
 
@@ -197,5 +218,5 @@
         app:srcCompat="@drawable/baseline_add_24" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
